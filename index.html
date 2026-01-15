@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minto — Меню на день</title>
+    <script>
+      (function () {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="./css/main.min.css" />
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
+
+  <body class="page">
+    <!-- ================= HEADER ================= -->
+    <header class="header">
+      <div class="header__container">
+        <div class="header__brand">
+          <span class="header__logo">Minto 🍃</span>
+        </div>
+
+        <nav class="header__nav">
+          <ul class="header__nav-list">
+            <li class="header__nav-item">
+              <a href="#" class="header__nav-link">Рецепти</a>
+            </li>
+            <li class="header__nav-item">
+              <a href="#" class="header__nav-link header__nav-link--active"> Меню на день </a>
+            </li>
+            <li class="header__nav-item">
+              <a href="#" class="header__nav-link">Меню на тиждень</a>
+            </li>
+            <li class="header__nav-item">
+              <a href="#" class="header__nav-link">Список покупок</a>
+            </li>
+            <li class="header__nav-item">
+              <a href="#" class="header__nav-link">Статистика</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header__actions">
+          <button class="theme-toggle" type="button" aria-label="Змінити тему">
+            <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+              <!-- SUN -->
+              <circle cx="12" cy="12" r="5" />
+              <g>
+                <line x1="12" y1="1" x2="12" y2="4" />
+                <line x1="12" y1="20" x2="12" y2="23" />
+                <line x1="1" y1="12" x2="4" y2="12" />
+                <line x1="20" y1="12" x2="23" y2="12" />
+                <line x1="4.2" y1="4.2" x2="6.3" y2="6.3" />
+                <line x1="17.7" y1="17.7" x2="19.8" y2="19.8" />
+                <line x1="4.2" y1="19.8" x2="6.3" y2="17.7" />
+                <line x1="17.7" y1="6.3" x2="19.8" y2="4.2" />
+              </g>
+            </svg>
+
+            <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+              <!-- MOON -->
+              <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" />
+            </svg>
+          </button>
+
+          <div class="header__profile">
+            <span class="header__profile-name">Ольга</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= LAYOUT ================= -->
+    <div class="layout">
+      <!-- ============== SIDEBAR ================= -->
+      <aside class="sidebar">
+        <nav class="sidebar__nav">
+          <ul class="sidebar__days">
+            <li class="sidebar__day">
+              <button class="sidebar__day-btn" aria-current="true">Понеділок</button>
+            </li>
+            <li class="sidebar__day"><button class="sidebar__day-btn">Вівторок</button></li>
+            <li class="sidebar__day"><button class="sidebar__day-btn">Середа</button></li>
+            <li class="sidebar__day"><button class="sidebar__day-btn">Четвер</button></li>
+            <li class="sidebar__day"><button class="sidebar__day-btn">Пʼятниця</button></li>
+            <li class="sidebar__day"><button class="sidebar__day-btn">Субота</button></li>
+            <li class="sidebar__day"><button class="sidebar__day-btn">Неділя</button></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- ============== MAIN ==================== -->
+      <main class="main">
+        <!-- ===== PAGE HEADER ===== -->
+        <section class="day-header">
+          <h1 class="day-header__title">Меню на день</h1>
+          <p class="day-header__date" id="dayDate">Понеділок</p>
+        </section>
+
+        <!-- ===== DAY MENU ===== -->
+        <section class="day-menu">
+          <!-- BREAKFAST -->
+          <article class="meal meal--breakfast">
+            <header class="meal__header">
+              <h2 class="meal__title">Сніданок</h2>
+              <button class="meal__add-button" type="button">+ Додати рецепт</button>
+            </header>
+
+            <ul class="meal__recipes">
+              <li class="meal__recipe">
+                <span class="meal__recipe-name">Вівсянка з бананом</span>
+                <span class="meal__recipe-kcal">350 ккал</span>
+              </li>
+            </ul>
+          </article>
+
+          <!-- LUNCH -->
+          <article class="meal meal--lunch">
+            <header class="meal__header">
+              <h2 class="meal__title">Обід</h2>
+              <button class="meal__add-button" type="button">+ Додати рецепт</button>
+            </header>
+
+            <ul class="meal__recipes">
+              <li class="meal__recipe">
+                <span class="meal__recipe-name">Курка з рисом</span>
+                <span class="meal__recipe-kcal">520 ккал</span>
+              </li>
+            </ul>
+          </article>
+
+          <!-- DINNER -->
+          <article class="meal meal--dinner">
+            <header class="meal__header">
+              <h2 class="meal__title">Вечеря</h2>
+              <button class="meal__add-button" type="button">+ Додати рецепт</button>
+            </header>
+
+            <ul class="meal__recipes">
+              <li class="meal__recipe">
+                <span class="meal__recipe-name">Овочевий салат</span>
+                <span class="meal__recipe-kcal">280 ккал</span>
+              </li>
+            </ul>
+          </article>
+        </section>
+
+        <!-- ===== DAY SUMMARY ===== -->
+        <section class="day-summary">
+          <div class="day-summary__item">
+            <span class="day-summary__label">Разом за день</span>
+            <span class="day-summary__value">1 150 ккал</span>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="js/sidebar-days.js"></script>
+    <script src="js/theme-toggle.js"></script>
+  </body>
+</html>

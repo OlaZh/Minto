@@ -1,0 +1,53 @@
+/* ===============================
+   DESIGN TOKENS — LIGHT
+   =============================== */
+
+:root {
+  /* Backgrounds */
+  --color-bg-primary: #f4fbf8;
+  --color-bg-secondary: #e8f5f0;
+  --color-bg-sidebar: #dff1eb;
+  --color-bg-hover: #d1eee6;
+
+  /* Accent */
+  --color-accent: #6fcfba;
+  --color-accent-hover: #5cbda8;
+  --color-accent-soft: #e2f4ef;
+
+  /* Text */
+  --color-text-primary: #1f2e2b;
+  --color-text-secondary: #6b8f87;
+  --color-text-inverse: #ffffff;
+
+  /* Border */
+  --color-border: #cfe7df;
+
+  /* Fonts */
+  --font-heading: 'EB Garamond', serif;
+  --font-body: 'Vollkorn', serif;
+}
+
+/* ===============================
+   DESIGN TOKENS — DARK
+   =============================== */
+
+[data-theme='dark'] {
+  /* Backgrounds */
+  --color-bg-primary: #0f1f1b;
+  --color-bg-secondary: #162e28;
+  --color-bg-sidebar: #122722;
+  --color-bg-hover: #1e3a33;
+
+  /* Accent */
+  --color-accent: #6fcfba;
+  --color-accent-hover: #8adbc9;
+  --color-accent-soft: #1f3f37;
+
+  /* Text */
+  --color-text-primary: #e6f6f1;
+  --color-text-secondary: #9bcfc1;
+  --color-text-inverse: #0f1f1b;
+
+  /* Border */
+  --color-border: #234a40;
+}

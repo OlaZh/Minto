@@ -1,0 +1,12 @@
+// Сітка
+
+.container {
+  max-width: $container-max-width;
+  padding: 0 $container-padding;
+  margin: 0 auto;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}

@@ -1,0 +1,67 @@
+// ==============================
+// Fonts
+// ==============================
+$font-heading: 'EB Garamond', serif;
+$font-body: 'Vollkorn', serif;
+$font-ui: 'Inter', sans-serif;
+
+$font-weight-heading-regular: 500;
+$font-weight-heading-bold: 600;
+$font-weight-body-regular: 400;
+$font-weight-ui-medium: 500;
+
+$line-height-body: 1.6;
+$line-height-heading: 1.3;
+
+
+// ==============================
+// Light theme colors
+// ==============================
+$color-bg-main: #F4FBF8;
+$color-bg-surface: #E8F5F0;
+$color-bg-sidebar: #DFF1EB;
+
+$color-primary: #6FCFBA;
+$color-primary-hover: #5CBDA8;
+
+$color-text-main: #1F2E2B;
+$color-text-muted: #6B8F87;
+$color-text-inverse: #FFFFFF;
+
+$color-border: #CFE7DF;
+
+
+// ==============================
+// Dark theme colors
+// ==============================
+$color-bg-main-dark: #0F1F1B;
+$color-bg-surface-dark: #162E28;
+$color-bg-sidebar-dark: #122722;
+
+$color-primary-dark: #6FCFBA;
+$color-primary-hover-dark: #8ADBC9;
+
+$color-text-main-dark: #E6F6F1;
+$color-text-muted-dark: #9BCFC1;
+$color-text-inverse-dark: #0F1F1B;
+
+$color-border-dark: #234A40;
+
+
+// ==============================
+// Layout & spacing
+// ==============================
+$container-max-width: 1200px;
+$container-padding: 24px;
+
+$spacing-xxs: 8px;
+$spacing-xs: 16px;
+$spacing-sm: 24px;
+$spacing-md: 32px;
+
+
+// ==============================
+// Sidebar
+// ==============================
+$sidebar-width: 240px;
+$sidebar-padding: 24px 16px;

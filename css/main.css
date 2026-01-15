@@ -1,0 +1,677 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Inter:wght@400;500&family=Vollkorn:ital,wght@0,400;0,700;1,400&display=swap");
+/* ===============================
+   DESIGN TOKENS — LIGHT
+   =============================== */
+:root {
+  /* Backgrounds */
+  --color-bg-primary: #f4fbf8;
+  --color-bg-secondary: #e8f5f0;
+  --color-bg-sidebar: #dff1eb;
+  --color-bg-hover: #d1eee6;
+  /* Accent */
+  --color-accent: #6fcfba;
+  --color-accent-hover: #5cbda8;
+  --color-accent-soft: #e2f4ef;
+  /* Text */
+  --color-text-primary: #1f2e2b;
+  --color-text-secondary: #6b8f87;
+  --color-text-inverse: #ffffff;
+  /* Border */
+  --color-border: #cfe7df;
+  /* Fonts */
+  --font-heading: "EB Garamond", serif;
+  --font-body: "Vollkorn", serif;
+}
+
+/* ===============================
+   DESIGN TOKENS — DARK
+   =============================== */
+[data-theme=dark] {
+  /* Backgrounds */
+  --color-bg-primary: #0f1f1b;
+  --color-bg-secondary: #162e28;
+  --color-bg-sidebar: #122722;
+  --color-bg-hover: #1e3a33;
+  /* Accent */
+  --color-accent: #6fcfba;
+  --color-accent-hover: #8adbc9;
+  --color-accent-soft: #1f3f37;
+  /* Text */
+  --color-text-primary: #e6f6f1;
+  --color-text-secondary: #9bcfc1;
+  --color-text-inverse: #0f1f1b;
+  /* Border */
+  --color-border: #234a40;
+}
+
+/* ===============================
+   BASE
+   =============================== */
+html {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Headings ---------- */
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--color-text-primary);
+  margin: 0 0 16px;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+/* ---------- Text ---------- */
+p,
+span,
+li {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  margin: 0 0 16px;
+}
+
+small,
+.text-muted {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ===============================
+   DESIGN TOKENS
+   =============================== */
+:root {
+  /* Backgrounds */
+  --color-bg-primary: #f4fbf8;
+  --color-bg-secondary: #e8f5f0;
+  --color-bg-sidebar: #dff1eb;
+  --color-bg-hover: #d1eee6;
+  /* Accent */
+  --color-accent: #6fcfba;
+  --color-accent-hover: #5cbda8;
+  --color-accent-soft: #e2f4ef;
+  /* Text */
+  --color-text-primary: #1f2e2b;
+  --color-text-secondary: #6b8f87;
+  --color-text-inverse: #ffffff;
+  /* Border */
+  --color-border: #cfe7df;
+  /* Fonts */
+  --font-heading: "EB Garamond", serif;
+  --font-body: "Vollkorn", serif;
+}
+
+/* ===============================
+   DESIGN TOKENS — DARK
+   =============================== */
+/* Backgrounds */
+[data-theme=dark] {
+  --color-bg-primary: #0f1f1b;
+  --color-bg-secondary: #162e28;
+  --color-bg-sidebar: #122722;
+  --color-bg-hover: #1e3a33;
+  /* Accent */
+  --color-accent: #6fcfba;
+  --color-accent-hover: #8adbc9;
+  --color-accent-soft: #1f3f37;
+  /* Text */
+  --color-text-primary: #e6f6f1;
+  --color-text-secondary: #9bcfc1;
+  --color-text-inverse: #0f1f1b;
+  /* Border */
+  --color-border: #234a40;
+}
+
+/* ===============================
+   BASE
+   =============================== */
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--color-text-primary);
+  margin: 0 0 16px;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+p,
+span,
+li {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  margin: 0 0 16px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+small,
+.text-muted {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+* {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.theme-transition *,
+.theme-transition {
+  transition: none !important;
+}
+
+.header,
+.sidebar,
+.main,
+.meal,
+.day-summary {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 240px;
+  padding: 24px 16px;
+  background-color: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border);
+  box-sizing: border-box;
+}
+
+/* ================= DAYS LIST ================= */
+.sidebar__days {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ================= DAY ITEM ================= */
+/* ================= DAY BUTTON ================= */
+.sidebar__day-btn {
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  appearance: none;
+}
+
+/* ---------- HOVER ---------- */
+.sidebar__day-btn:hover {
+  background-color: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+/* ---------- ACTIVE DAY ---------- */
+.sidebar__day-btn[aria-current=true] {
+  background-color: var(--color-accent-soft);
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+/* ---------- KEYBOARD FOCUS ---------- */
+.sidebar__day-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.container {
+  max-width: 1200px;
+  padding: 0 24px;
+  margin: 0 auto;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.button {
+  display: inline-block;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+.button--primary {
+  background-color: var(--color-accent);
+  color: var(--color-text-inverse);
+  border: none;
+}
+.button--primary:hover, .button--primary:focus {
+  background-color: var(--color-accent-hover);
+  outline: none;
+}
+.button--secondary {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+.button--secondary:hover, .button--secondary:focus {
+  background-color: var(--color-bg-secondary);
+  outline: none;
+}
+
+.card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme=dark] .card {
+  box-shadow: none;
+}
+
+.input {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  padding: 10px 12px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+.input:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+/* ================= HEADER ================= */
+.header {
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---------- BRAND ---------- */
+.header__brand {
+  display: flex;
+  align-items: center;
+}
+
+.header__logo {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* ---------- NAVIGATION ---------- */
+.header__nav {
+  margin: 0 32px;
+}
+
+.header__nav-list {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__nav-link {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.2s ease;
+}
+
+.header__nav-link:hover {
+  color: var(--color-text-primary);
+}
+
+.header__nav-link:focus-visible {
+  outline: none;
+  color: var(--color-text-primary);
+}
+
+.header__nav-link--active {
+  color: var(--color-text-primary);
+}
+
+.header__nav-link--active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-accent);
+  border-radius: 2px;
+}
+
+/* ---------- ACTIONS ---------- */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header__theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+.header__theme-toggle:hover {
+  opacity: 0.7;
+}
+
+.header__profile {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.header__profile-name {
+  font-weight: 500;
+}
+
+/* ================= DAY HEADER ================= */
+.day-header {
+  margin-bottom: 32px;
+}
+
+.day-header__title {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.day-header__date {
+  margin-top: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* ================= DAY MENU ================= */
+.day-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ================= MEAL BLOCK ================= */
+.meal {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+/* ---------- MEAL HEADER ---------- */
+.meal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.meal__title {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.meal__add-button {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s ease;
+}
+
+.meal__add-button:hover {
+  color: var(--color-accent-hover);
+}
+
+/* ---------- RECIPES LIST ---------- */
+.meal__recipes {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meal__recipe {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: var(--color-bg-secondary);
+  border-radius: 8px;
+}
+
+.meal__recipe-name {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text-primary);
+}
+
+.meal__recipe-kcal {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* ================= DAY SUMMARY ================= */
+.day-summary {
+  margin-top: 32px;
+  padding: 16px 20px;
+  background-color: var(--color-bg-secondary);
+  border-radius: 12px;
+}
+
+.day-summary__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.day-summary__label {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.day-summary__value {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.spacer-xs {
+  margin-bottom: 16px !important;
+}
+
+.spacer-sm {
+  margin-bottom: 24px !important;
+}
+
+.spacer-md {
+  margin-bottom: 32px !important;
+}
+
+.theme-toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  /* DEFAULT — світла тема */
+}
+.theme-toggle .icon {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  transition: transform 0.35s ease, opacity 0.25s ease;
+}
+.theme-toggle .icon-moon {
+  fill: currentColor;
+}
+.theme-toggle .icon-sun {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+.theme-toggle .icon-moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.6);
+}
+.theme-toggle:hover {
+  color: var(--color-accent);
+}
+.theme-toggle:active {
+  transform: scale(0.92);
+}
+
+/* 🌙 DARK MODE */
+html[data-theme=dark] .theme-toggle .icon-sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.6);
+}
+html[data-theme=dark] .theme-toggle .icon-moon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}/*# sourceMappingURL=main.css.map */

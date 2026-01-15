@@ -1,0 +1,135 @@
+/* ================= DAY HEADER ================= */
+
+.day-header {
+  margin-bottom: 32px;
+}
+
+.day-header__title {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.day-header__date {
+  margin-top: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* ================= DAY MENU ================= */
+
+.day-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ================= MEAL BLOCK ================= */
+
+.meal {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+/* ---------- MEAL HEADER ---------- */
+
+.meal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.meal__title {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.meal__add-button {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-accent);
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+
+  transition: color 0.2s ease;
+}
+
+.meal__add-button:hover {
+  color: var(--color-accent-hover);
+}
+
+/* ---------- RECIPES LIST ---------- */
+
+.meal__recipes {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+ 
+}
+
+.meal__recipe {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 8px 12px;
+  background-color: var(--color-bg-secondary);
+  border-radius: 8px;
+}
+
+.meal__recipe-name {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text-primary);
+}
+
+.meal__recipe-kcal {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* ================= DAY SUMMARY ================= */
+
+.day-summary {
+  margin-top: 32px;
+  padding: 16px 20px;
+
+  background-color: var(--color-bg-secondary);
+  border-radius: 12px;
+}
+
+.day-summary__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.day-summary__label {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.day-summary__value {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}

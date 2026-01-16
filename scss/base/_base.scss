@@ -18,9 +18,7 @@ body {
   margin: 0;
   padding: 0;
 
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,26 +38,38 @@ h3 {
   margin: 0 0 16px;
 }
 
-h1 { font-size: 28px; }
-h2 { font-size: 20px; }
-h3 { font-size: 18px; }
+h1 {
+  font-size: 28px;
+}
+h2 {
+  font-size: 20px;
+}
+h3 {
+  font-size: 18px;
+}
 
 /* ---------- Text ---------- */
 
 p,
-span,
 li {
   font-family: var(--font-body);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.6;
-
   color: var(--color-text-primary);
-  margin: 0 0 16px;
+  margin: 0 0 16px; // Залишаємо відступи тільки для абзаців та списків
+}
+
+span {
+  font-family: inherit; // span має наслідувати шрифт батька
+  font-size: inherit;
+  color: inherit;
+  margin: 0; // ВБИВАЄМО відступ для всіх span за замовчуванням
 }
 
 small,
 .text-muted {
   font-size: 14px;
   color: var(--color-text-secondary);
+  margin: 0; // Тут теж краще прибрати автоматичний margin
 }

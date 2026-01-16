@@ -1,26 +1,24 @@
 /* ================= DAY HEADER ================= */
-
 .day-header {
   margin-bottom: 32px;
-}
 
-.day-header__title {
-  font-family: var(--font-heading);
-  font-size: 32px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0;
-}
+  &__title {
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
 
-.day-header__date {
-  margin-top: 8px;
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: var(--color-text-secondary);
+  &__date {
+    margin-top: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+  }
 }
 
 /* ================= DAY MENU ================= */
-
 .day-menu {
   display: flex;
   flex-direction: column;
@@ -28,108 +26,120 @@
 }
 
 /* ================= MEAL BLOCK ================= */
-
 .meal {
-  background-color: var(--color-bg-primary);
+  // Використовуємо secondary, щоб картка виділялася на фоні primary
+  background-color: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 16px 20px;
-}
 
-/* ---------- MEAL HEADER ---------- */
+  // Додамо м'яку тінь для об'єму (у світлій темі)
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 
-.meal__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
+  [data-theme='dark'] & {
+    box-shadow: none;
+    background-color: var(--color-bg-sidebar); // трохи контрастніше для темної теми
+  }
 
-.meal__title {
-  font-family: var(--font-heading);
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  margin: 0;
-}
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
 
-.meal__add-button {
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: var(--color-accent);
+  &__title {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
 
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px 8px;
+  &__add-button {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.2s ease, transform 0.2s ease;
 
-  transition: color 0.2s ease;
-}
+    &:hover {
+      color: var(--color-accent-hover);
+      transform: translateY(-1px);
+    }
+  }
 
-.meal__add-button:hover {
-  color: var(--color-accent-hover);
-}
+  &__recipes {
+    list-style: none;
+    margin: 0; // Прибрали margin знизу, щоб не дублювати gap
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; // Трохи збільшили відстань між рецептами
+  }
 
-/* ---------- RECIPES LIST ---------- */
+  &__recipe {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%; // Гарантуємо розтягування на всю ширину картки
+    padding: 10px 14px;
+    background-color: var(--color-bg-primary);
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box; // Щоб паддінги не роздували ширину
 
-.meal__recipes {
-  list-style: none;
-  margin: 0 0 16px;
-  padding: 0;
+    &:hover {
+      border-color: var(--color-accent-soft);
+    }
 
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
- 
-}
+    &-name {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--color-text-primary);
+      margin: 0 !important; // Вбиваємо відступ з base.scss
+      line-height: 1.2;
+    }
 
-.meal__recipe {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 8px 12px;
-  background-color: var(--color-bg-secondary);
-  border-radius: 8px;
-}
-
-.meal__recipe-name {
-  font-family: var(--font-body);
-  font-size: 15px;
-  color: var(--color-text-primary);
-}
-
-.meal__recipe-kcal {
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: var(--color-text-secondary);
+    &-kcal {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+      margin: 0 !important; // Також вбиваємо відступи для цифр
+    }
+  }
 }
 
 /* ================= DAY SUMMARY ================= */
-
 .day-summary {
   margin-top: 32px;
-  padding: 16px 20px;
-
-  background-color: var(--color-bg-secondary);
+  padding: 20px;
+  background-color: var(--color-accent-soft); // Виділяємо підсумок акцентним кольором
   border-radius: 12px;
-}
+  border: 1px solid var(--color-accent);
 
-.day-summary__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.day-summary__label {
-  font-family: var(--font-body);
-  font-size: 16px;
-  color: var(--color-text-secondary);
-}
+  &__label {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
 
-.day-summary__value {
-  font-family: var(--font-heading);
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--color-text-primary);
+  &__value {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
 }

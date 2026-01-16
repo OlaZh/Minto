@@ -80,25 +80,27 @@
         <nav class="sidebar__nav">
           <ul class="sidebar__days">
             <li class="sidebar__day">
-              <button class="sidebar__day-btn" aria-current="true">Понеділок</button>
+              <button class="sidebar__day-btn" data-day="monday" aria-current="true">
+                Понеділок
+              </button>
             </li>
             <li class="sidebar__day">
-              <button class="sidebar__day-btn">Вівторок</button>
+              <button class="sidebar__day-btn" data-day="tuesday">Вівторок</button>
             </li>
             <li class="sidebar__day">
-              <button class="sidebar__day-btn">Середа</button>
+              <button class="sidebar__day-btn" data-day="wednesday">Середа</button>
             </li>
             <li class="sidebar__day">
-              <button class="sidebar__day-btn">Четвер</button>
+              <button class="sidebar__day-btn" data-day="thursday">Четвер</button>
             </li>
             <li class="sidebar__day">
-              <button class="sidebar__day-btn">Пʼятниця</button>
+              <button class="sidebar__day-btn" data-day="friday">Пʼятниця</button>
             </li>
             <li class="sidebar__day">
-              <button class="sidebar__day-btn">Субота</button>
+              <button class="sidebar__day-btn" data-day="saturday">Субота</button>
             </li>
             <li class="sidebar__day">
-              <button class="sidebar__day-btn">Неділя</button>
+              <button class="sidebar__day-btn" data-day="sunday">Неділя</button>
             </li>
           </ul>
         </nav>
@@ -113,12 +115,12 @@
         </section>
 
         <!-- ===== DAY MENU ===== -->
-        <section class="day-menu">
+        <section class="day-menu" id="dayMenu">
           <!-- BREAKFAST -->
-          <article class="meal meal--breakfast" data-meal="snack1">
+          <article class="meal meal--breakfast" data-meal="breakfast">
             <div class="meal__header">
               <h2 class="meal__title">Сніданок</h2>
-              <button class="meal__add-button" type="button">+ Додати рецепт</button>
+              <button class="meal__add-button" type="button" data-meal="breakfast">+ Додати</button>
             </div>
 
             <ul class="meal__recipes">
@@ -132,18 +134,18 @@
           <!-- SNACK 1 -->
           <article class="meal meal--snack" data-meal="snack1">
             <div class="meal__header">
-              <h2 class="meal__title">Перекус</h2>
-              <button class="meal__add-button" type="button">+ Додати рецепт</button>
+              <h2 class="meal__title">Перекус 1</h2>
+              <button class="meal__add-button" type="button" data-meal="snack1">+ Додати</button>
             </div>
 
             <ul class="meal__recipes"></ul>
           </article>
 
           <!-- LUNCH -->
-          <article class="meal meal--lunch" data-meal="snack1">
+          <article class="meal meal--lunch" data-meal="lunch">
             <div class="meal__header">
               <h2 class="meal__title">Обід</h2>
-              <button class="meal__add-button" type="button">+ Додати рецепт</button>
+              <button class="meal__add-button" type="button" data-meal="lunch">+ Додати</button>
             </div>
 
             <ul class="meal__recipes">
@@ -155,20 +157,20 @@
           </article>
 
           <!-- SNACK 2 -->
-          <article class="meal meal--snack" data-meal="snack1">
+          <article class="meal meal--snack" data-meal="snack2">
             <div class="meal__header">
-              <h2 class="meal__title">Перекус</h2>
-              <button class="meal__add-button" type="button">+ Додати рецепт</button>
+              <h2 class="meal__title">Перекус 2</h2>
+              <button class="meal__add-button" type="button" data-meal="snack2">+ Додати</button>
             </div>
 
             <ul class="meal__recipes"></ul>
           </article>
 
           <!-- DINNER -->
-          <article class="meal meal--dinner" data-meal="snack1">
+          <article class="meal meal--dinner" data-meal="dinner">
             <div class="meal__header">
               <h2 class="meal__title">Вечеря</h2>
-              <button class="meal__add-button" type="button">+ Додати рецепт</button>
+              <button class="meal__add-button" type="button" data-meal="dinner">+ Додати</button>
             </div>
 
             <ul class="meal__recipes">
@@ -191,7 +193,7 @@
     </div>
     <script src="js/day-data.js"></script>
     <script src="js/meals.js"></script>
-    <script src="js/sidebar-days.js"></script>
+    <script type="module" src="js/sidebar-days.js"></script>
     <script src="js/theme-toggle.js"></script>
   </body>
 </html>

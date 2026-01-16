@@ -1,49 +1,63 @@
-// додавання їжі
-import { dayData } from './day-data.js';
+document.addEventListener('DOMContentLoaded', () => {
+  const mealsState = {
+    breakfast: [],
+    snack1: [],
+    lunch: [],
+    snack2: [],
+    dinner: [],
+  };
 
-document.addEventListener('click', (e) => {
-  if (!e.target.classList.contains('meal__add-button')) return;
+  const summaryValue = document.querySelector('.day-summary__value');
 
-  const mealEl = e.target.closest('.meal');
-  const mealType = mealEl.dataset.meal;
+  function renderMeal(mealKey) {
+    const mealBlock = document.querySelector(`.meal[data-meal="${mealKey}"]`);
+    if (!mealBlock) return;
 
-  const name = prompt('Назва страви');
-  if (!name) return;
+    const list = mealBlock.querySelector('.meal__recipes');
+    list.innerHTML = '';
 
-  const kcal = Number(prompt('Калорії'));
-  if (!kcal) return;
+    mealsState[mealKey].forEach((item) => {
+      const li = document.createElement('li');
+      li.className = 'meal__recipe';
 
-  dayData[mealType].push({ name, kcal });
+      li.innerHTML = `
+        <span class="meal__recipe-name">${item.name}</span>
+        <span class="meal__recipe-kcal">${item.kcal} ккал</span>
+      `;
 
-  renderMeal(mealType);
-  renderTotal();
-});
+      list.appendChild(li);
+    });
+  }
 
-//Рендер прийому їжі
+  function renderSummary() {
+    const total = Object.values(mealsState)
+      .flat()
+      .reduce((sum, item) => sum + item.kcal, 0);
 
-function renderMeal(mealType) {
-  const mealEl = document.querySelector(`.meal[data-meal="${mealType}"]`);
-  const list = mealEl.querySelector('.meal__recipes');
+    if (summaryValue) {
+      summaryValue.textContent = `${total} ккал`;
+    }
+  }
 
-  list.innerHTML = '';
+  function addMealItem(mealKey) {
+    const name = prompt('Назва страви');
+    if (!name) return;
 
-  dayData[mealType].forEach((item) => {
-    const li = document.createElement('li');
-    li.className = 'meal__recipe';
-    li.innerHTML = `
-      <span class="meal__recipe-name">${item.name}</span>
-      <span class="meal__recipe-kcal">${item.kcal} ккал</span>
-    `;
-    list.appendChild(li);
+    const kcal = Number(prompt('Калорії'));
+    if (!kcal || kcal <= 0) return;
+
+    mealsState[mealKey].push({ name, kcal });
+
+    renderMeal(mealKey);
+    renderSummary();
+  }
+
+  document.querySelectorAll('.meal').forEach((meal) => {
+    const mealKey = meal.dataset.meal;
+    const btn = meal.querySelector('.meal__add-button');
+
+    if (!mealKey || !btn) return;
+
+    btn.addEventListener('click', () => addMealItem(mealKey));
   });
-}
-
-// ПІДРАХУНОК КАЛОРІЙ (АВТОМАТ)
-
-function renderTotal() {
-  let total = 0;
-
-  Object.values(dayData).forEach((meal) => meal.forEach((item) => (total += item.kcal)));
-
-  document.querySelector('.day-summary__value').textContent = `${total} ккал`;
-}
+});

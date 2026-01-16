@@ -5,16 +5,15 @@
 @import './base/base';
 @import './base/links';
 @import './base/reset';
+@import './base/theme-transition';
 
-
-@import './utils/base';
 @import './layouts/sidebar';
 
 @import './layouts/layout';
 
 @import './components/_buttons';
 @import './components/cards';
-@import './components/inputs';
+
 @import './layouts/header';
 
 @import './layouts/day-menu';

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
   <head>
     <meta charset="UTF-8" />
@@ -120,7 +120,8 @@
           <article class="meal meal--breakfast" data-meal="breakfast">
             <div class="meal__header">
               <h2 class="meal__title">Сніданок</h2>
-              <button class="meal__add-button" type="button" data-meal="breakfast">+ Додати</button>
+
+              <button class="meal__add-button" type="button" data-meal="breakfast">+</button>
             </div>
 
             <ul class="meal__recipes">
@@ -135,7 +136,8 @@
           <article class="meal meal--snack" data-meal="snack1">
             <div class="meal__header">
               <h2 class="meal__title">Перекус 1</h2>
-              <button class="meal__add-button" type="button" data-meal="snack1">+ Додати</button>
+
+              <button class="meal__add-button" type="button" data-meal="snack1">+</button>
             </div>
 
             <ul class="meal__recipes"></ul>
@@ -145,7 +147,8 @@
           <article class="meal meal--lunch" data-meal="lunch">
             <div class="meal__header">
               <h2 class="meal__title">Обід</h2>
-              <button class="meal__add-button" type="button" data-meal="lunch">+ Додати</button>
+
+              <button class="meal__add-button" type="button" data-meal="lunch">+</button>
             </div>
 
             <ul class="meal__recipes">
@@ -160,7 +163,8 @@
           <article class="meal meal--snack" data-meal="snack2">
             <div class="meal__header">
               <h2 class="meal__title">Перекус 2</h2>
-              <button class="meal__add-button" type="button" data-meal="snack2">+ Додати</button>
+
+              <button class="meal__add-button" type="button" data-meal="snack2">+</button>
             </div>
 
             <ul class="meal__recipes"></ul>
@@ -170,7 +174,8 @@
           <article class="meal meal--dinner" data-meal="dinner">
             <div class="meal__header">
               <h2 class="meal__title">Вечеря</h2>
-              <button class="meal__add-button" type="button" data-meal="dinner">+ Додати</button>
+
+              <button class="meal__add-button" type="button" data-meal="dinner">+</button>
             </div>
 
             <ul class="meal__recipes">
@@ -191,8 +196,31 @@
         </section>
       </main>
     </div>
+    <!-- ================= ADD FOOD MODAL ================= -->
+    <div class="modal" id="addFoodModal" hidden>
+      <div class="modal__overlay"></div>
+
+      <div class="modal__content">
+        <header class="modal__header">
+          <h3 class="modal__title">Додати продукт</h3>
+          <button class="modal__close" type="button">×</button>
+        </header>
+
+        <div class="modal__body">
+          <ul class="modal__results" id="foodResults">
+            <!-- сюди JS підставляє всі збіги -->
+          </ul>
+        </div>
+
+        <footer class="modal__footer">
+          <button class="modal__confirm" type="button" disabled>Додати</button>
+        </footer>
+      </div>
+    </div>
+    <!-- ================= SKRIPT ================= -->
     <script src="js/day-data.js"></script>
-    <script src="js/meals.js"></script>
+    <script type="module" src="js/food-api.js"></script>
+    <script type="module" src="js/meals.js"></script>
     <script type="module" src="js/sidebar-days.js"></script>
     <script src="js/theme-toggle.js"></script>
   </body>

@@ -92,7 +92,6 @@ h3 {
 
 /* ---------- Text ---------- */
 p,
-span,
 li {
   font-family: var(--font-body);
   font-size: 16px;
@@ -102,135 +101,26 @@ li {
   margin: 0 0 16px;
 }
 
-small,
-.text-muted {
-  font-size: 14px;
-  color: var(--color-text-secondary);
-}
-
-a {
+span {
+  font-family: inherit;
+  font-size: inherit;
   color: inherit;
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: none;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* ===============================
-   DESIGN TOKENS
-   =============================== */
-:root {
-  /* Backgrounds */
-  --color-bg-primary: #f4fbf8;
-  --color-bg-secondary: #e8f5f0;
-  --color-bg-sidebar: #dff1eb;
-  --color-bg-hover: #d1eee6;
-  /* Accent */
-  --color-accent: #6fcfba;
-  --color-accent-hover: #5cbda8;
-  --color-accent-soft: #e2f4ef;
-  /* Text */
-  --color-text-primary: #1f2e2b;
-  --color-text-secondary: #6b8f87;
-  --color-text-inverse: #ffffff;
-  /* Border */
-  --color-border: #cfe7df;
-  /* Fonts */
-  --font-heading: "EB Garamond", serif;
-  --font-body: "Vollkorn", serif;
-}
-
-/* ===============================
-   DESIGN TOKENS — DARK
-   =============================== */
-/* Backgrounds */
-[data-theme=dark] {
-  --color-bg-primary: #0f1f1b;
-  --color-bg-secondary: #162e28;
-  --color-bg-sidebar: #122722;
-  --color-bg-hover: #1e3a33;
-  /* Accent */
-  --color-accent: #6fcfba;
-  --color-accent-hover: #8adbc9;
-  --color-accent-soft: #1f3f37;
-  /* Text */
-  --color-text-primary: #e6f6f1;
-  --color-text-secondary: #9bcfc1;
-  --color-text-inverse: #0f1f1b;
-  /* Border */
-  --color-border: #234a40;
-}
-
-/* ===============================
-   BASE
-   =============================== */
-body {
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.6;
   margin: 0;
-  padding: 0;
-  transition: background-color 0.25s ease, color 0.25s ease;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h1,
-h2,
-h3 {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: 0.02em;
-  color: var(--color-text-primary);
-  margin: 0 0 16px;
-}
-
-h1 {
-  font-size: 28px;
-}
-
-h2 {
-  font-size: 20px;
-}
-
-h3 {
-  font-size: 18px;
-}
-
-p,
-span,
-li {
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--color-text-primary);
-  margin: 0 0 16px;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: none;
 }
 
 small,
 .text-muted {
   font-size: 14px;
   color: var(--color-text-secondary);
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
 }
 
 *,
@@ -239,19 +129,19 @@ small,
   box-sizing: border-box;
 }
 
-html {
-  transition: background-color 0.25s ease, color 0.25s ease;
-}
-
+/* ===============================
+   THEME TRANSITION
+   =============================== */
 * {
   transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-.theme-transition *,
-.theme-transition {
+.theme-transition,
+.theme-transition * {
   transition: none !important;
 }
 
+/* Обмежені transition для великих блоків */
 .header,
 .sidebar,
 .main,
@@ -316,15 +206,25 @@ html {
   outline-offset: 2px;
 }
 
-.container {
-  max-width: 1200px;
-  padding: 0 24px;
-  margin: 0 auto;
-}
-
+/* ===============================
+   LAYOUT
+   =============================== */
 .layout {
   display: flex;
   min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  flex-shrink: 0;
+  width: 240px;
+}
+
+/* Main content */
+.main {
+  flex: 1;
+  padding: 32px;
+  background-color: var(--color-bg-primary);
 }
 
 .button {
@@ -368,25 +268,6 @@ html {
 
 [data-theme=dark] .card {
   box-shadow: none;
-}
-
-.input {
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.6;
-  padding: 10px 12px;
-  height: 40px;
-  border-radius: 8px;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  box-sizing: border-box;
-  transition: border-color 0.2s ease;
-}
-.input:focus {
-  border-color: var(--color-accent);
-  outline: none;
 }
 
 /* ================= HEADER ================= */
@@ -495,7 +376,6 @@ html {
 .day-header {
   margin-bottom: 32px;
 }
-
 .day-header__title {
   font-family: var(--font-heading);
   font-size: 32px;
@@ -503,7 +383,6 @@ html {
   color: var(--color-text-primary);
   margin: 0;
 }
-
 .day-header__date {
   margin-top: 8px;
   font-family: var(--font-body);
@@ -516,24 +395,31 @@ html {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  max-width: 400px;
+  width: 100%;
+  margin: 0;
 }
 
 /* ================= MEAL BLOCK ================= */
 .meal {
-  background-color: var(--color-bg-primary);
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 16px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
-
-/* ---------- MEAL HEADER ---------- */
+[data-theme=dark] .meal {
+  box-shadow: none;
+  background-color: var(--color-bg-sidebar);
+}
 .meal__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 12px;
 }
-
 .meal__title {
   font-family: var(--font-heading);
   font-size: 20px;
@@ -541,7 +427,6 @@ html {
   color: var(--color-text-primary);
   margin: 0;
 }
-
 .meal__add-button {
   font-family: var(--font-body);
   font-size: 14px;
@@ -550,67 +435,68 @@ html {
   border: none;
   cursor: pointer;
   padding: 4px 8px;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
-
 .meal__add-button:hover {
   color: var(--color-accent-hover);
+  transform: translateY(-1px);
 }
-
-/* ---------- RECIPES LIST ---------- */
 .meal__recipes {
   list-style: none;
-  margin: 0 0 16px;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
-
-.meal__recipe {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  background-color: var(--color-bg-secondary);
+.meal__recipes .meal__recipe {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  padding: 10px 14px;
+  background-color: var(--color-bg-primary);
   border-radius: 8px;
+  border: 1px solid transparent;
+  box-sizing: border-box;
 }
-
-.meal__recipe-name {
-  font-family: var(--font-body);
-  font-size: 15px;
-  color: var(--color-text-primary);
+.meal__recipes .meal__recipe-name {
+  margin: 0 !important;
+  flex: 1;
+  text-align: left;
 }
-
-.meal__recipe-kcal {
-  font-family: var(--font-body);
-  font-size: 14px;
-  color: var(--color-text-secondary);
+.meal__recipes .meal__recipe-kcal {
+  margin: 0 !important;
+  margin-left: 12px;
+  white-space: nowrap;
+  text-align: right;
 }
 
 /* ================= DAY SUMMARY ================= */
 .day-summary {
+  max-width: 400px;
+  width: 100%;
   margin-top: 32px;
-  padding: 16px 20px;
-  background-color: var(--color-bg-secondary);
+  padding: 20px;
+  background-color: var(--color-accent-soft);
   border-radius: 12px;
+  border: 1px solid var(--color-accent);
 }
-
 .day-summary__item {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
 .day-summary__label {
   font-family: var(--font-body);
   font-size: 16px;
-  color: var(--color-text-secondary);
+  font-weight: 500;
+  color: var(--color-text-primary);
 }
-
 .day-summary__value {
   font-family: var(--font-heading);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   color: var(--color-text-primary);
 }

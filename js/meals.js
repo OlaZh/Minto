@@ -1,5 +1,6 @@
+// js/meals.js
+import { updateStats } from './stats.js';
 import { searchFood } from './food-api.js';
-import { parseFoodInput } from './parse-food.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // ================== STATE ==================
@@ -11,9 +12,43 @@ document.addEventListener('DOMContentLoaded', () => {
     dinner: [],
   };
 
+  const STORAGE_KEY = 'mealsState';
+
   let activeMealKey = null;
+  let selectedFood = null;
+  let editingIndex = null;
 
   const summaryValue = document.querySelector('.day-summary__value');
+
+  // ================== STORAGE ==================
+  function saveMealsToStorage() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(mealsState));
+  }
+
+  function loadMealsFromStorage() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+
+    const parsed = JSON.parse(saved);
+
+    Object.keys(mealsState).forEach((mealKey) => {
+      mealsState[mealKey] = parsed[mealKey] || [];
+      renderMeal(mealKey);
+    });
+
+    renderSummary();
+  }
+
+  function clearDay() {
+    localStorage.removeItem(STORAGE_KEY);
+
+    Object.keys(mealsState).forEach((mealKey) => {
+      mealsState[mealKey] = [];
+      renderMeal(mealKey);
+    });
+
+    renderSummary();
+  }
 
   // ================== RENDER ==================
   function renderMeal(mealKey) {
@@ -23,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const list = mealBlock.querySelector('.meal__recipes');
     list.innerHTML = '';
 
-    mealsState[mealKey].forEach((item) => {
+    mealsState[mealKey].forEach((item, index) => {
       const li = document.createElement('li');
       li.className = 'meal__recipe';
 
@@ -33,6 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
           ${item.kcal} ккал · Б ${item.protein} · Ж ${item.fat} · В ${item.carbs}
         </span>
       `;
+
+      li.addEventListener('click', () => {
+        editingIndex = index;
+        openModal(mealKey, item);
+      });
 
       list.appendChild(li);
     });
@@ -55,81 +95,148 @@ document.addEventListener('DOMContentLoaded', () => {
     if (summaryValue) {
       summaryValue.textContent = `${total.kcal} ккал · Б ${total.protein} · Ж ${total.fat} · В ${total.carbs}`;
     }
+
+    updateStats(total);
   }
 
-  // ================== MODAL ==================
-  const modal = document.getElementById('foodModal');
-  const modalInput = document.getElementById('foodInput');
-  const modalClose = modal.querySelector('.modal__close');
-  const modalOverlay = modal.querySelector('.modal__overlay');
-  const modalSubmit = modal.querySelector('.modal__submit'); // кнопка "Додати"
+  // ================== MODAL ELEMENTS ==================
+  const modal = document.getElementById('addFoodModal');
+  const overlay = modal.querySelector('.modal__overlay');
+  const closeBtn = modal.querySelector('.modal__close');
+  const confirmBtn = modal.querySelector('.modal__confirm');
+  const resultsList = modal.querySelector('#foodResults');
+  const body = modal.querySelector('.modal__body');
 
-  function openModal(mealKey) {
+  // ===== INPUT NAME =====
+  let nameInput = body.querySelector('.modal__input');
+  if (!nameInput) {
+    nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.placeholder = 'Назва продукту';
+    nameInput.className = 'modal__input';
+    body.prepend(nameInput);
+  }
+
+  // ===== INPUT WEIGHT =====
+  const weightInput = body.querySelector('.modal__weight');
+
+  // ================== MODAL LOGIC ==================
+  function updateConfirmState() {
+    const weight = Number(weightInput.value);
+    confirmBtn.disabled = !(selectedFood && weight > 0);
+  }
+
+  function openModal(mealKey, item = null) {
     activeMealKey = mealKey;
+    selectedFood = null;
+
+    resultsList.innerHTML = '';
+    confirmBtn.disabled = true;
+
+    nameInput.value = item ? item.name.replace(/\s\(.*?\)$/, '') : '';
+    weightInput.value = item ? item.weight : '';
+
     modal.hidden = false;
-    modalInput.value = '';
-    modalInput.focus();
+    nameInput.focus();
   }
 
   function closeModal() {
     modal.hidden = true;
     activeMealKey = null;
+    selectedFood = null;
+    editingIndex = null;
+
+    nameInput.value = '';
+    weightInput.value = '';
+    resultsList.innerHTML = '';
   }
 
-  // ================== ADD ITEM ==================
-  async function addFromModal() {
-    if (!activeMealKey) return;
+  // ================== SEARCH ==================
+  async function handleSearch() {
+    const query = nameInput.value.trim();
+    resultsList.innerHTML = '';
+    selectedFood = null;
+    confirmBtn.disabled = true;
 
-    const input = modalInput.value.trim();
-    if (!input) return;
+    if (!query) return;
 
-    const parsed = parseFoodInput(input);
-    if (!parsed) {
-      alert('Формат: продукт + кількість (наприклад: яблуко 50 г)');
-      return;
-    }
+    const results = await searchFood(query);
+    if (!results.length) return;
 
-    const { name, grams } = parsed;
-    const results = await searchFood(name);
+    results.forEach((food) => {
+      const li = document.createElement('li');
+      li.className = 'modal__item';
+      li.textContent = `${food.name} — ${food.kcal} ккал / 100г`;
 
-    if (!results.length) {
-      alert('Продукт не знайдено в базі');
-      return;
-    }
+      li.addEventListener('click', () => {
+        selectedFood = food;
 
-    const food = results[0];
+        [...resultsList.children].forEach((el) => el.classList.remove('modal__item--active'));
+        li.classList.add('modal__item--active');
+
+        updateConfirmState();
+      });
+
+      resultsList.appendChild(li);
+    });
+  }
+
+  // ================== ADD FOOD ==================
+  function addSelectedFood() {
+    if (!activeMealKey || !selectedFood) return;
+
+    const grams = Number(weightInput.value);
+    if (grams <= 0) return;
+
     const factor = grams / 100;
 
-    const item = {
-      name: `${food.name} (${grams} г)`,
-      kcal: Math.round(food.kcal * factor),
-      protein: Math.round(food.protein * factor),
-      fat: Math.round(food.fat * factor),
-      carbs: Math.round(food.carbs * factor),
+    const newItem = {
+      name: `${selectedFood.name} (${grams} г)`,
+      weight: grams,
+      kcal: Math.round(selectedFood.kcal * factor),
+      protein: +(selectedFood.protein * factor).toFixed(1),
+      fat: +(selectedFood.fat * factor).toFixed(1),
+      carbs: +(selectedFood.carbs * factor).toFixed(1),
     };
 
-    mealsState[activeMealKey].push(item);
+    if (editingIndex !== null) {
+      mealsState[activeMealKey][editingIndex] = newItem;
+    } else {
+      mealsState[activeMealKey].push(newItem);
+    }
 
     renderMeal(activeMealKey);
     renderSummary();
+    saveMealsToStorage();
     closeModal();
   }
 
   // ================== EVENTS ==================
-  document.querySelectorAll('.meal__add-button').forEach((btn) => {
+  document.querySelectorAll('.meal__add').forEach((btn) => {
     btn.addEventListener('click', () => {
-      openModal(btn.dataset.meal);
+      const mealBlock = btn.closest('.meal');
+      if (!mealBlock) return;
+
+      const mealKey = mealBlock.dataset.meal;
+      if (!mealKey) return;
+
+      editingIndex = null;
+      openModal(mealKey);
     });
   });
 
-  modalSubmit.addEventListener('click', addFromModal);
+  nameInput.addEventListener('input', handleSearch);
+  weightInput.addEventListener('input', updateConfirmState);
 
-  modalInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      addFromModal();
-    }
-  });
+  confirmBtn.addEventListener('click', addSelectedFood);
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', closeModal);
 
-  modalClose.addEventListener('click', closeModal);
-  modalOverlay.addEventListener('click', closeModal);
+  const clearBtn = document.getElementById('clearDayBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', clearDay);
+  }
+
+  // ================== INIT ==================
+  loadMealsFromStorage();
 });

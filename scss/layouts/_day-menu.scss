@@ -63,12 +63,14 @@
   &__add-button {
     font-family: var(--font-body);
     font-size: 14px;
-    color: var(--color-accent);
+    color: var(--color-text-secondary);
     background: none;
     border: none;
     cursor: pointer;
     padding: 4px 8px;
-    transition: color 0.2s ease, transform 0.2s ease;
+    transition:
+      color 0.2s ease,
+      transform 0.2s ease;
 
     &:hover {
       color: var(--color-accent-hover);
@@ -139,5 +141,76 @@
     font-size: 22px;
     font-weight: 600;
     color: var(--color-text-primary);
+  }
+}
+
+/* ================= MEAL ADD BUTTON (PLUS) ================= */
+
+.meal {
+  &__add {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background-color: var(--color-bg-sidebar);
+    border: 1px solid var(--color-accent-soft);
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition:
+      background-color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
+
+    span {
+      position: relative;
+      width: 14px;
+      height: 14px;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        width: 14px;
+        height: 2px;
+        background-color: var(--color-accent);
+        border-radius: 2px;
+
+        transform: translate(-50%, -50%);
+      }
+
+      &::after {
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+    }
+
+    &:hover {
+      background-color: var(--color-accent-soft);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+
+      span::before,
+      span::after {
+        background-color: #fff;
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-bg-secondary);
+      outline-offset: 2px;
+    }
   }
 }

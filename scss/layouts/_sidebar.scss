@@ -1,8 +1,8 @@
 /* ================= SIDEBAR ================= */
 
 .sidebar {
-  width: $sidebar-width; // або 240px
-  padding: $sidebar-padding; // або 24px 16px
+  width: 240px;
+  padding: 24px 16px;
 
   background-color: var(--color-bg-secondary);
   border-right: 1px solid var(--color-border);
@@ -24,7 +24,7 @@
 /* ================= DAY ITEM ================= */
 
 .sidebar__day {
-  // ❗ li НЕ стилізуємо hover’ом
+  // li без hover — все правильно
 }
 
 /* ================= DAY BUTTON ================= */
@@ -45,23 +45,24 @@
   border: none;
   cursor: pointer;
 
-  transition: background-color 0.2s ease, color 0.2s ease;
-
-  // ❗ дуже важливо
   appearance: none;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 /* ---------- HOVER ---------- */
 
 .sidebar__day-btn:hover {
-  background-color: var(--color-bg-hover);
+  background-color: var(--color-accent-soft);
   color: var(--color-text-primary);
 }
 
 /* ---------- ACTIVE DAY ---------- */
 
-.sidebar__day-btn[aria-current="true"] {
-  background-color: var(--color-accent-soft);
+.sidebar__day-btn[aria-current='true'] {
+  background-color: rgba(111, 207, 186, 0.18); // стабільний мʼятний
   color: var(--color-text-primary);
   font-weight: 500;
 }

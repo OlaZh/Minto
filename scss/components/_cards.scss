@@ -1,9 +1,18 @@
 .card {
-   background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 16px 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+
+  box-shadow: $shadow-sm;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
 }
 
 [data-theme='dark'] {

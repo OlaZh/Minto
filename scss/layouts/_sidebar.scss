@@ -1,50 +1,44 @@
 /* =============================================================
-   SIDEBAR (Дні тижня у стилі карток)
+   LEFT SIDEBAR — ДНІ ТИЖНЯ
    ============================================================= */
 
 .sidebar {
-  padding: 0 24px 16px;
+  padding: 0 0 16px;
   background-color: transparent;
-  border-right: none;
   box-sizing: border-box;
-}
-
-.sidebar__title {
-  color: var(--color-text-primary);
-  font-family: var(--font-body);
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  padding-top: 4px;
 }
 
 .sidebar__days {
   list-style: none;
   margin: 0;
   padding: 0;
+
   display: flex;
   flex-direction: column;
   gap: 12px;
+   
 }
 
 .sidebar__day-btn {
   width: 100%;
-  text-align: left;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+
+  padding: 16px 20px;
+
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 500;
+
   color: var(--color-text-secondary);
-  padding: 16px 20px;
-  background-color: var(--color-surface);
+  background: var(--color-surface);
+
   border-radius: 16px;
   border: 1px solid var(--color-border);
   cursor: pointer;
-  appearance: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+
+  transition: all 0.3s ease;
 }
 
 .sidebar__day-btn:hover {
@@ -55,7 +49,6 @@
 }
 
 .sidebar__day-btn[aria-current='true'] {
-  background-color: var(--color-surface);
   color: var(--color-text-primary);
   font-weight: 600;
   border-color: var(--color-accent);
@@ -66,37 +59,27 @@
   content: '';
   width: 8px;
   height: 8px;
-  background-color: var(--color-accent);
   border-radius: 50%;
+  background: var(--color-accent);
   box-shadow: 0 0 8px var(--color-accent);
 }
 
-/* ===============================
-   RIGHT SIDEBAR (sticky summary)
-   =============================== */
+/* =============================================================
+   RIGHT SIDEBAR — СТАТИСТИКА
+   ============================================================= */
 
 .right-sidebar {
   align-self: start;
-  padding: 0;
-  margin: 0;
+  margin-left: -12px;
+}
 
-  &__inner {
-    position: sticky;
-    top: calc(var(--header-height, 60px) + 20px);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+.right-sidebar__inner {
+  position: sticky;
+  top: calc(var(--header-height, 60px) + 20px);
 
-  .column-header {
-    margin: 0;
-    padding: 0;
-    &__title {
-      margin: 0;
-      line-height: 1.2;
-      padding-top: 4px;
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .stats {
@@ -105,7 +88,8 @@
   gap: 12px;
 }
 
-/* Загальні налаштування кругів (Підкладка всюди) */
+/* === CIRCULAR CHARTS === */
+
 .circle-bg {
   stroke: var(--color-border);
   fill: none;
@@ -116,195 +100,263 @@
   fill: none;
   stroke-width: 3;
   stroke-linecap: round;
-  transition: stroke-dasharray 0.3s ease, stroke 0.3s ease, filter 0.3s ease;
+
   stroke: var(--color-accent);
-  transform: rotate(-90deg); /* Щоб прогрес починався зверху */
+  transform: rotate(-90deg);
   transform-origin: center;
+
+  transition:
+    stroke-dasharray 0.3s ease,
+    stroke 0.3s ease,
+    opacity 0.3s ease;
 }
 
-/* Головна картка калорій */
+/* === MAIN CALORIES CARD === */
+
 .stat-card--main {
   display: flex;
   align-items: center;
   gap: 16px;
+
   padding: 20px;
   background: var(--color-surface);
+
   border-radius: 20px;
   border: 1px solid var(--color-border);
-  margin-bottom: 12px;
+}
 
-  .stat-card__chart {
-    width: 64px;
-    height: 64px;
-    flex-shrink: 0;
-    svg { width: 100%; height: 100%; }
+.stat-card__chart {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+
+  svg {
+    width: 100%;
+    height: 100%;
   }
 }
 
-/* Сітка для БЖВ (Тут збільшуємо кружечки) */
+
+
+.stat-card__title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.stat-card__value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* === MACROS === */
+
 .macros-grid {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 24px;
 }
 
 .macro-item {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 8px 16px;
+
+  padding: 10px 16px;
   background: var(--color-surface);
+
   border-radius: 16px;
   border: 1px solid var(--color-border);
+}
 
-  &__chart {
-    width: 48px; /* Твій новий розмір */
-    height: 48px;
-    flex-shrink: 0;
-    svg { width: 100%; height: 100%; display: block; }
-  }
+.macro-item__chart {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
 
-  &__info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  &__label {
-    font-size: 11px;
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  &__value {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--color-text-primary);
+  svg {
+    width: 100%;
+    height: 100%;
   }
 }
 
-/* Трекер води (Стовпчик стаканчиків) */
-.water-card {
-  padding: 16px 12px;
-  background: var(--color-surface);
-  border-radius: 24px;
-  border: 1px solid var(--color-border);
+.macro-item__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+
+.macro-item__value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.stat-card--main,
+.macro-item {
+  @extend %premium-card;
+}
+
+/* =============================================================
+   4 КОЛОНКА — WATER SIDEBAR
+   ============================================================= */
+
+.water-sidebar {
+  align-self: start;
+  max-width: 40px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.water-sidebar .column-header {
+  margin-bottom: 32px;
+}
+
+/* ===============================
+   WATER UI — GLASS LEVEL METER
+   =============================== */
+
+.water-meter {
+  width: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  width: 50px; /* Робимо її вузькою та високою */
+
+  font-family: var(--font-body);
 }
 
-.stat-card__title--water {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  color: var(--color-text-secondary);
-  writing-mode: vertical-lr; /* Текст вертикально для стилю */
+.water-meter__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+
+  color: var(--color-text-secondary);
+
+  margin-bottom: 48px; // ⬅️ опускаємо капсулу нижче заголовків
 }
 
-.water-column {
-  display: flex;
-  flex-direction: column-reverse; /* Наповнення знизу вгору */
-  gap: 4px;
-  background: var(--color-border); /* Колір порожньої "колби" */
-  padding: 4px;
-  border-radius: 12px;
-  width: 24px;
-}
-
-.glass-segment {
-  width: 100%;
-  height: 20px;
-  background: rgba(255, 255, 255, 0.1); // Скляний ефект
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.water-meter__glass {
   position: relative;
+  width: 100%;
 
-  &.active {
-    background: #4fc3f7; // Твій блакитний
-    box-shadow: 0 0 12px rgba(79, 195, 247, 0.5);
-    
-    // Додаємо маленьку "хвильку" зверху останнього активного сегмента
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 2px;
-      background: rgba(255, 255, 255, 0.4);
-    }
-  }
+  height: calc(100vh - 240px); // росте по колонці
+  max-height: 360px;
+ @extend %premium-card;
+  border-radius: 32px;
+  overflow: hidden;
 
-  &:hover {
-    filter: brightness(1.2);
-    transform: scaleX(1.1);
-  }
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+
+  border: 1px solid var(--color-border);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 -8px 12px rgba(0, 0, 0, 0.06);
 }
 
-.water-glasses {
+.water-meter__fill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: var(--level);
+
+  background: linear-gradient(180deg, #7fd4ff, #4fa3d1);
+
+  border-radius: 24px 24px 0 0;
+
   display: flex;
-  flex-direction: column; /* Стовпчик! */
-  gap: 8px;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: center;
 
-  .glass {
-    width: 24px;
-    height: 32px;
-    background-color: var(--color-border); /* Колір порожнього стакана */
-    cursor: pointer;
-    position: relative;
-    transition: all 0.3s ease;
-    
-    /* Форма справжнього стакана (вужче дно) */
-    clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 20% 100%);
+  padding-bottom: 10px;
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 0;
-      background-color: #4fc3f7; /* Твій блакитний колір води */
-      transition: height 0.4s ease;
-    }
-
-    &.active {
-      &::after { height: 100%; }
-      box-shadow: 0 4px 10px rgba(79, 195, 247, 0.3);
-    }
-
-    &:hover { transform: scale(1.1); }
-  }
+  box-shadow:
+    inset 0 6px 10px rgba(255, 255, 255, 0.25),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* ===============================
+.water-meter__fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8px;
+  right: 8px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+}
+
+.water-meter__value {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.water-meter__meta {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+/* =============================================================
    ТВОЯ ПАЛІТРА КОЛЬОРІВ
-   =============================== */
+   ============================================================= */
 
-.circle-progress--main { stroke: #cfe8de; }
-.circle-progress--p { stroke: #bfdcd8; }
-.circle-progress--f { stroke: #d6e3c8; }
-.circle-progress--c { stroke: #c9dec9; }
+.circle-progress--main {
+  stroke: #cfe8de;
+}
 
-/* OVER STATE (Elegant colors) */
-.circle-progress--main.circle-progress--over { stroke: #d8a6a6; }
-.circle-progress--p.circle-progress--over { stroke: #8fbeb8; }
-.circle-progress--f.circle-progress--over { stroke: #b7c9a3; }
-.circle-progress--c.circle-progress--over { stroke: #a8c7a8; }
+.circle-progress--p {
+  stroke: #bfdcd8;
+}
 
-/* Анімація для перевищення */
+.circle-progress--f {
+  stroke: #d6e3c8;
+}
+
+.circle-progress--c {
+  stroke: #c9dec9;
+}
+
+/* =============================================================
+   OVER STATE (Elegant colors)
+   ============================================================= */
+
+.circle-progress--main.circle-progress--over {
+  stroke: #d8a6a6;
+}
+
+.circle-progress--p.circle-progress--over {
+  stroke: #8fbeb8;
+}
+
+.circle-progress--f.circle-progress--over {
+  stroke: #b7c9a3;
+}
+
+.circle-progress--c.circle-progress--over {
+  stroke: #a8c7a8;
+}
+
+/* =============================================================
+   OVER ANIMATION
+   ============================================================= */
+
 .circle-progress--over {
   animation: progress-pulse 1.8s ease-in-out infinite;
 }
 
 @keyframes progress-pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
 }

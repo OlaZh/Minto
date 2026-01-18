@@ -1,4 +1,5 @@
 /* ================= DAY HEADER ================= */
+
 .day-header {
   margin-bottom: 32px;
 
@@ -19,31 +20,48 @@
 }
 
 /* ================= DAY MENU ================= */
+
+
 .day-menu {
   display: flex;
   flex-direction: column;
   gap: 24px;
 
-  max-width: 520px; // ⬅️ вибери 480–560 під свій дизайн
   width: 100%;
+  max-width: 560px; // 🔑 контроль ширини карток
+  margin: 0 auto;   // 🔑 центруємо в колонці
 
-  margin: 0; // притиснуто до лівого краю колонки
+  box-sizing: border-box;
 }
 
 
 /* ================= MEAL BLOCK ================= */
+
 .meal {
+   @extend %premium-card;
   width: 100%;
   box-sizing: border-box;
-  background-color: var(--color-bg-secondary);
+
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border-radius: 16px;
+
   padding: 16px 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+    
+
+  &:hover {
+    border-color: var(--color-accent-soft);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
 
   [data-theme='dark'] & {
     box-shadow: none;
-    background-color: var(--color-bg-sidebar);
   }
 
   &__header {
@@ -65,21 +83,23 @@
     font-family: var(--font-body);
     font-size: 14px;
     color: var(--color-text-secondary);
+
     background: none;
     border: none;
     cursor: pointer;
+
     padding: 4px 8px;
-    transition:
-      color 0.2s ease,
-      transform 0.2s ease;
+
+    transition: color 0.2s ease, transform 0.2s ease;
 
     &:hover {
-      color: var(--color-accent-hover);
+      color: var(--color-accent);
       transform: translateY(-1px);
     }
   }
 
   &__recipes {
+     @extend %premium-card;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -87,46 +107,51 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
 
-    .meal__recipe {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+  &__recipe {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-      width: 100%;
-      padding: 10px 14px;
-      box-sizing: border-box;
+    padding: 10px 14px;
 
-      background-color: var(--color-bg-primary);
-      border-radius: 8px;
-      border: 1px solid transparent;
+    background-color: var(--color-bg-primary);
+    border-radius: 10px;
+    border: 1px solid transparent;
 
-      &-name {
-        margin: 0;
-        flex: 1;
-        text-align: left;
-      }
+    transition: background-color 0.2s ease;
 
-      &-kcal {
-        margin: 0;
-        margin-left: 12px;
-        white-space: nowrap;
-        text-align: right;
-      }
+    &:hover {
+      background-color: var(--color-accent-soft);
+    }
+
+    &-name {
+      margin: 0;
+      flex: 1;
+      text-align: left;
+    }
+
+    &-kcal {
+      margin: 0;
+      margin-left: 12px;
+      white-space: nowrap;
+      text-align: right;
     }
   }
 }
 
 /* ================= DAY SUMMARY ================= */
-.day-summary {
-  width: 100%;       // ✅ рівно по ширині колонки
-  max-width: none;   // ❗ прибрали обмеження
 
+.day-summary {
+   @extend %premium-card;
+  width: 100%;
   margin-top: 32px;
+
   padding: 20px;
 
   background-color: var(--color-accent-soft);
-  border-radius: 12px;
+  border-radius: 16px;
   border: 1px solid var(--color-accent);
 
   &__item {
@@ -150,22 +175,22 @@
   }
 }
 
-/* ================= MEAL ADD BUTTON (PLUS) ================= */
+/* ================= MEAL ADD BUTTON ================= */
+
 .meal__add {
   width: 36px;
   height: 36px;
-  flex-shrink: 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   border-radius: 50%;
-  background-color: var(--color-bg-sidebar);
-  border: 1px solid var(--color-accent-soft);
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+
   cursor: pointer;
 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   transition:
     background-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -185,6 +210,7 @@
 
       width: 14px;
       height: 2px;
+
       background-color: var(--color-accent);
       border-radius: 2px;
 
@@ -197,23 +223,13 @@
   }
 
   &:hover {
-    background-color: var(--color-accent-soft);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    background-color: var(--color-accent);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
     transform: translateY(-1px);
 
     span::before,
     span::after {
       background-color: #fff;
     }
-  }
-
-  &:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-bg-secondary);
-    outline-offset: 2px;
   }
 }

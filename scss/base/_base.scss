@@ -34,6 +34,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.app-bg {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+}
+
+.app-shell {
+  max-width: 1320px; // 🔴 регулює “дорогість” вигляду
+  margin: 0 auto;
+  padding: 0 24px; // повітря по краях
+}
+
 /* ===============================
    HEADINGS
    =============================== */

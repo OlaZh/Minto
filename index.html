@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minto — Меню на день</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <script>
+      document.documentElement.classList.add('no-transition');
+
       (function () {
         const theme = localStorage.getItem('theme');
         if (theme === 'dark') {
@@ -49,16 +54,7 @@
               stroke-linecap="round"
               stroke-linejoin="round">
               <circle cx="12" cy="12" r="5" />
-              <line x1="12" y1="1" x2="12" y2="3" />
-              <line x1="12" y1="21" x2="12" y2="23" />
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-              <line x1="1" y1="12" x2="3" y2="12" />
-              <line x1="21" y1="12" x2="23" y2="12" />
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
             </svg>
-
             <svg
               class="moon-icon"
               xmlns="http://www.w3.org/2000/svg"
@@ -73,16 +69,19 @@
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
             </svg>
           </button>
-
           <span class="header__profile-name">Ольга</span>
         </div>
       </div>
     </header>
 
-    <!-- ================= LAYOUT ================= -->
+    <!-- ================= GRID LAYOUT ================= -->
     <div class="layout">
-      <!-- ============== LEFT SIDEBAR ================= -->
+      <!-- ========== LEFT SIDEBAR ========= -->
       <aside class="sidebar">
+        <div class="column-header">
+          <h2 class="column-header__title">Дні тижня</h2>
+        </div>
+
         <ul class="sidebar__days">
           <li><button class="sidebar__day-btn" data-day="monday">Понеділок</button></li>
           <li><button class="sidebar__day-btn" data-day="tuesday">Вівторок</button></li>
@@ -94,65 +93,63 @@
         </ul>
       </aside>
 
-      <!-- ============== MAIN ================= -->
+      <!-- ========== MAIN ========= -->
       <main class="main">
-        <section class="day-header">
-          <h1 class="day-header__title">Меню на день</h1>
-          <p class="day-header__date" id="dayDate"></p>
+        <!-- DAY HEADER -->
+        <section class="day-header column-header">
+          <h1 class="column-header__title">Меню на день</h1>
+          <p class="column-header__meta" id="dayDate"></p>
         </section>
 
+        <!-- MEALS -->
         <section class="day-menu">
+          <!-- СНІДАНОК -->
           <article class="meal" data-meal="breakfast">
             <div class="meal__header">
               <h2 class="meal__title">Сніданок</h2>
-              <button class="meal__add" aria-label="Додати прийом їжі">
-                <span></span>
-              </button>
+              <button class="meal__add" aria-label="Додати прийом їжі"><span></span></button>
             </div>
             <ul class="meal__recipes"></ul>
           </article>
 
+          <!-- ПЕРЕКУС 1 -->
           <article class="meal" data-meal="snack1">
             <div class="meal__header">
               <h2 class="meal__title">Перекус 1</h2>
-              <button class="meal__add" aria-label="Додати прийом їжі">
-                <span></span>
-              </button>
+              <button class="meal__add" aria-label="Додати прийом їжі"><span></span></button>
             </div>
             <ul class="meal__recipes"></ul>
           </article>
 
+          <!-- ОБІД -->
           <article class="meal" data-meal="lunch">
             <div class="meal__header">
               <h2 class="meal__title">Обід</h2>
-              <button class="meal__add" aria-label="Додати прийом їжі">
-                <span></span>
-              </button>
+              <button class="meal__add" aria-label="Додати прийом їжі"><span></span></button>
             </div>
             <ul class="meal__recipes"></ul>
           </article>
 
+          <!-- ПЕРЕКУС 2 -->
           <article class="meal" data-meal="snack2">
             <div class="meal__header">
               <h2 class="meal__title">Перекус 2</h2>
-              <button class="meal__add" aria-label="Додати прийом їжі">
-                <span></span>
-              </button>
+              <button class="meal__add" aria-label="Додати прийом їжі"><span></span></button>
             </div>
             <ul class="meal__recipes"></ul>
           </article>
 
+          <!-- ВЕЧЕРЯ -->
           <article class="meal" data-meal="dinner">
             <div class="meal__header">
               <h2 class="meal__title">Вечеря</h2>
-              <button class="meal__add" aria-label="Додати прийом їжі">
-                <span></span>
-              </button>
+              <button class="meal__add" aria-label="Додати прийом їжі"><span></span></button>
             </div>
             <ul class="meal__recipes"></ul>
           </article>
         </section>
 
+        <!-- SUMMARY -->
         <section class="day-summary">
           <span class="day-summary__label">Разом за день</span>
           <span class="day-summary__value">0 ккал</span>
@@ -160,63 +157,133 @@
         </section>
       </main>
 
-      <!-- ============== RIGHT SIDEBAR ================= -->
+      <!-- ========== RIGHT SIDEBAR ========= -->
       <aside class="right-sidebar">
-        <section class="stats">
-          <div class="stat-card stat-card--kcal">
-            <h3 class="stat-card__title">Калорії</h3>
-            <div class="stat-card__value"><span id="kcalCurrent">0</span> ккал</div>
-            <div class="stat-card__progress">
-              <div class="stat-card__progress-bar" id="kcalProgress"></div>
-            </div>
+        <div class="right-sidebar__inner">
+          <div class="column-header">
+            <h2 class="column-header__title">Підсумок дня</h2>
           </div>
 
-          <div class="stat-card stat-card--protein">
-            <h3 class="stat-card__title">Білки</h3>
-            <div class="stat-card__value"><span id="proteinCurrent">0</span> г</div>
-            <div class="stat-card__progress">
-              <div class="stat-card__progress-bar"></div>
-            </div>
-          </div>
+          <section class="stats">
+            <div class="stat-card stat-card--main">
+              <div class="stat-card__chart">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                  <path
+                    class="circle-bg"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path
+                    class="circle-progress"
+                    id="kcalCircle"
+                    stroke-dasharray="0, 100"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+              </div>
 
-          <div class="stat-card stat-card--fat">
-            <h3 class="stat-card__title">Жири</h3>
-            <div class="stat-card__value"><span id="fatCurrent">0</span> г</div>
-            <div class="stat-card__progress">
-              <div class="stat-card__progress-bar"></div>
+              <div class="stat-card__info">
+                <h3 class="stat-card__title">Калорії</h3>
+                <div class="stat-card__value"><span id="kcalCurrent">0</span> ккал</div>
+              </div>
             </div>
-          </div>
 
-          <div class="stat-card stat-card--carbs">
-            <h3 class="stat-card__title">Вуглеводи</h3>
-            <div class="stat-card__value"><span id="carbsCurrent">0</span> г</div>
-            <div class="stat-card__progress">
-              <div class="stat-card__progress-bar"></div>
+            <div class="macros-grid">
+              <div class="macro-item">
+                <div class="macro-item__chart">
+                  <svg viewBox="0 0 36 36">
+                    <path
+                      class="circle-bg"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path
+                      class="circle-progress circle-progress--p"
+                      id="pCircle"
+                      stroke-dasharray="0, 100"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  </svg>
+                </div>
+
+                <div class="macro-item__info">
+                  <span class="macro-item__label">Білки</span>
+                  <span class="macro-item__value"> <span id="pCurrent">0</span>г </span>
+                </div>
+              </div>
+
+              <div class="macro-item">
+                <div class="macro-item__chart">
+                  <svg viewBox="0 0 36 36">
+                    <path
+                      class="circle-bg"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path
+                      class="circle-progress circle-progress--f"
+                      id="fCircle"
+                      stroke-dasharray="0, 100"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  </svg>
+                </div>
+
+                <div class="macro-item__info">
+                  <span class="macro-item__label">Жири</span>
+                  <span class="macro-item__value"> <span id="fCurrent">0</span>г </span>
+                </div>
+              </div>
+
+              <div class="macro-item">
+                <div class="macro-item__chart">
+                  <svg viewBox="0 0 36 36">
+                    <path
+                      class="circle-bg"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path
+                      class="circle-progress circle-progress--c"
+                      id="cCircle"
+                      stroke-dasharray="0, 100"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  </svg>
+                </div>
+
+                <div class="macro-item__info">
+                  <span class="macro-item__label">Вуглеводи</span>
+                  <span class="macro-item__value"> <span id="cCurrent">0</span>г </span>
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
+        </div>
+      </aside>
 
-          <div class="stat-card stat-card--water">
-            <h3 class="stat-card__title">Вода</h3>
-            <div class="stat-card__value"><span id="waterCurrent">0</span> л</div>
-            <div class="stat-card__meta">Залишилось: <span id="waterLeft">0</span> л</div>
-            <div class="stat-card__progress">
-              <div class="stat-card__progress-bar"></div>
+      <!-- ========== 4 КОЛОНКА: WATER WAVE ========= -->
+      <aside class="water-sidebar">
+        <div class="column-header">
+          <h2 class="column-header__title">Вода</h2>
+        </div>
+
+        <section class="water-wave">
+          <div class="wave-tank">
+            <div class="wave-fill" style="--level: 35%">
+              <svg class="wave-svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path
+                  d="M0,160 C120,180 240,220 360,210 480,200 600,140 720,130
+                     840,120 960,160 1080,170 1200,180 1320,150 1440,140
+                     L1440,320 L0,320 Z"></path>
+              </svg>
+            </div>
+
+            <div class="wave-label">
+              <span class="wave-current" id="waterCurrent">0 л</span>
+              <span class="wave-total">з 2.0 л</span>
             </div>
           </div>
         </section>
       </aside>
     </div>
 
-    <!-- ================= MODAL ================= -->
+    <!-- ========== MODAL ========= -->
     <div class="modal" id="addFoodModal" hidden>
       <div class="modal__overlay"></div>
-
       <div class="modal__content">
         <header class="modal__header">
           <h3 class="modal__title">Додати продукт</h3>
           <button class="modal__close" type="button">×</button>
         </header>
-
         <div class="modal__body">
           <input
             type="number"
@@ -225,17 +292,15 @@
             placeholder="Вага, г"
             min="1"
             step="1" />
-
           <ul class="modal__results modal__list" id="foodResults"></ul>
         </div>
-
         <footer class="modal__footer">
           <button class="modal__confirm" type="button" disabled>Додати</button>
         </footer>
       </div>
     </div>
 
-    <!-- ================= SCRIPTS ================= -->
+    <!-- ========== SCRIPTS ========= -->
     <script src="js/day-data.js"></script>
     <script type="module" src="js/food-api.js"></script>
     <script type="module" src="js/meals.js"></script>

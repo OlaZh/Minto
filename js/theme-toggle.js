@@ -1,22 +1,26 @@
-const themeToggle = document.querySelector('.theme-toggle');
-const root = document.documentElement;
+document.addEventListener('DOMContentLoaded', () => {
+  const themeToggle = document.querySelector('.theme-toggle');
+  const root = document.documentElement;
 
-themeToggle.addEventListener('click', () => {
-  // додаємо клас для анімації
-  root.classList.add('theme-transition');
+  if (!themeToggle) return;
 
-  const isDark = root.getAttribute('data-theme') === 'dark';
+  themeToggle.addEventListener('click', () => {
+    // 🟢 вмикаємо анімацію ТІЛЬКИ при кліку
+    root.classList.add('theme-transition');
 
-  if (isDark) {
-    root.removeAttribute('data-theme');
-    localStorage.removeItem('theme');
-  } else {
-    root.setAttribute('data-theme', 'dark');
-    localStorage.setItem('theme', 'dark');
-  }
+    const isDark = root.getAttribute('data-theme') === 'dark';
 
-  // знімаємо клас після кадру
-  requestAnimationFrame(() => {
-    root.classList.remove('theme-transition');
+    if (isDark) {
+      root.removeAttribute('data-theme');
+      localStorage.removeItem('theme');
+    } else {
+      root.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+
+    // 🟢 прибираємо клас після перемальовки
+    requestAnimationFrame(() => {
+      root.classList.remove('theme-transition');
+    });
   });
 });

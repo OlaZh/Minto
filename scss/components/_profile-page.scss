@@ -1,0 +1,198 @@
+/* ================= PROFILE PAGE ================= */
+
+.profile-page {
+  max-width: 600px;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ================= PROFILE HEADER ================= */
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  &__avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__name {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  &__email {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+  }
+}
+
+/* ================= PROFILE CARD ================= */
+
+.profile-card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+
+  [data-theme='dark'] & {
+    box-shadow: none;
+    background-color: var(--color-bg-sidebar);
+  }
+
+  &__title {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0 0 16px;
+  }
+}
+
+/* ================= PROFILE FORM ================= */
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__row {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__label {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+  }
+
+  &__input,
+  &__select {
+    font-family: var(--font-body);
+    font-size: 16px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px rgba(111, 207, 186, 0.25);
+    }
+  }
+}
+
+/* ================= ACTIVITY LEVEL ================= */
+
+.activity-level {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    input {
+      accent-color: var(--color-accent);
+    }
+
+    label {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--color-text-primary);
+      cursor: pointer;
+    }
+  }
+}
+
+/* ================= CALCULATION RESULT ================= */
+
+.profile-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 16px 20px;
+
+  background-color: var(--color-accent-soft);
+  border: 1px solid var(--color-accent);
+  border-radius: 12px;
+
+  &__label {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  &__value {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+}
+
+/* ================= SAVE BUTTON ================= */
+
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  &__btn {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+
+    background-color: var(--color-accent);
+    color: var(--color-text-inverse);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  }
+}

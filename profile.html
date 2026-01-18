@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minto — Профіль</title>
+
+    <!-- THEME INIT -->
+    <script>
+      (function () {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
+
+  <body class="page">
+    <!-- ================= HEADER ================= -->
+    <header class="header">
+      <div class="header__container">
+        <span class="header__logo">Minto 🍃</span>
+
+        <nav class="header__nav">
+          <ul class="header__nav-list">
+            <li>
+              <a href="index.html" class="header__nav-link">Меню на день</a>
+            </li>
+            <li>
+              <a
+                href="profile.html"
+                class="header__nav-link header__nav-link--active"
+              >
+                Профіль
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header__actions">
+          <button class="theme-toggle" type="button" aria-label="Змінити тему">
+            🌙
+          </button>
+          <span class="header__profile-name">Ольга</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= LAYOUT ================= -->
+    <div class="layout">
+      <!-- ============== LEFT SIDEBAR ================= -->
+      <aside class="sidebar">
+        <ul class="sidebar__days">
+          <li>
+            <a href="index.html" class="sidebar__day-btn">Меню на день</a>
+          </li>
+          <li>
+            <a
+              href="profile.html"
+              class="sidebar__day-btn"
+              aria-current="true"
+            >
+              Профіль
+            </a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- ============== MAIN ================= -->
+      <main class="main">
+        <section class="profile-page">
+          <!-- ===== HEADER ===== -->
+          <header class="profile-header">
+            <div class="profile-header__avatar"></div>
+            <div class="profile-header__info">
+              <h1 class="profile-header__name">Ольга</h1>
+              <span class="profile-header__email">olga@email.com</span>
+            </div>
+          </header>
+
+          <!-- ===== PARAMETERS ===== -->
+          <section class="profile-card">
+            <h2 class="profile-card__title">Ваші параметри</h2>
+
+            <form class="profile-form" id="profileForm">
+              <div class="profile-form__row">
+                <div class="profile-form__field">
+                  <label class="profile-form__label">Вік</label>
+                  <input
+                    type="number"
+                    name="age"
+                    class="profile-form__input"
+                    min="10"
+                    max="100"
+                    required
+                  />
+                </div>
+
+                <div class="profile-form__field">
+                  <label class="profile-form__label">Зріст (см)</label>
+                  <input
+                    type="number"
+                    name="height"
+                    class="profile-form__input"
+                    min="120"
+                    max="220"
+                    required
+                  />
+                </div>
+
+                <div class="profile-form__field">
+                  <label class="profile-form__label">Вага (кг)</label>
+                  <input
+                    type="number"
+                    name="weight"
+                    class="profile-form__input"
+                    min="30"
+                    max="200"
+                    step="0.1"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="profile-form__row">
+                <div class="profile-form__field">
+                  <label class="profile-form__label">Стать</label>
+                  <select name="gender" class="profile-form__select">
+                    <option value="female">Жінка</option>
+                    <option value="male">Чоловік</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- ===== ACTIVITY ===== -->
+              <div class="activity-level">
+                <label class="activity-level__option">
+                  <input type="radio" name="activity" value="1.2" checked />
+                  <span>Низька активність</span>
+                </label>
+
+                <label class="activity-level__option">
+                  <input type="radio" name="activity" value="1.55" />
+                  <span>Середня активність</span>
+                </label>
+
+                <label class="activity-level__option">
+                  <input type="radio" name="activity" value="1.75" />
+                  <span>Висока активність</span>
+                </label>
+              </div>
+            </form>
+          </section>
+
+          <!-- ===== RESULT ===== -->
+          <section class="profile-result">
+            <span class="profile-result__label">
+              Денна норма калорій
+            </span>
+            <strong class="profile-result__value" id="dailyCalories">
+              — ккал
+            </strong>
+          </section>
+
+          <!-- ===== ACTIONS ===== -->
+          <div class="profile-actions">
+            <button
+              class="profile-actions__btn"
+              type="submit"
+              form="profileForm"
+            >
+              Зберегти
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script src="js/theme-toggle.js"></script>
+    <script type="module" src="js/profile.js"></script>
+  </body>
+</html>

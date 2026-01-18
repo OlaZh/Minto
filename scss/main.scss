@@ -1,25 +1,57 @@
+/* =====================================================
+   1. SETTINGS / TOKENS
+   (не генерує CSS або генерує мінімум)
+   ===================================================== */
 @import './utils/fonts';
 @import './utils/variables';
-
 @import './base/tokens';
+
+
+
+/* =====================================================
+   2. RESET + BASE
+   (глобальні стилі, фон, типографія)
+   ===================================================== */
+@import './base/reset';
 @import './base/base';
 @import './base/links';
-@import './base/reset';
 @import './base/theme-transition';
 
-@import './layouts/sidebar';
 
+
+/* =====================================================
+   3. LAYOUTS
+   (каркас сторінок)
+   ===================================================== */
 @import './layouts/layout';
-
-@import './components/_buttons';
-@import './components/cards';
-@import './components/stats';
-
 @import './layouts/header';
-
+@import './layouts/sidebar';
 @import './layouts/day-menu';
 
-@import './utils/utilities';
 
-@import './themes/theme-toggle';
+
+/* =====================================================
+   4. COMPONENTS
+   (перевикористовувані UI-блоки)
+   ===================================================== */
+@import './components/buttons';
+@import './components/cards';
+@import './components/stats';
 @import './components/modal';
+@import './themes/theme-toggle';
+
+
+
+/* =====================================================
+   5. PAGES
+   (стилі конкретних сторінок)
+   ===================================================== */
+@import './components/profile-page';
+
+
+
+/* =====================================================
+   6. UTILITIES
+   (хелпери — завжди ОСТАННІ)
+   ===================================================== */
+@import './utils/utilities';

@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const summaryValue = document.querySelector('.day-summary__value');
 
+  // ================== DAILY NORM ==================
+  const dailyNorm = Number(localStorage.getItem('dailyCaloriesNorm')) || 0;
+
   // ================== STORAGE ==================
   function saveMealsToStorage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(mealsState));
@@ -96,7 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
       summaryValue.textContent = `${total.kcal} ккал · Б ${total.protein} · Ж ${total.fat} · В ${total.carbs}`;
     }
 
-    updateStats(total);
+    // ===== PROGRESS =====
+    const progress = dailyNorm ? total.kcal / dailyNorm : 0;
+
+    updateStats({
+      ...total,
+      dailyNorm,
+      progress,
+    });
   }
 
   // ================== MODAL ELEMENTS ==================

@@ -1,4 +1,22 @@
-/* ================= PROFILE PAGE ================= */
+/* =============================================================
+   PROFILE PAGE — FULL SCSS (CLEAN & FIXED VERSION)
+   ============================================================= */
+
+/* ================= LAYOUT ================= */
+.layout {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 300px 120px;
+  gap: 28px;
+  align-items: start;
+}
+
+.page {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+}
 
 .profile-page {
   max-width: 600px;
@@ -7,34 +25,53 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  animation: fadeInPage 0.5s ease-out;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ================= PROFILE HEADER ================= */
-
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 
   &__avatar {
-    width: 64px;
-    height: 64px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
+    border: 2px solid var(--color-border);
+    object-fit: cover;
   }
 
   &__info {
     display: flex;
     flex-direction: column;
+    gap: 4px;
   }
 
   &__name {
     font-family: var(--font-heading);
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 600;
     color: var(--color-text-primary);
     margin: 0;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-accent);
+      text-decoration: underline;
+    }
   }
 
   &__email {
@@ -45,154 +82,258 @@
 }
 
 /* ================= PROFILE CARD ================= */
-
 .profile-card {
   background-color: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
-
-  [data-theme='dark'] & {
-    box-shadow: none;
-    background-color: var(--color-bg-sidebar);
-  }
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: visible;
 
   &__title {
     font-family: var(--font-heading);
     font-size: 20px;
     font-weight: 600;
     color: var(--color-text-primary);
-    margin: 0 0 16px;
+    margin: 0 0 20px;
   }
 }
 
 /* ================= PROFILE FORM ================= */
-
 .profile-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 
   &__row {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
   }
 
   &__field {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
 
   &__label {
     font-family: var(--font-body);
     font-size: 14px;
+    font-weight: 500;
     color: var(--color-text-secondary);
+    margin-left: 4px;
   }
 
   &__input,
   &__select {
     font-family: var(--font-body);
     font-size: 16px;
-    padding: 10px 12px;
-    border-radius: 8px;
+    padding: 12px 16px;
+    border-radius: 12px;
     border: 1px solid var(--color-border);
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
-    &:focus-visible {
+    &:focus {
       outline: none;
       border-color: var(--color-accent);
-      box-shadow: 0 0 0 2px rgba(111, 207, 186, 0.25);
+      background-color: var(--color-bg-secondary);
+      box-shadow: 0 0 0 4px var(--color-accent-soft);
+      transform: translateY(-1px);
     }
   }
 }
 
-/* ================= ACTIVITY LEVEL ================= */
+/* ================= RADIO (GLOBAL — SAFE) ================= */
+/* Використовуються ТІЛЬКИ там, де радіо видно */
+.profile-form input[type='radio'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-bg-primary);
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: all 0.2s ease;
 
-.activity-level {
+  &::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+  }
+
+  &:checked {
+    border-color: var(--color-accent);
+
+    &::after {
+      transform: scale(1);
+    }
+  }
+}
+
+/* ================= ACTIVITY BUTTONS ================= */
+.activity-buttons {
   display: flex;
   flex-direction: column;
   gap: 12px;
 
   &__option {
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
+    padding: 16px 20px;
 
-    input {
-      accent-color: var(--color-accent);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+
+    input[type='radio'] {
+      display: none;
     }
 
-    label {
-      font-family: var(--font-body);
-      font-size: 15px;
+    &:hover {
       color: var(--color-text-primary);
-      cursor: pointer;
+      border-color: var(--color-accent-soft);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
     }
+
+    &:has(input:checked) {
+      color: var(--color-text-primary);
+      font-weight: 600;
+      border-color: var(--color-accent);
+      box-shadow: 0 10px 20px rgba(46, 204, 113, 0.12);
+
+      &::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--color-accent);
+        box-shadow: 0 0 8px var(--color-accent);
+        margin-left: auto;
+      }
+    }
+  }
+
+  &__text {
+    flex: 1;
+    text-align: left;
   }
 }
 
-/* ================= CALCULATION RESULT ================= */
-
+/* ================= RESULT ================= */
 .profile-result {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 8px;
-  padding: 16px 20px;
-
-  background-color: var(--color-accent-soft);
-  border: 1px solid var(--color-accent);
-  border-radius: 12px;
+  padding: 24px 28px;
+  background: var(--color-bg-secondary);
+  border: 2px dashed var(--color-accent);
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(111, 207, 186, 0.08);
 
   &__label {
     font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &::after {
+      content: '🍃';
+      font-size: 18px;
+      opacity: 0.7;
+    }
   }
 
   &__value {
     font-family: var(--font-heading);
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--color-text-primary);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--color-accent);
+    text-shadow: 0 2px 10px rgba(111, 207, 186, 0.15);
+  }
+}
+
+/* ================= MACROS ================= */
+.profile-macros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: var(--color-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(111, 207, 186, 0.1);
+    }
   }
 }
 
 /* ================= SAVE BUTTON ================= */
-
 .profile-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  margin-top: 12px;
 
   &__btn {
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 500;
-    padding: 12px 20px;
-    border-radius: 10px;
+    min-width: 280px;
+    padding: 16px 48px;
+    border-radius: 50px;
     border: none;
     cursor: pointer;
 
-    background-color: var(--color-accent);
-    color: var(--color-text-inverse);
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
 
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+
+    box-shadow: 0 6px 20px rgba(111, 207, 186, 0.3);
+    transition: all 0.3s ease;
 
     &:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(111, 207, 186, 0.4);
     }
 
     &:active {
       transform: translateY(0);
-      box-shadow: none;
     }
   }
 }

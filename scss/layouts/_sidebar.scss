@@ -16,7 +16,6 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-   
 }
 
 .sidebar__day-btn {
@@ -111,6 +110,16 @@
     opacity 0.3s ease;
 }
 
+/* WARNING — 80–99% */
+.circle-progress--warning {
+  stroke: #f5a623; // жовто-оранжевий
+}
+
+/* OVER — 100%+ */
+.circle-progress--over {
+  stroke: #e53935; // червоний
+}
+
 /* === MAIN CALORIES CARD === */
 
 .stat-card--main {
@@ -135,8 +144,6 @@
     height: 100%;
   }
 }
-
-
 
 .stat-card__title {
   font-size: 14px;
@@ -245,7 +252,7 @@
 
   height: calc(100vh - 240px); // росте по колонці
   max-height: 360px;
- @extend %premium-card;
+  @extend %premium-card;
   border-radius: 32px;
   overflow: hidden;
 

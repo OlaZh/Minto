@@ -68,112 +68,170 @@
           <section class="profile-card">
             <h2 class="profile-card__title">Ваші параметри</h2>
 
-            <form class="profile-form" id="profileForm">
-              <!-- ROW: AGE / HEIGHT / WEIGHT -->
-              <div class="profile-form__row">
-                <div class="profile-form__field">
-                  <label class="profile-form__label" for="age"> Вік </label>
-                  <input id="age" type="number" name="age" class="profile-form__input" required />
-                </div>
+            <div class="profile-layout">
+              <!-- ========== LEFT COLUMN — FORM ========== -->
+              <div class="profile-layout__left">
+                <form class="profile-form" id="profileForm">
+                  <!-- AGE / HEIGHT / WEIGHT -->
+                  <div class="profile-form__row">
+                    <div class="profile-form__field">
+                      <label class="profile-form__label" for="age">Вік</label>
+                      <input
+                        id="age"
+                        type="number"
+                        name="age"
+                        class="profile-form__input"
+                        required />
+                    </div>
 
-                <div class="profile-form__field">
-                  <label class="profile-form__label" for="height"> Зріст (см) </label>
-                  <input
-                    id="height"
-                    type="number"
-                    name="height"
-                    class="profile-form__input"
-                    required />
-                </div>
+                    <div class="profile-form__field">
+                      <label class="profile-form__label" for="height"> Зріст (см) </label>
+                      <input
+                        id="height"
+                        type="number"
+                        name="height"
+                        class="profile-form__input"
+                        required />
+                    </div>
 
-                <div class="profile-form__field">
-                  <label class="profile-form__label" for="weight"> Вага (кг) </label>
-                  <input
-                    id="weight"
-                    type="number"
-                    name="weight"
-                    step="0.1"
-                    class="profile-form__input"
-                    required />
-                </div>
+                    <div class="profile-form__field">
+                      <label class="profile-form__label" for="weight"> Вага (кг) </label>
+                      <input
+                        id="weight"
+                        type="number"
+                        name="weight"
+                        step="0.1"
+                        class="profile-form__input"
+                        required />
+                    </div>
+                  </div>
+
+                  <!-- GENDER -->
+                  <div class="profile-form__field">
+                    <label class="profile-form__label">Стать</label>
+                    <div class="custom-select" id="genderSelect">
+                      <div class="custom-select__trigger">
+                        <span>Жінка</span>
+                        <div class="arrow"></div>
+                      </div>
+                      <div class="custom-select__options">
+                        <span class="custom-select__option selected" data-value="female"
+                          >Жінка</span
+                        >
+                        <span class="custom-select__option" data-value="male">Чоловік</span>
+                      </div>
+                    </div>
+                    <input type="hidden" name="gender" id="genderInput" value="female" />
+                  </div>
+
+                  <!-- ACTIVITY -->
+                  <div class="profile-form__field">
+                    <label class="profile-form__label">Спосіб життя</label>
+                    <div class="custom-select" id="activitySelect">
+                      <div class="custom-select__trigger">
+                        <span>Немає навантажень</span>
+                        <div class="arrow"></div>
+                      </div>
+                      <div class="custom-select__options">
+                        <span class="custom-select__option selected" data-value="1.2"
+                          >Немає фізичних навантажень (сидяча робота)</span
+                        >
+                        <span class="custom-select__option" data-value="1.375"
+                          >Легкі навантаження (1-3 рази на тиждень)</span
+                        >
+                        <span class="custom-select__option" data-value="1.55"
+                          >Фізичні навантаження (3-5 разів на тиждень)</span
+                        >
+                        <span class="custom-select__option" data-value="1.725"
+                          >Щоденні інтенсивні навантаження</span
+                        >
+                        <span class="custom-select__option" data-value="1.9"
+                          >Спортсмен або важка фізична праця</span
+                        >
+                      </div>
+                    </div>
+                    <input type="hidden" name="activity" id="activityInput" value="1.2" />
+                  </div>
+
+                  <!-- Ціль -->
+                  <div class="profile-form__field">
+                    <label class="profile-form__label">Ваша ціль</label>
+                    <div class="custom-select" id="goalSelect">
+                      <div class="custom-select__trigger">
+                        <span>Я прекрасна (Підтримка)</span>
+                        <div class="arrow"></div>
+                      </div>
+                      <div class="custom-select__options">
+                        <span class="custom-select__option" data-value="lose"
+                          >Схуднути -10% кКал</span
+                        >
+                        <span class="custom-select__option selected" data-value="maintain"
+                          >Я прекрасна (Підтримка)</span
+                        >
+                        <span class="custom-select__option" data-value="gain"
+                          >Набрати +10% кКал</span
+                        >
+                      </div>
+                    </div>
+                    <input type="hidden" name="goal" id="goalInput" value="maintain" />
+                  </div>
+
+                  <!-- CALCULATE -->
+                  <div class="profile-actions">
+                    <button type="submit" class="profile-actions__btn">Розрахувати</button>
+                  </div>
+                </form>
               </div>
 
-              <!-- GENDER -->
-              <div class="profile-form__field">
-                <label class="profile-form__label" for="gender"> Стать </label>
-                <select id="gender" name="gender" class="profile-form__select">
-                  <option value="female">Жінка</option>
-                  <option value="male">Чоловік</option>
-                </select>
+              <!-- ========== RIGHT COLUMN — RESULT ========== -->
+              <div class="profile-layout__right">
+                <div class="profile-result">
+                  <span class="profile-result__label"> Денна норма калорій </span>
+                  <strong class="profile-result__value" id="dailyCalories"> — ккал </strong>
+                </div>
+
+                <div class="profile-macros">
+                  <div class="profile-macros__item">
+                    <span class="macro-label">Білки</span>
+                    <div>
+                      <span id="normProtein">—</span>
+                      <span>г</span>
+                    </div>
+                  </div>
+
+                  <div class="profile-macros__item">
+                    <span class="macro-label">Жири</span>
+                    <div>
+                      <span id="normFat">—</span>
+                      <span>г</span>
+                    </div>
+                  </div>
+
+                  <div class="profile-macros__item">
+                    <span class="macro-label">Вуглеводи</span>
+                    <div>
+                      <span id="normCarbs">—</span>
+                      <span>г</span>
+                    </div>
+                  </div>
+
+                  <div class="profile-macros__item">
+                    <span class="macro-label">Вода</span>
+                    <div>
+                      <span id="normWater">—</span>
+                      <span>л</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="profile-actions">
+                  <button class="profile-actions__btn" type="submit" form="profileForm">
+                    Зберегти налаштування
+                  </button>
+                </div>
               </div>
-
-              <!-- ACTIVITY LEVEL -->
-              <div class="activity-buttons">
-                <label class="activity-buttons__option">
-                  <input type="radio" name="activity" value="1.2" checked />
-                  <span class="activity-buttons__text">Низька активність</span>
-                </label>
-
-                <label class="activity-buttons__option">
-                  <input type="radio" name="activity" value="1.55" />
-                  <span class="activity-buttons__text">Середня активність</span>
-                </label>
-
-                <label class="activity-buttons__option">
-                  <input type="radio" name="activity" value="1.75" />
-                  <span class="activity-buttons__text">Висока активність</span>
-                </label>
-              </div>
-            </form>
+            </div>
           </section>
-
-          <!-- ================= RESULT ================= -->
-          <div class="profile-result">
-            <span class="profile-result__label"> Денна норма калорій </span>
-            <strong class="profile-result__value" id="dailyCalories"> — ккал </strong>
-          </div>
-
-          <!-- ================= MACROS ================= -->
-          <div class="profile-macros">
-            <div class="profile-macros__item">
-              <span class="macro-label">Білки</span>
-              <div class="macro-input-wrapper">
-                <span id="normProtein">—</span>
-                <span>г</span>
-              </div>
-            </div>
-
-            <div class="profile-macros__item">
-              <span class="macro-label">Жири</span>
-              <div class="macro-input-wrapper">
-                <span id="normFat">—</span>
-                <span>г</span>
-              </div>
-            </div>
-
-            <div class="profile-macros__item">
-              <span class="macro-label">Вуглеводи</span>
-              <div class="macro-input-wrapper">
-                <span id="normCarbs">—</span>
-                <span>г</span>
-              </div>
-            </div>
-
-            <div class="profile-macros__item">
-              <span class="macro-label">Вода</span>
-              <div class="macro-input-wrapper">
-                <span id="normWater">—</span>
-                <span>л</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ================= ACTIONS ================= -->
-          <div class="profile-actions">
-            <button class="profile-actions__btn" type="submit" form="profileForm">
-              Зберегти налаштування
-            </button>
-          </div>
         </section>
       </main>
     </div>

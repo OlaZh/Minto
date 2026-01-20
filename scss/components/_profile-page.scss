@@ -1,6 +1,12 @@
 /* =============================================================
-   PROFILE PAGE — FULL SCSS (CLEAN & FIXED VERSION)
+   PROFILE PAGE — ABSOLUTELY FULL SCSS (WITH BORDER HOVER - FINAL)
    ============================================================= */
+
+// Глобальні змінні, щоб нічого не поламалось
+:root {
+  --transition-speed: 0.3s;
+  --transition-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 /* ================= LAYOUT ================= */
 .layout {
@@ -8,42 +14,42 @@
   margin: 0 auto;
   padding: 0 24px;
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr) 300px 120px;
-  gap: 28px;
+  /* Сайдбар 260px + Контент */
+  grid-template-columns: 260px 1fr; 
+  gap: 32px;
   align-items: start;
+  -webkit-font-smoothing: antialiased;
 }
 
 .page {
   min-height: 100vh;
   background-color: var(--color-bg-primary);
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-page {
-  max-width: 600px;
   width: 100%;
+  max-width: 100%;
   margin: 0;
   display: flex;
   flex-direction: column;
   gap: 32px;
-  animation: fadeInPage 0.5s ease-out;
+  padding-bottom: 60px;
+  animation: fadeInPage 0.6s var(--transition-bezier);
 }
 
 @keyframes fadeInPage {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ================= PROFILE HEADER ================= */
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
+  padding: 8px 0;
 
   &__avatar {
     width: 80px;
@@ -52,32 +58,36 @@
     background-color: var(--color-bg-secondary);
     border: 2px solid var(--color-border);
     object-fit: cover;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+
+    &:hover { transform: scale(1.05); }
   }
 
   &__info {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
   }
 
   &__name {
     font-family: var(--font-heading);
-    font-size: 26px;
-    font-weight: 600;
+    font-size: 28px;
+    font-weight: 700;
     color: var(--color-text-primary);
     margin: 0;
     cursor: pointer;
+    line-height: 1.2;
+    transition: color 0.2s ease;
 
-    &:hover {
-      color: var(--color-accent);
-      text-decoration: underline;
-    }
+    &:hover { color: var(--color-accent); }
   }
 
   &__email {
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 15px;
     color: var(--color-text-secondary);
+    letter-spacing: 0.01em;
   }
 }
 
@@ -85,255 +95,407 @@
 .profile-card {
   background-color: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
   position: relative;
   overflow: visible;
+  width: 100%;
+  box-sizing: border-box;
 
   &__title {
     font-family: var(--font-heading);
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 700;
     color: var(--color-text-primary);
-    margin: 0 0 20px;
+    margin: 0 0 32px;
+    letter-spacing: -0.01em;
   }
 }
 
-/* ================= PROFILE FORM ================= */
+/* ================= MAIN CONTENT LAYOUT ================= */
 .profile-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  width: 100%;
+}
 
-  &__row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-  }
+.profile-layout {
+  display: grid;
+  /* Поділ на параметри (ліворуч) та результат (праворуч) */
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 56px;
+  align-items: start;
 
-  &__field {
+  &__left,
+  &__right {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 28px;
+    width: 100%;
   }
 
-  &__label {
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    margin-left: 4px;
-  }
-
-  &__input,
-  &__select {
-    font-family: var(--font-body);
-    font-size: 16px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-
-    &:focus {
-      outline: none;
-      border-color: var(--color-accent);
-      background-color: var(--color-bg-secondary);
-      box-shadow: 0 0 0 4px var(--color-accent-soft);
-      transform: translateY(-1px);
-    }
+  &__right {
+    align-items: center;
+    justify-content: flex-start;
   }
 }
 
-/* ================= RADIO (GLOBAL — SAFE) ================= */
-/* Використовуються ТІЛЬКИ там, де радіо видно */
-.profile-form input[type='radio'] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--color-border);
-  border-radius: 50%;
-  background: var(--color-bg-primary);
-  cursor: pointer;
+/* ================= FORM FIELDS & INPUTS ================= */
+.profile-form__row {
   display: grid;
-  place-content: center;
-  transition: all 0.2s ease;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 24px;
+}
 
-  &::after {
-    content: '';
-    width: 10px;
-    height: 10px;
-    background: var(--color-accent);
-    border-radius: 50%;
-    transform: scale(0);
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+.profile-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  margin-bottom: 32px; /* ФІКС: Відступ після селекту Стать */
+
+  &:last-child { margin-bottom: 0; }
+}
+
+.profile-form__label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-left: 6px;
+}
+
+/* ЕФЕКТ HOVER ДЛЯ ВСІХ ПОЛІВ (Age, Height, Weight) */
+.profile-form__input,
+.profile-form__select {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+  font-size: 16px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: all 0.3s var(--transition-bezier);
+
+  /* ДОДАНО: Ефект при наведенні (підняття + тінь + бордер) */
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border-color: var(--color-accent); /* ПІДСВІТКА БОРДЕРА */
   }
 
-  &:checked {
+  &:focus {
+    outline: none;
     border-color: var(--color-accent);
+    background-color: var(--color-bg-secondary);
+    box-shadow: 0 0 0 4px var(--color-accent-soft);
+    transform: translateY(-2px);
+  }
+}
 
-    &::after {
-      transform: scale(1);
+/* ФІКС: Випадаюче вікно (Select) */
+.profile-form__select {
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%236fcfba' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 20px) center;
+  padding-right: 48px;
+
+  option {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    padding: 10px;
+  }
+}
+
+/* ================= CUSTOM SELECT (MODERN DROPDOWNS) ================= */
+.custom-select {
+  position: relative;
+  user-select: none;
+  width: 100%;
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s var(--transition-bezier);
+
+    /* ДОДАНО: Ефект при наведенні для тригера селекту */
+    &:hover { 
+      border-color: var(--color-accent); /* ПІДСВІТКА БОРДЕРА */
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+    
+    .arrow {
+      width: 10px; height: 10px;
+      border-right: 2px solid var(--color-accent);
+      border-bottom: 2px solid var(--color-accent);
+      transform: rotate(45deg) translateY(-2px);
+      transition: transform 0.3s ease;
+    }
+  }
+
+  &.open &__trigger {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--color-accent);
+  }
+
+  &__options {
+    position: absolute;
+    display: block;
+    top: calc(100% + 8px);
+    left: 0; right: 0;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+  }
+
+  &.open &__options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  &.open &__trigger .arrow {
+    transform: rotate(-135deg) translateY(-2px);
+  }
+
+  &__option {
+    display: block;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:first-child { border-radius: 16px 16px 0 0; }
+    &:last-child { border-radius: 0 0 16px 16px; }
+
+    &:hover {
+      background: var(--color-accent-soft);
+      color: var(--color-accent);
+    }
+
+    &.selected {
+      background: var(--color-accent);
+      color: white;
     }
   }
 }
 
-/* ================= ACTIVITY BUTTONS ================= */
+/* ================= ACTIVITY BUTTONS (SIDEBAR STYLE) ================= */
 .activity-buttons {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
 
   &__option {
     width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
-
-    font-family: var(--font-body);
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-
+    padding: 14px 20px;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
+    transition: all 0.3s var(--transition-bezier);
 
-    input[type='radio'] {
-      display: none;
-    }
+    input[type='radio'] { display: none; }
 
     &:hover {
-      color: var(--color-text-primary);
-      border-color: var(--color-accent-soft);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+      border-color: var(--color-accent); /* ПІДСВІТКА БОРДЕРА */
+      transform: translateX(4px) translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     }
 
     &:has(input:checked) {
-      color: var(--color-text-primary);
-      font-weight: 600;
       border-color: var(--color-accent);
-      box-shadow: 0 10px 20px rgba(46, 204, 113, 0.12);
+      background-color: var(--color-bg-primary);
+      box-shadow: 0 8px 20px rgba(46, 204, 113, 0.1);
 
       &::after {
-        content: '';
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--color-accent);
-        box-shadow: 0 0 8px var(--color-accent);
-        margin-left: auto;
+        content: '✓';
+        color: var(--color-accent);
+        font-weight: 900;
+        margin-left: 15px;
       }
     }
   }
 
   &__text {
     flex: 1;
+    font-size: 15px;
+    line-height: 1.4;
     text-align: left;
+    color: var(--color-text-secondary);
+  }
+
+  &:has(input:checked) &__text {
+    color: var(--color-text-primary);
+    font-weight: 600;
   }
 }
 
-/* ================= RESULT ================= */
+/* ================= RESULT & MACROS (RIGHT COLUMN) ================= */
 .profile-result {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 8px;
-  padding: 24px 28px;
+  padding: 32px 40px;
   background: var(--color-bg-secondary);
   border: 2px dashed var(--color-accent);
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(111, 207, 186, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(111, 207, 186, 0.12);
+  width: 100%;
+  max-width: 440px;
+  box-sizing: border-box;
+  margin-bottom: 12px;
 
   &__label {
-    font-family: var(--font-body);
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     color: var(--color-text-primary);
     display: flex;
     align-items: center;
-    gap: 12px;
-
-    &::after {
-      content: '🍃';
-      font-size: 18px;
-      opacity: 0.7;
-    }
+    gap: 14px;
+    &::after { content: '🍃'; font-size: 22px; }
   }
 
   &__value {
     font-family: var(--font-heading);
-    font-size: 32px;
+    font-size: 38px;
     font-weight: 800;
     color: var(--color-accent);
-    text-shadow: 0 2px 10px rgba(111, 207, 186, 0.15);
+    text-shadow: 0 4px 12px rgba(111, 207, 186, 0.2);
   }
 }
 
-/* ================= MACROS ================= */
 .profile-macros {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 440px;
 
   &__item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    padding: 16px;
+    padding: 24px 16px;
     background: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
-    border-radius: 16px;
-    transition: all 0.3s ease;
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     &:hover {
       border-color: var(--color-accent);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(111, 207, 186, 0.1);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(111, 207, 186, 0.15);
+    }
+  }
+
+  .macro-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+
+  .macro-value {
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--color-text-primary);
+  }
+}
+
+/* ================= ACTION BUTTONS ================= */
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  margin-top: 24px;
+
+  .btn-calculate {
+    width: 100%;
+    max-width: 340px;
+    padding: 18px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    &:hover {
+      background: var(--color-accent);
+      color: #ffffff;
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px rgba(46, 204, 113, 0.2);
+    }
+  }
+
+  &__btn {
+    min-width: 340px;
+    padding: 20px 60px;
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 14px 32px rgba(111, 207, 186, 0.45);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(111, 207, 186, 0.55);
     }
   }
 }
 
-/* ================= SAVE BUTTON ================= */
-.profile-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 12px;
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+  .profile-layout { grid-template-columns: 1fr; gap: 40px; }
+  .profile-layout__right { padding-top: 0; }
+}
 
-  &__btn {
-    min-width: 280px;
-    padding: 16px 48px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-
-    font-family: var(--font-body);
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
-
-    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
-
-    box-shadow: 0 6px 20px rgba(111, 207, 186, 0.3);
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(111, 207, 186, 0.4);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
+@media (max-width: 480px) {
+  .profile-form__row { grid-template-columns: 1fr; }
+  .profile-macros { grid-template-columns: 1fr; }
+  .profile-result__value { font-size: 28px; }
 }

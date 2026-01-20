@@ -1,33 +1,98 @@
-// ===============================
-// PROFILE — DAILY CALORIES LOGIC
-// ===============================
+// =====================================
+// PROFILE — DAILY CALORIES LOGIC (FINAL FULL)
+// =====================================
 
-// Формула Mifflin–St Jeor
-// Жінки: 10*вага + 6.25*зріст − 5*вік − 161
-// Чоловіки: 10*вага + 6.25*зріст − 5*вік + 5
+// ===== ELEMENTS =====
+const form = document.getElementById('profileForm');
+const resultEl = document.getElementById('dailyCalories');
 
-const normCaloriesEl = document.getElementById('normCalories');
 const normProteinEl = document.getElementById('normProtein');
 const normFatEl = document.getElementById('normFat');
 const normCarbsEl = document.getElementById('normCarbs');
 const normWaterEl = document.getElementById('normWater');
 
-const form = document.getElementById('profileForm');
-const resultEl = document.getElementById('dailyCalories');
+// Елементи для кастомних селектів (тепер їх три)
+const genderInput = document.getElementById('genderInput');
+const activityInput = document.getElementById('activityInput');
+const goalInput = document.getElementById('goalInput');
 
+// ===== STORAGE =====
 const STORAGE_KEY = 'userProfile';
 
-// ===============================
-// CALCULATIONS
-// ===============================
+// =====================================
+// UNIVERSAL CUSTOM SELECT LOGIC
+// =====================================
 
-function calculateDailyCalories({ gender, weight, height, age, activity }) {
+// Функція для ініціалізації будь-якого кастомного селекту
+function setupCustomSelect(selectId, inputId) {
+  const select = document.getElementById(selectId);
+  const input = document.getElementById(inputId);
+  if (!select || !input) return;
+
+  const trigger = select.querySelector('.custom-select__trigger');
+  const triggerText = trigger.querySelector('span');
+  const options = select.querySelectorAll('.custom-select__option');
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    // Закриваємо інші, якщо вони відкриті
+    document.querySelectorAll('.custom-select').forEach((s) => {
+      if (s !== select) s.classList.remove('open');
+    });
+    select.classList.toggle('open');
+  });
+
+  options.forEach((option) => {
+    option.addEventListener('click', () => {
+      const value = option.dataset.value;
+      options.forEach((opt) => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      triggerText.textContent = option.textContent;
+      input.value = value;
+      select.classList.remove('open');
+    });
+  });
+}
+
+// Функція для оновлення візуалу селекту при завантаженні зі Storage
+function updateSelectValue(selectId, inputId, value) {
+  const select = document.getElementById(selectId);
+  const input = document.getElementById(inputId);
+  if (!select || !input) return;
+
+  input.value = value;
+  const activeOption = select.querySelector(`[data-value="${value}"]`);
+  if (activeOption) {
+    select
+      .querySelectorAll('.custom-select__option')
+      .forEach((opt) => opt.classList.remove('selected'));
+    activeOption.classList.add('selected');
+    select.querySelector('.custom-select__trigger span').textContent = activeOption.textContent;
+  }
+}
+
+// =====================================
+// CALCULATIONS
+// =====================================
+
+function calculateDailyCalories({ gender, weight, height, age, activity, goal }) {
+  // 1. Базовий метаболізм
   const base =
     gender === 'male'
       ? 10 * weight + 6.25 * height - 5 * age + 5
       : 10 * weight + 6.25 * height - 5 * age - 161;
 
-  return Math.round(base * activity);
+  // 2. Множимо на активність
+  let totalCalories = base * parseFloat(activity);
+
+  // 3. Корекція відповідно до цілі
+  if (goal === 'lose') {
+    totalCalories *= 0.9; // -10%
+  } else if (goal === 'gain') {
+    totalCalories *= 1.1; // +10%
+  }
+
+  return Math.round(totalCalories);
 }
 
 function calculateMacros(calories) {
@@ -38,19 +103,16 @@ function calculateMacros(calories) {
   };
 }
 
-// ❗ ФІКСОВАНА НОРМА ВОДИ
 function calculateWater() {
   return 2.5;
 }
 
-// ===============================
-// SAVE
-// ===============================
+// =====================================
+// STORAGE HELPERS
+// =====================================
 
 function saveProfile(data) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-
-  // 🔗 для stats.js
   localStorage.setItem('dailyCaloriesNorm', data.calories);
   localStorage.setItem('userProtein', data.protein);
   localStorage.setItem('userFat', data.fat);
@@ -58,82 +120,86 @@ function saveProfile(data) {
   localStorage.setItem('userWater', data.water);
 }
 
-// ===============================
-// LOAD
-// ===============================
-
 function loadProfile() {
   const saved = localStorage.getItem(STORAGE_KEY);
-  if (!saved) return null;
-  return JSON.parse(saved);
+  return saved ? JSON.parse(saved) : null;
 }
 
-// ===============================
+// =====================================
 // RENDER
-// ===============================
+// =====================================
 
-function renderResult(calories) {
-  if (resultEl) {
-    resultEl.textContent = `${calories} ккал`;
-  }
+function renderCalories(calories) {
+  if (!resultEl) return;
+  resultEl.textContent = `${calories} ккал`;
 }
 
-function renderNorms({ calories, protein, fat, carbs, water }) {
-  if (normCaloriesEl) normCaloriesEl.textContent = calories;
+function renderMacros({ protein, fat, carbs, water }) {
   if (normProteinEl) normProteinEl.textContent = protein;
   if (normFatEl) normFatEl.textContent = fat;
   if (normCarbsEl) normCarbsEl.textContent = carbs;
   if (normWaterEl) normWaterEl.textContent = water;
 }
 
-// ===============================
+// =====================================
 // INIT FROM STORAGE
-// ===============================
+// =====================================
 
 function initProfile() {
+  if (!form) return;
+
+  // Ініціалізація трьох селектів
+  setupCustomSelect('genderSelect', 'genderInput');
+  setupCustomSelect('activitySelect', 'activityInput');
+  setupCustomSelect('goalSelect', 'goalInput');
+
+  // Закриття селектів при кліку поза ними
+  window.addEventListener('click', () => {
+    document.querySelectorAll('.custom-select').forEach((s) => s.classList.remove('open'));
+  });
+
   const saved = loadProfile();
-  if (!saved || !form) return;
+  if (!saved) return;
 
-  const { age, height, weight, gender, activity, calories, protein, fat, carbs } = saved;
+  const { age, height, weight, gender, activity, goal, calories, protein, fat, carbs } = saved;
 
-  // ✅ ФІКС: навіть для старих профілів
-  const water = 2.5;
-
+  // Заповнення числових полів
   form.age.value = age;
   form.height.value = height;
   form.weight.value = weight;
-  form.gender.value = gender;
 
-  [...form.activity].forEach((radio) => {
-    radio.checked = Number(radio.value) === activity;
-  });
+  // Оновлення візуального стану всіх селектів
+  updateSelectValue('genderSelect', 'genderInput', gender);
+  updateSelectValue('activitySelect', 'activityInput', activity);
+  updateSelectValue('goalSelect', 'goalInput', goal);
 
-  renderResult(calories);
-  renderNorms({
-    calories,
-    protein,
-    fat,
-    carbs,
-    water,
-  });
+  renderCalories(calories);
+  renderMacros({ protein, fat, carbs, water: 2.5 });
 }
 
-// ===============================
+// =====================================
 // SUBMIT
-// ===============================
+// =====================================
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-
   const formData = new FormData(form);
 
+  // Отримуємо дані з прихованих інпутів наших селектів
   const profileData = {
-    gender: formData.get('gender'),
+    gender: genderInput.value,
+    activity: activityInput.value,
+    goal: goalInput.value,
     age: Number(formData.get('age')),
     height: Number(formData.get('height')),
     weight: Number(formData.get('weight')),
-    activity: Number(formData.get('activity')),
   };
+
+  // Перевірка
+  if (!profileData.age || !profileData.height || !profileData.weight) {
+    alert('Будь ласка, заповніть усі числові поля!');
+    return;
+  }
 
   const calories = calculateDailyCalories(profileData);
   const macros = calculateMacros(calories);
@@ -149,12 +215,12 @@ form.addEventListener('submit', (e) => {
   };
 
   saveProfile(dataToSave);
-  renderResult(calories);
-  renderNorms(dataToSave);
+  renderCalories(calories);
+  renderMacros(dataToSave);
 });
 
-// ===============================
+// =====================================
 // START
-// ===============================
+// =====================================
 
 document.addEventListener('DOMContentLoaded', initProfile);

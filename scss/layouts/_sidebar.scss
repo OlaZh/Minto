@@ -327,26 +327,48 @@
 }
 
 /* =============================================================
-   ТВОЯ ПАЛІТРА КОЛЬОРІВ
+   ТВОЯ ПАЛІТРА КОЛЬОРІВ — ПІДСИЛЕНА, АЛЕ ТА САМА ГАМА
    ============================================================= */
 
-.circle-progress--main { stroke: #cfe8de; }
-.circle-progress--p { stroke: #bfdcd8; }
-.circle-progress--f { stroke: #d6e3c8; }
-.circle-progress--c { stroke: #c9dec9; }
+.circle-progress--main {
+  stroke: #9fd3c4;
+} /* калорії */
+.circle-progress--p {
+  stroke: #7fbfb6;
+} /* білки */
+.circle-progress--f {
+  stroke: #b7cf8f;
+} /* жири */
+.circle-progress--c {
+  stroke: #8fc79f;
+} /* вуглеводи */
 
-/* OVER STATE */
-.circle-progress--main.circle-progress--over { stroke: #d8a6a6; }
-.circle-progress--p.circle-progress--over { stroke: #8fbeb8; }
-.circle-progress--f.circle-progress--over { stroke: #b7c9a3; }
-.circle-progress--c.circle-progress--over { stroke: #a8c7a8; }
+/* OVER STATE — ЧІТКО ВИДНО */
+.circle-progress--main.circle-progress--over {
+  stroke: #e07b7b;
+}
+.circle-progress--p.circle-progress--over {
+  stroke: #4fb3a6;
+}
+.circle-progress--f.circle-progress--over {
+  stroke: #8fbf63;
+}
+.circle-progress--c.circle-progress--over {
+  stroke: #5fbf87;
+}
 
 .circle-progress--over {
-  animation: progress-pulse 1.8s ease-in-out infinite;
+  animation: progress-pulse 1.6s ease-in-out infinite;
 }
 
 @keyframes progress-pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 1;
+  }
 }

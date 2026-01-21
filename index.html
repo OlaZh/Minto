@@ -1,13 +1,16 @@
 <!doctype html>
 <html lang="uk">
   <head>
+    <!-- ================= Meta ================= -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minto — Меню на день</title>
 
+    <!-- ================= Fonts ================= -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <!-- ================= Theme Bootstrap ================= -->
     <script>
       document.documentElement.classList.add('no-transition');
 
@@ -19,17 +22,19 @@
       })();
     </script>
 
+    <!-- ================= Styles ================= -->
     <link rel="stylesheet" href="./css/main.css" />
   </head>
 
   <body class="page">
-    <!-- ================= HEADER ================= -->
     <div class="app-bg">
       <div class="app-shell">
+        <!-- ================= Header ================= -->
         <header class="header">
           <div class="header__container">
             <span class="header__logo">Minto 🍃</span>
 
+            <!-- ===== Navigation ===== -->
             <nav class="header__nav">
               <ul class="header__nav-list">
                 <li><a href="#" class="header__nav-link">Рецепти</a></li>
@@ -42,8 +47,10 @@
               </ul>
             </nav>
 
+            <!-- ===== Header Actions ===== -->
             <div class="header__actions">
               <button class="theme-toggle" type="button" aria-label="Змінити тему">
+                <!-- Sun -->
                 <svg
                   class="sun-icon"
                   xmlns="http://www.w3.org/2000/svg"
@@ -56,20 +63,17 @@
                   stroke-linecap="round"
                   stroke-linejoin="round">
                   <circle cx="12" cy="12" r="5"></circle>
-
                   <line x1="12" y1="1" x2="12" y2="3"></line>
                   <line x1="12" y1="21" x2="12" y2="23"></line>
-
                   <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
                   <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-
                   <line x1="1" y1="12" x2="3" y2="12"></line>
                   <line x1="21" y1="12" x2="23" y2="12"></line>
-
                   <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                   <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                 </svg>
 
+                <!-- Moon -->
                 <svg
                   class="moon-icon"
                   xmlns="http://www.w3.org/2000/svg"
@@ -84,15 +88,15 @@
                   <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                 </svg>
               </button>
-              <a href="profile.html" class="header__profile-name"> Ольга </a>
+
+              <a href="profile.html" class="header__profile-name">Ольга</a>
             </div>
           </div>
         </header>
 
-        <!-- ================= GRID LAYOUT ================= -->
-
+        <!-- ================= Main Layout Grid ================= -->
         <div class="layout">
-          <!-- ========== LEFT SIDEBAR ========= -->
+          <!-- ================= Left Sidebar ================= -->
           <aside class="sidebar">
             <div class="column-header">
               <h2 class="column-header__title">Дні тижня</h2>
@@ -109,17 +113,17 @@
             </ul>
           </aside>
 
-          <!-- ========== MAIN ========= -->
+          <!-- ================= Main Content ================= -->
           <main class="main">
-            <!-- DAY HEADER -->
+            <!-- ===== Day Header ===== -->
             <section class="day-header column-header">
               <h1 class="column-header__title">Меню на день</h1>
               <p class="column-header__meta" id="dayDate"></p>
             </section>
 
-            <!-- MEALS -->
+            <!-- ===== Meals ===== -->
             <section class="day-menu">
-              <!-- СНІДАНОК -->
+              <!-- Breakfast -->
               <article class="meal" data-meal="breakfast">
                 <div class="meal__header">
                   <h2 class="meal__title">Сніданок</h2>
@@ -128,7 +132,7 @@
                 <ul class="meal__recipes"></ul>
               </article>
 
-              <!-- ПЕРЕКУС 1 -->
+              <!-- Snack 1 -->
               <article class="meal" data-meal="snack1">
                 <div class="meal__header">
                   <h2 class="meal__title">Перекус 1</h2>
@@ -137,7 +141,7 @@
                 <ul class="meal__recipes"></ul>
               </article>
 
-              <!-- ОБІД -->
+              <!-- Lunch -->
               <article class="meal" data-meal="lunch">
                 <div class="meal__header">
                   <h2 class="meal__title">Обід</h2>
@@ -146,7 +150,7 @@
                 <ul class="meal__recipes"></ul>
               </article>
 
-              <!-- ПЕРЕКУС 2 -->
+              <!-- Snack 2 -->
               <article class="meal" data-meal="snack2">
                 <div class="meal__header">
                   <h2 class="meal__title">Перекус 2</h2>
@@ -155,7 +159,7 @@
                 <ul class="meal__recipes"></ul>
               </article>
 
-              <!-- ВЕЧЕРЯ -->
+              <!-- Dinner -->
               <article class="meal" data-meal="dinner">
                 <div class="meal__header">
                   <h2 class="meal__title">Вечеря</h2>
@@ -165,7 +169,7 @@
               </article>
             </section>
 
-            <!-- SUMMARY -->
+            <!-- ===== Day Summary ===== -->
             <section class="day-summary">
               <span class="day-summary__label">Разом за день</span>
               <span class="day-summary__value">0 ккал</span>
@@ -173,14 +177,16 @@
             </section>
           </main>
 
-          <!-- ========== RIGHT SIDEBAR ========= -->
+          <!-- ================= Right Sidebar ================= -->
           <aside class="right-sidebar">
-            <div class="right-sidebar__inner">
+           
               <div class="column-header">
                 <h2 class="column-header__title">Підсумок дня</h2>
               </div>
-
+              <div class="right-sidebar__inner">
+              <!-- ===== Stats ===== -->
               <section class="stats">
+                <!-- Calories -->
                 <div class="stat-card stat-card--main">
                   <div class="stat-card__chart">
                     <svg viewBox="0 0 36 36" class="circular-chart">
@@ -201,7 +207,9 @@
                   </div>
                 </div>
 
+                <!-- Macros -->
                 <div class="macros-grid">
+                  <!-- Protein -->
                   <div class="macro-item">
                     <div class="macro-item__chart">
                       <svg viewBox="0 0 36 36">
@@ -215,13 +223,13 @@
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                       </svg>
                     </div>
-
                     <div class="macro-item__info">
                       <span class="macro-item__label">Білки</span>
-                      <span class="macro-item__value"> <span id="pCurrent">0</span>г </span>
+                      <span class="macro-item__value"><span id="pCurrent">0</span>г</span>
                     </div>
                   </div>
 
+                  <!-- Fat -->
                   <div class="macro-item">
                     <div class="macro-item__chart">
                       <svg viewBox="0 0 36 36">
@@ -235,13 +243,13 @@
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                       </svg>
                     </div>
-
                     <div class="macro-item__info">
                       <span class="macro-item__label">Жири</span>
-                      <span class="macro-item__value"> <span id="fCurrent">0</span>г </span>
+                      <span class="macro-item__value"><span id="fCurrent">0</span>г</span>
                     </div>
                   </div>
 
+                  <!-- Carbs -->
                   <div class="macro-item">
                     <div class="macro-item__chart">
                       <svg viewBox="0 0 36 36">
@@ -255,38 +263,54 @@
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                       </svg>
                     </div>
-
                     <div class="macro-item__info">
                       <span class="macro-item__label">Вуглеводи</span>
-                      <span class="macro-item__value"> <span id="cCurrent">0</span>г </span>
+                      <span class="macro-item__value"><span id="cCurrent">0</span>г</span>
                     </div>
                   </div>
                 </div>
               </section>
             </div>
+            
           </aside>
-          <!-- ===============================
-     WATER SIDEBAR (4 колонка)
-     =============================== -->
+
+          <!-- ================= Water Sidebar ================= -->
           <aside class="water-sidebar">
             <div class="water-meter">
               <div class="column-header">
                 <h2 class="column-header__title">Вода</h2>
               </div>
+
               <div class="water-meter__glass">
-                <div class="water-meter__fill" style="--level: 45%">
-                  <span class="water-meter__value">0.9 л</span>
+                <div class="water-meter__fill" id="waterFill" style="--level: 0%">
+                  <span class="water-meter__value" id="currentWaterText">0.0 л</span>
                 </div>
               </div>
 
-              <div class="water-meter__meta">з 2.0 л</div>
+              <div class="water-actions">
+                <button class="water-btn" data-amount="0.25">
+                  <span class="water-btn__icon">🥛</span>
+                  <span class="water-btn__text">0.25</span>
+                </button>
+                <button class="water-btn" data-amount="0.5">
+                  <span class="water-btn__icon">💧</span>
+                  <span class="water-btn__text">0.5</span>
+                </button>
+                <button class="water-btn" data-amount="0.75">
+                  <span class="water-btn__icon">🍼</span>
+                  <span class="water-btn__text">0.75</span>
+                </button>
+              </div>
+
+              <div class="water-meter__meta">з 2.5 л</div>
+              <button id="resetWater" class="water-reset-btn">✕ скинути день</button>
             </div>
           </aside>
         </div>
       </div>
     </div>
 
-    <!-- ========== MODAL ========= -->
+    <!-- ================= Modal ================= -->
     <div class="modal" id="addFoodModal" hidden>
       <div class="modal__overlay"></div>
       <div class="modal__content">
@@ -310,7 +334,7 @@
       </div>
     </div>
 
-    <!-- ========== SCRIPTS ========= -->
+    <!-- ================= Scripts ================= -->
     <script src="js/day-data.js"></script>
     <script type="module" src="js/food-api.js"></script>
     <script type="module" src="js/meals.js"></script>

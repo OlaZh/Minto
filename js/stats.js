@@ -2,10 +2,6 @@
 // STATS — DAILY PROGRESS (CIRCULAR & WATER)
 // ===============================
 
-// ===============================
-// DOM ELEMENTS
-// ===============================
-
 // Calories
 const kcalCurrentEl = document.getElementById('kcalCurrent');
 const kcalCircleEl = document.getElementById('kcalCircle');
@@ -19,9 +15,9 @@ const pCurrentEl = document.getElementById('pCurrent');
 const fCurrentEl = document.getElementById('fCurrent');
 const cCurrentEl = document.getElementById('cCurrent');
 
-// Water
-const waterTotalEl = document.getElementById('waterTotal');
-const glasses = document.querySelectorAll('.glass');
+// Water UI Elements (Твої нові елементи з 4-ї колонки)
+const waterValueEl = document.querySelector('.water-meter__value'); // Текст "1.2 / 2.5 L"
+const waterFillEl = document.querySelector('.water-meter__fill'); // Синя рідина
 
 // ===============================
 // HELPERS — NORMS FROM PROFILE
@@ -29,10 +25,8 @@ const glasses = document.querySelectorAll('.glass');
 function getWaterNorm() {
   const saved = localStorage.getItem('userWater');
   if (!saved) return 2.5;
-
   return Number(saved.replace(',', '.'));
 }
-
 
 function getDailyCaloriesNorm() {
   const saved = localStorage.getItem('dailyCaloriesNorm');
@@ -60,23 +54,16 @@ function getCarbsNorm() {
 
 function applyCircleState(circleEl, stateClass) {
   if (!circleEl) return;
-
   const wrapper = circleEl.parentElement;
-
   circleEl.classList.add(stateClass);
   if (wrapper) wrapper.classList.add(stateClass);
 }
 
 function resetCircleState(circleEl) {
   if (!circleEl) return;
-
   const wrapper = circleEl.parentElement;
-
   circleEl.classList.remove('circle-progress--warning', 'circle-progress--over');
-
-  if (wrapper) {
-    wrapper.classList.remove('circle-progress--warning', 'circle-progress--over');
-  }
+  if (wrapper) wrapper.classList.remove('circle-progress--warning', 'circle-progress--over');
 }
 
 function setCirclePercent(circleEl, current, max) {
@@ -90,7 +77,6 @@ function setCirclePercent(circleEl, current, max) {
   if (percentRaw >= 80 && percentRaw < 100) {
     applyCircleState(circleEl, 'circle-progress--warning');
   }
-
   if (percentRaw >= 100) {
     applyCircleState(circleEl, 'circle-progress--over');
   }
@@ -113,69 +99,94 @@ export function updateStats(consumed) {
   const fat = consumed.fat ?? 0;
   const carbs = consumed.carbs ?? 0;
 
-  // ----- Calories -----
-  if (kcalCurrentEl) {
-    kcalCurrentEl.textContent = Math.round(kcal);
-  }
+  if (kcalCurrentEl) kcalCurrentEl.textContent = Math.round(kcal);
 
   setCirclePercent(kcalCircleEl, kcal, dailyCaloriesNorm);
 
-  // ----- Macros numbers -----
   if (pCurrentEl) pCurrentEl.textContent = Math.round(protein);
   if (fCurrentEl) fCurrentEl.textContent = Math.round(fat);
   if (cCurrentEl) cCurrentEl.textContent = Math.round(carbs);
 
-  // ----- Macros circles (REAL NORMS FROM PROFILE) -----
   setCirclePercent(pCircleEl, protein, proteinNorm);
   setCirclePercent(fCircleEl, fat, fatNorm);
   setCirclePercent(cCircleEl, carbs, carbsNorm);
 }
 
 // ===============================
-// WATER TRACKER
+// WATER TRACKER — NEW CAPSULE LOGIC
 // ===============================
 
-let waterLitres = 0;
+let currentWaterMl = 0;
 
-if (glasses.length) {
-  glasses.forEach((glass, index) => {
-    glass.addEventListener('click', () => {
-      glasses.forEach((g, i) => {
-        g.classList.toggle('active', i <= index);
-      });
+/**
+ * Оновлює візуальну частину води (текст і висоту наповнення)
+ */
+function updateWaterUI() {
+  const waterNorm = getWaterNorm();
+  const normMl = waterNorm * 1000;
 
-      waterLitres = (index + 1) * 0.25;
-      const waterNorm = getWaterNorm();
+  // Рахуємо відсоток для CSS змінної --level
+  const percent = Math.min((currentWaterMl / normMl) * 100, 100);
 
-      if (waterTotalEl) {
-        waterTotalEl.textContent = waterLitres.toFixed(2);
-      }
+  if (waterFillEl) {
+    waterFillEl.style.setProperty('--level', `${percent}%`);
+  }
 
-      // 🔵 КАПСУЛА
-      setCirclePercent(document.getElementById('waterCircle'), waterLitres, waterNorm);
+  if (waterValueEl) {
+    const currentL = (currentWaterMl / 1000).toFixed(1);
+    waterValueEl.textContent = `${currentL} / ${waterNorm.toFixed(1)} L`;
+  }
 
-      localStorage.setItem('waterToday', waterLitres);
+  // Якщо у тебе залишився кружечок для води (опціонально)
+  const waterCircle = document.getElementById('waterCircle');
+  if (waterCircle) {
+    setCirclePercent(waterCircle, currentWaterMl / 1000, waterNorm);
+  }
+}
+
+/**
+ * Додає воду
+ */
+export function addWater(ml) {
+  currentWaterMl += ml;
+  localStorage.setItem('waterTodayMl', currentWaterMl);
+  updateWaterUI();
+}
+
+/**
+ * Скидає воду (викликається при "Очистити день")
+ */
+export function resetWater() {
+  currentWaterMl = 0;
+  localStorage.setItem('waterTodayMl', 0);
+  updateWaterUI();
+}
+
+/**
+ * Ініціалізація кнопок та завантаження даних
+ */
+function initWaterTracker() {
+  // Завантажуємо збережене
+  const saved = localStorage.getItem('waterTodayMl');
+  currentWaterMl = saved ? parseInt(saved, 10) : 0;
+
+  // Вішаємо події на кнопки-порції
+  const waterButtons = document.querySelectorAll('.water-btn');
+  waterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const ml = parseInt(btn.dataset.amount, 10) || 250;
+      addWater(ml);
     });
   });
+
+  // Кнопка повного скидання (якщо є в дизайні)
+  const resetBtn = document.querySelector('.water-reset-btn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', resetWater);
+  }
+
+  updateWaterUI();
 }
 
-function loadWaterData() {
-  const savedWater = localStorage.getItem('waterToday');
-  if (!savedWater || !waterTotalEl) return;
-
-  const waterLitres = Number(savedWater);
-  const waterNorm = getWaterNorm();
-
-  const count = waterLitres / 0.25;
-
-  glasses.forEach((g, i) => {
-    g.classList.toggle('active', i < count);
-  });
-
-  waterTotalEl.textContent = waterLitres.toFixed(2);
-
-  setCirclePercent(document.getElementById('waterCircle'), waterLitres, waterNorm);
-}
-
-
-loadWaterData();
+// Запуск при завантаженні
+document.addEventListener('DOMContentLoaded', initWaterTracker);

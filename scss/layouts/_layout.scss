@@ -1,37 +1,174 @@
+/* =============================================================
+   GLOBAL LAYOUT — CANONICAL
+   ============================================================= */
+
 .layout {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+
   display: grid;
-  grid-template-columns:
-    260px
-    minmax(520px, 1fr)
-    280px
-    120px;
+  /* 🔑 Чіткі пропорції для всіх 4 колонок */
+  grid-template-columns: 
+    260px                 /* 1: ДНІ ТИЖНЯ */
+    minmax(520px, 1fr)    /* 2: МЕНЮ (Центр) */
+    280px                 /* 3: ПІДСУМОК (Кружечки) */
+    120px;                /* 4: ВОДА (Капсула) */
 
   gap: 28px;
   align-items: start;
+  box-sizing: border-box;
 }
 
-/* ================= COLUMN HEADERS ================= */
+/* =============================================================
+   PAGE WRAPPER
+   ============================================================= */
 
+.page {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+/* =============================================================
+   THE MAGIC HEADER — ВИРІВНЮВАННЯ ВСЬОГО ПО ЛІНІЙЦІ
+   ============================================================= */
+
+/* Щоб лівий сайдбар не "тікав" вгору, ми створюємо каркас заголовка 
+   однакової висоти для всіх чотирьох колонок.
+*/
 .column-header {
   height: 80px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
+  align-items: center;
 
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: 24px;
+  margin: 0 0 24px 0; /* ❗️тільки знизу */
 
-  &__title {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0;
-    color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2; /* 🔑 фікс різної висоти */
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/* Фікс для центральної колонки, щоб дата стояла під заголовком */
+.column-header--menu {
+  gap: 4px; 
+}
+
+.column-header__date {
+  margin: 0;
+  line-height: 1.2;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+/* =============================================================
+   STRUCTURE FOR EACH COLUMN
+   ============================================================= */
+
+.sidebar, .main, .right-sidebar, .water-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Центрування капсули води */
+.water-sidebar {
+  align-items: center;
+}
+
+/* =============================================================
+   MAIN CONTENT COLUMN
+   ============================================================= */
+
+.main {
+  width: 100%;
+}
+
+/* =============================================================
+   PROFILE PAGE — LOCAL LAYOUT (SAFE)
+   ============================================================= */
+
+.profile-page {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  animation: fadeInPage 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr; 
+  gap: 56px;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
+
+  &__left,
+  &__right {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    min-width: 0;
   }
 
-  &__meta {
-    font-size: 14px;
-    color: var(--color-text-secondary);
+  &__right {
+    align-items: center;
+  }
+}
+
+/* =============================================================
+   FADE ANIMATION
+   ============================================================= */
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =============================================================
+   RESPONSIVE — TABLET
+   ============================================================= */
+
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 240px minmax(0, 1fr) 240px 80px;
+    gap: 20px;
+  }
+}
+
+/* =============================================================
+   RESPONSIVE — MOBILE
+   ============================================================= */
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+  }
+
+  .sidebar,
+  .right-sidebar,
+  .water-sidebar {
+    display: none; /* Сайдбари ховаються на телефонах */
+  }
+
+  .profile-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
   }
 }

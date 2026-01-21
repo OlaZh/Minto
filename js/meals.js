@@ -162,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ================== SEARCH ==================
+  // ================== SEARCH ==================
   async function handleSearch() {
     const query = nameInput.value.trim();
     resultsList.innerHTML = '';
@@ -181,16 +182,25 @@ document.addEventListener('DOMContentLoaded', () => {
       li.addEventListener('click', () => {
         selectedFood = food;
 
+        // 1. Встановлюємо повну назву
+        nameInput.value = food.name;
+
+        // 2. Підсвічуємо вибраний елемент
         [...resultsList.children].forEach((el) => el.classList.remove('modal__item--active'));
         li.classList.add('modal__item--active');
 
+        // 3. Оновлюємо стан кнопки "Додати"
         updateConfirmState();
+
+        // 4. Переводимо фокус на вагу, щоб можна було одразу писати цифри
+        if (weightInput) weightInput.focus();
+
+        // СПИСОК БІЛЬШЕ НЕ ОЧИЩАЄМО, щоб він не "стрибав"
       });
 
       resultsList.appendChild(li);
     });
   }
-
   // ================== ADD FOOD ==================
   function addSelectedFood() {
     if (!activeMealKey || !selectedFood) return;

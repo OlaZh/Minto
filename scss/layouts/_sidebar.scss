@@ -205,13 +205,12 @@
 }
 
 /* =============================================================
-   4 КОЛОНКА — WATER SIDEBAR
+   4 КОЛОНКА — WATER SIDEBAR (CHALLENGE EDITION)
    ============================================================= */
 
 .water-sidebar {
   align-self: start;
-  max-width: 40px;
-
+  max-width: 60px; /* Трохи розширив для кнопок */
   display: flex;
   justify-content: center;
 }
@@ -220,46 +219,25 @@
   margin-bottom: 32px;
 }
 
-/* ===============================
-   WATER UI — GLASS LEVEL METER
-   =============================== */
-
 .water-meter {
   width: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-
   font-family: var(--font-body);
-}
-
-.water-meter__label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-
-  color: var(--color-text-secondary);
-
-  margin-bottom: 48px; // ⬅️ опускаємо капсулу нижче заголовків
 }
 
 .water-meter__glass {
   position: relative;
   width: 100%;
-
-  height: calc(100vh - 240px); // росте по колонці
-  max-height: 360px;
+  height: calc(100vh - 380px); /* Підлаштував висоту під кнопки */
+  max-height: 320px;
   @extend %premium-card;
   border-radius: 32px;
   overflow: hidden;
-
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
-
   border: 1px solid var(--color-border);
-
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.2),
     inset 0 -8px 12px rgba(0, 0, 0, 0.06);
@@ -270,100 +248,105 @@
   bottom: 0;
   width: 100%;
   height: var(--level);
-
   background: linear-gradient(180deg, #7fd4ff, #4fa3d1);
-
   border-radius: 24px 24px 0 0;
-
   display: flex;
   align-items: flex-end;
   justify-content: center;
-
   padding-bottom: 10px;
-
+  transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Плавне наповнення */
   box-shadow:
     inset 0 6px 10px rgba(255, 255, 255, 0.25),
     inset 0 -6px 10px rgba(0, 0, 0, 0.15);
 }
 
-.water-meter__fill::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 8px;
-  right: 8px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 2px;
-}
-
 .water-meter__value {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: #ffffff;
+  white-space: nowrap;
+}
+
+/* Кнопки додавання води */
+.water-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.water-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.water-btn:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  background: var(--color-bg-primary);
+}
+
+.water-btn__icon {
+  font-size: 16px;
+}
+
+.water-btn__text {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
 }
 
 .water-meter__meta {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+
+.water-reset-btn {
+  background: none;
+  border: none;
+  font-size: 9px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  opacity: 0.4;
+  margin-top: 4px;
+  transition: opacity 0.2s;
+}
+
+.water-reset-btn:hover {
+  opacity: 1;
+  color: #e53935;
 }
 
 /* =============================================================
    ТВОЯ ПАЛІТРА КОЛЬОРІВ
    ============================================================= */
 
-.circle-progress--main {
-  stroke: #cfe8de;
-}
+.circle-progress--main { stroke: #cfe8de; }
+.circle-progress--p { stroke: #bfdcd8; }
+.circle-progress--f { stroke: #d6e3c8; }
+.circle-progress--c { stroke: #c9dec9; }
 
-.circle-progress--p {
-  stroke: #bfdcd8;
-}
-
-.circle-progress--f {
-  stroke: #d6e3c8;
-}
-
-.circle-progress--c {
-  stroke: #c9dec9;
-}
-
-/* =============================================================
-   OVER STATE (Elegant colors)
-   ============================================================= */
-
-.circle-progress--main.circle-progress--over {
-  stroke: #d8a6a6;
-}
-
-.circle-progress--p.circle-progress--over {
-  stroke: #8fbeb8;
-}
-
-.circle-progress--f.circle-progress--over {
-  stroke: #b7c9a3;
-}
-
-.circle-progress--c.circle-progress--over {
-  stroke: #a8c7a8;
-}
-
-/* =============================================================
-   OVER ANIMATION
-   ============================================================= */
+/* OVER STATE */
+.circle-progress--main.circle-progress--over { stroke: #d8a6a6; }
+.circle-progress--p.circle-progress--over { stroke: #8fbeb8; }
+.circle-progress--f.circle-progress--over { stroke: #b7c9a3; }
+.circle-progress--c.circle-progress--over { stroke: #a8c7a8; }
 
 .circle-progress--over {
   animation: progress-pulse 1.8s ease-in-out infinite;
 }
 
 @keyframes progress-pulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
 }

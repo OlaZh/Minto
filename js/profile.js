@@ -1,29 +1,37 @@
 // =====================================
-// PROFILE — DAILY CALORIES LOGIC (FINAL FULL)
+// PROFILE — FULL FINAL VERSION (CALORIES + CHART FIXED)
 // =====================================
 
-// ===== ELEMENTS =====
 const form = document.getElementById('profileForm');
-const resultEl = document.getElementById('dailyCalories');
 
+const resultEl = document.getElementById('dailyCalories');
 const normProteinEl = document.getElementById('normProtein');
 const normFatEl = document.getElementById('normFat');
 const normCarbsEl = document.getElementById('normCarbs');
 const normWaterEl = document.getElementById('normWater');
 
-// Елементи для кастомних селектів (тепер їх три)
 const genderInput = document.getElementById('genderInput');
 const activityInput = document.getElementById('activityInput');
 const goalInput = document.getElementById('goalInput');
 
-// ===== STORAGE =====
+const bmiValueEl = document.getElementById('bmiValue');
+const bmiStatusEl = document.getElementById('bmiStatus');
+const bmiPointer = document.getElementById('bmiPointer');
+const bmiAdviceEl = document.getElementById('bmiAdvice');
+
+const targetWeightInput = document.getElementById('targetWeight');
+const weightNowInput = document.getElementById('currentWeightInput');
+const recordWeightBtn = document.getElementById('saveWeightBtn');
+
 const STORAGE_KEY = 'userProfile';
+const WEIGHT_HISTORY_KEY = 'weightHistory';
+
+let weightChart = null;
 
 // =====================================
-// UNIVERSAL CUSTOM SELECT LOGIC
+// CUSTOM SELECTS
 // =====================================
 
-// Функція для ініціалізації будь-якого кастомного селекту
 function setupCustomSelect(selectId, inputId) {
   const select = document.getElementById(selectId);
   const input = document.getElementById(inputId);
@@ -35,7 +43,6 @@ function setupCustomSelect(selectId, inputId) {
 
   trigger.addEventListener('click', (e) => {
     e.stopPropagation();
-    // Закриваємо інші, якщо вони відкриті
     document.querySelectorAll('.custom-select').forEach((s) => {
       if (s !== select) s.classList.remove('open');
     });
@@ -44,183 +51,203 @@ function setupCustomSelect(selectId, inputId) {
 
   options.forEach((option) => {
     option.addEventListener('click', () => {
-      const value = option.dataset.value;
-      options.forEach((opt) => opt.classList.remove('selected'));
+      options.forEach((o) => o.classList.remove('selected'));
       option.classList.add('selected');
       triggerText.textContent = option.textContent;
-      input.value = value;
+      input.value = option.dataset.value;
       select.classList.remove('open');
     });
   });
 }
 
-// Функція для оновлення візуалу селекту при завантаженні зі Storage
 function updateSelectValue(selectId, inputId, value) {
   const select = document.getElementById(selectId);
   const input = document.getElementById(inputId);
   if (!select || !input) return;
 
   input.value = value;
-  const activeOption = select.querySelector(`[data-value="${value}"]`);
-  if (activeOption) {
+  const option = select.querySelector(`[data-value="${value}"]`);
+  if (option) {
     select
       .querySelectorAll('.custom-select__option')
-      .forEach((opt) => opt.classList.remove('selected'));
-    activeOption.classList.add('selected');
-    select.querySelector('.custom-select__trigger span').textContent = activeOption.textContent;
+      .forEach((o) => o.classList.remove('selected'));
+    option.classList.add('selected');
+    select.querySelector('.custom-select__trigger span').textContent = option.textContent;
   }
+}
+
+// =====================================
+// WEIGHT CHART
+// =====================================
+
+function initWeightChart() {
+  const canvas = document.getElementById('weightChartCanvas');
+  if (!canvas) return;
+
+  let history = JSON.parse(localStorage.getItem(WEIGHT_HISTORY_KEY) || '[]');
+
+  history = history
+    .map((i) => ({
+      date: i.date,
+      weight: parseFloat(String(i.weight).replace(',', '.')),
+    }))
+    .filter((i) => !isNaN(i.weight));
+
+  localStorage.setItem(WEIGHT_HISTORY_KEY, JSON.stringify(history));
+
+  const labels = history.map((i) => i.date);
+  const weights = history.map((i) => i.weight);
+
+  if (weightChart) weightChart.destroy();
+
+  weightChart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          data: weights,
+          borderColor: '#2ecc71',
+          backgroundColor: 'rgba(46,204,113,.15)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 5,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { ticks: { callback: (v) => v + ' кг' } },
+        x: { grid: { display: false } },
+      },
+    },
+  });
+}
+
+function recordNewWeight() {
+  if (!weightNowInput.value) return;
+
+  const weight = parseFloat(weightNowInput.value.replace(',', '.'));
+  if (isNaN(weight)) return alert('Введіть коректну вагу');
+
+  const history = JSON.parse(localStorage.getItem(WEIGHT_HISTORY_KEY) || '[]');
+  const today = new Date().toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit' });
+
+  history.push({ date: today, weight });
+  if (history.length > 10) history.shift();
+
+  localStorage.setItem(WEIGHT_HISTORY_KEY, JSON.stringify(history));
+  weightNowInput.value = '';
+  initWeightChart();
 }
 
 // =====================================
 // CALCULATIONS
 // =====================================
 
-function calculateDailyCalories({ gender, weight, height, age, activity, goal }) {
-  // 1. Базовий метаболізм
-  const base =
-    gender === 'male'
-      ? 10 * weight + 6.25 * height - 5 * age + 5
-      : 10 * weight + 6.25 * height - 5 * age - 161;
+function updateBMI(weight, height) {
+  if (!weight || !height) return;
 
-  // 2. Множимо на активність
-  let totalCalories = base * parseFloat(activity);
+  const h = height / 100;
+  const bmi = (weight / (h * h)).toFixed(1);
 
-  // 3. Корекція відповідно до цілі
-  if (goal === 'lose') {
-    totalCalories *= 0.9; // -10%
-  } else if (goal === 'gain') {
-    totalCalories *= 1.1; // +10%
-  }
+  bmiValueEl.textContent = bmi;
 
-  return Math.round(totalCalories);
+  let percent = ((bmi - 15) / 20) * 100;
+  percent = Math.min(95, Math.max(5, percent));
+  bmiPointer.style.left = percent + '%';
+
+  bmiStatusEl.textContent =
+    bmi < 18.5
+      ? 'Недостатня вага'
+      : bmi < 25
+        ? 'Вага в нормі 🍃'
+        : bmi < 30
+          ? 'Надмірна вага'
+          : 'Ожиріння';
+
+  bmiAdviceEl.innerHTML = `Для твого зросту ідеальна вага <strong>${Math.round(20 * h * h)}–${Math.round(24 * h * h)} кг</strong>`;
 }
 
-function calculateMacros(calories) {
-  return {
-    protein: Math.round((calories * 0.3) / 4),
-    fat: Math.round((calories * 0.3) / 9),
-    carbs: Math.round((calories * 0.4) / 4),
-  };
-}
+function renderAll(data) {
+  resultEl.textContent = `${data.calories} ккал`;
+  normProteinEl.textContent = data.protein;
+  normFatEl.textContent = data.fat;
+  normCarbsEl.textContent = data.carbs;
+  normWaterEl.textContent = data.water;
 
-function calculateWater() {
-  return 2.5;
-}
-
-// =====================================
-// STORAGE HELPERS
-// =====================================
-
-function saveProfile(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  localStorage.setItem('dailyCaloriesNorm', data.calories);
-  localStorage.setItem('userProtein', data.protein);
-  localStorage.setItem('userFat', data.fat);
-  localStorage.setItem('userCarbs', data.carbs);
-  localStorage.setItem('userWater', data.water);
-}
-
-function loadProfile() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  return saved ? JSON.parse(saved) : null;
+  updateBMI(data.weight, data.height);
 }
 
 // =====================================
-// RENDER
-// =====================================
-
-function renderCalories(calories) {
-  if (!resultEl) return;
-  resultEl.textContent = `${calories} ккал`;
-}
-
-function renderMacros({ protein, fat, carbs, water }) {
-  if (normProteinEl) normProteinEl.textContent = protein;
-  if (normFatEl) normFatEl.textContent = fat;
-  if (normCarbsEl) normCarbsEl.textContent = carbs;
-  if (normWaterEl) normWaterEl.textContent = water;
-}
-
-// =====================================
-// INIT FROM STORAGE
+// INIT
 // =====================================
 
 function initProfile() {
-  if (!form) return;
-
-  // Ініціалізація трьох селектів
   setupCustomSelect('genderSelect', 'genderInput');
   setupCustomSelect('activitySelect', 'activityInput');
   setupCustomSelect('goalSelect', 'goalInput');
 
-  // Закриття селектів при кліку поза ними
-  window.addEventListener('click', () => {
-    document.querySelectorAll('.custom-select').forEach((s) => s.classList.remove('open'));
-  });
+  recordWeightBtn.addEventListener('click', recordNewWeight);
 
-  const saved = loadProfile();
-  if (!saved) return;
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (saved) {
+    form.age.value = saved.age;
+    form.height.value = saved.height;
+    form.weight.value = saved.weight;
 
-  const { age, height, weight, gender, activity, goal, calories, protein, fat, carbs } = saved;
+    updateSelectValue('genderSelect', 'genderInput', saved.gender);
+    updateSelectValue('activitySelect', 'activityInput', saved.activity);
+    updateSelectValue('goalSelect', 'goalInput', saved.goal);
 
-  // Заповнення числових полів
-  form.age.value = age;
-  form.height.value = height;
-  form.weight.value = weight;
+    renderAll(saved);
+  }
 
-  // Оновлення візуального стану всіх селектів
-  updateSelectValue('genderSelect', 'genderInput', gender);
-  updateSelectValue('activitySelect', 'activityInput', activity);
-  updateSelectValue('goalSelect', 'goalInput', goal);
-
-  renderCalories(calories);
-  renderMacros({ protein, fat, carbs, water: 2.5 });
+  initWeightChart();
 }
 
 // =====================================
-// SUBMIT
+// FORM SUBMIT — КБЖВ ПРАЦЮЄ ЗНОВУ
 // =====================================
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
-  const formData = new FormData(form);
 
-  // Отримуємо дані з прихованих інпутів наших селектів
-  const profileData = {
+  const age = +form.age.value;
+  const height = +form.height.value;
+  const weight = +form.weight.value;
+
+  const base =
+    genderInput.value === 'male'
+      ? 10 * weight + 6.25 * height - 5 * age + 5
+      : 10 * weight + 6.25 * height - 5 * age - 161;
+
+  let calories = base * +activityInput.value;
+  if (goalInput.value === 'lose') calories *= 0.9;
+  if (goalInput.value === 'gain') calories *= 1.1;
+
+  calories = Math.round(calories);
+
+  const data = {
     gender: genderInput.value,
     activity: activityInput.value,
     goal: goalInput.value,
-    age: Number(formData.get('age')),
-    height: Number(formData.get('height')),
-    weight: Number(formData.get('weight')),
-  };
-
-  // Перевірка
-  if (!profileData.age || !profileData.height || !profileData.weight) {
-    alert('Будь ласка, заповніть усі числові поля!');
-    return;
-  }
-
-  const calories = calculateDailyCalories(profileData);
-  const macros = calculateMacros(calories);
-  const water = calculateWater();
-
-  const dataToSave = {
-    ...profileData,
+    age,
+    height,
+    weight,
     calories,
-    protein: macros.protein,
-    fat: macros.fat,
-    carbs: macros.carbs,
-    water,
+    protein: Math.round((calories * 0.3) / 4),
+    fat: Math.round((calories * 0.3) / 9),
+    carbs: Math.round((calories * 0.4) / 4),
+    water: 2.5,
   };
 
-  saveProfile(dataToSave);
-  renderCalories(calories);
-  renderMacros(dataToSave);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  renderAll(data);
 });
-
-// =====================================
-// START
-// =====================================
 
 document.addEventListener('DOMContentLoaded', initProfile);

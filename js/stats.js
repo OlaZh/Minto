@@ -171,11 +171,10 @@ function initWaterTracker() {
   currentWaterMl = saved ? parseInt(saved, 10) : 0;
 
   // Вішаємо події на кнопки-порції
-  const waterButtons = document.querySelectorAll('.water-btn');
-  waterButtons.forEach((btn) => {
+  const waterButtons = document.querySelectorAll('.water-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const ml = parseInt(btn.dataset.amount, 10) || 250;
-      addWater(ml);
+      const amount = parseFloat(btn.dataset.amount);
+      addWater(amount);
     });
   });
 
@@ -190,3 +189,5 @@ function initWaterTracker() {
 
 // Запуск при завантаженні
 document.addEventListener('DOMContentLoaded', initWaterTracker);
+
+

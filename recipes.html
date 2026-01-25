@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Рецепти</title>
+
+    <!-- ================= Fonts ================= -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- ================= Theme Bootstrap ================= -->
+    <script>
+      document.documentElement.classList.add('no-transition');
+
+      (function () {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <!-- ================= Styles ================= -->
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
+
+  <body class="page">
+    <!-- ================= Header ================= -->
+    <header class="header">
+      <div class="header__container">
+        <a href="index.html" class="header__logo">Minto 🍃</a>
+
+        <nav class="header__nav">
+          <ul class="header__nav-list">
+            <li>
+              <a href="recipes.html" class="header__nav-link header__nav-link--active">Рецепти</a>
+            </li>
+            <li>
+              <a href="index.html" class="header__nav-link">Меню на день</a>
+            </li>
+            <li><a href="#" class="header__nav-link">Меню на тиждень</a></li>
+            <li><a href="#" class="header__nav-link">Список покупок</a></li>
+            <li><a href="#" class="header__nav-link">Статистика</a></li>
+          </ul>
+        </nav>
+
+        <div class="header__actions">
+          <button class="theme-toggle" type="button" aria-label="Змінити тему">
+            <svg
+              class="sun-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg
+              class="moon-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+          <a href="profile.html" class="header__profile-name">Ольга</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="recipe-page">
+      <div class="container">
+        <header class="recipe-page__intro">
+          <h1 class="recipe-page__title">Рецепти</h1>
+          <div class="recipe-page__search">
+            <input
+              type="text"
+              class="recipe-page__search-input"
+              placeholder="Пошук за назвою або інгредієнтом..." />
+          </div>
+        </header>
+
+        <nav class="recipe-filters">
+          <div class="recipe-filters__group">
+            <div class="recipe-filters__list">
+              <button class="recipe-filters__item recipe-filters__item--active">Всі</button>
+              <button class="recipe-filters__item">Сніданок</button>
+              <button class="recipe-filters__item">Обід</button>
+              <button class="recipe-filters__item">Вечеря</button>
+              <button class="recipe-filters__item">Десерти</button>
+            </div>
+          </div>
+        </nav>
+
+        <section class="recipe-grid">
+          <article class="recipe-card">
+            <div class="recipe-card__image-box">
+              <img
+                src="https://images.unsplash.com/photo-1517673132405-a56a62b18caf?q=80&w=500&auto=format&fit=crop"
+                alt="Вівсянка з ягодами"
+                class="recipe-card__img" />
+              <div class="recipe-card__stats">
+                <span class="recipe-card__kcal">320 ккал</span>
+              </div>
+            </div>
+            <div class="recipe-card__content">
+              <h3 class="recipe-card__name">Вівсянка з ягодами</h3>
+              <p class="recipe-card__macros">Б: 10г · Ж: 5г · В: 45г</p>
+              <button class="recipe-card__btn">Переглянути</button>
+            </div>
+          </article>
+
+          <article class="recipe-card">
+            <div class="recipe-card__image-box">
+              <img
+                src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500&auto=format&fit=crop"
+                alt="Салат Цезар"
+                class="recipe-card__img" />
+              <div class="recipe-card__stats">
+                <span class="recipe-card__kcal">450 ккал</span>
+              </div>
+            </div>
+            <div class="recipe-card__content">
+              <h3 class="recipe-card__name">Салат "Цезар"</h3>
+              <p class="recipe-card__macros">Б: 25г · Ж: 30г · В: 12г</p>
+              <button class="recipe-card__btn">Переглянути</button>
+            </div>
+          </article>
+
+          <article class="recipe-card">
+            <div class="recipe-card__image-box">
+              <img
+                src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=500&auto=format&fit=crop"
+                alt="Піца Маргарита"
+                class="recipe-card__img" />
+              <div class="recipe-card__stats">
+                <span class="recipe-card__kcal">280 ккал</span>
+              </div>
+            </div>
+            <div class="recipe-card__content">
+              <h3 class="recipe-card__name">Піца Маргарита</h3>
+              <p class="recipe-card__macros">Б: 12г · Ж: 10г · В: 35г</p>
+              <button class="recipe-card__btn">Переглянути</button>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <!-- ================= Scripts ================= -->
+    <script src="js/theme-toggle.js"></script>
+  </body>
+</html>

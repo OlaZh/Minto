@@ -234,16 +234,18 @@ html.theme-transition * {
 /* =============================================================
    GLOBAL LAYOUT — CANONICAL
    ============================================================= */
-.layout {
+.container {
   max-width: 1320px;
   margin: 0 auto;
   padding: 0 24px;
-  display: grid;
-  /* 🔑 Чіткі пропорції для всіх 4 колонок */
-  grid-template-columns: 260px minmax(520px, 1fr) 280px 120px; /* 4: ВОДА (Капсула) */
-  gap: 28px;
-  align-items: start;
+  width: 100%;
   box-sizing: border-box;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 260px minmax(520px, 1fr) 280px 120px;
+  gap: 28px;
 }
 
 /* =============================================================
@@ -256,12 +258,6 @@ html.theme-transition * {
   flex-direction: column;
 }
 
-/* =============================================================
-   THE MAGIC HEADER — ВИРІВНЮВАННЯ ВСЬОГО ПО ЛІНІЙЦІ
-   ============================================================= */
-/* Щоб лівий сайдбар не "тікав" вгору, ми створюємо каркас заголовка 
-   однакової висоти для всіх чотирьох колонок.
-*/
 /* =============================================================
    THE MAGIC HEADER — ВИРІВНЮВАННЯ ВСЬОГО ПО ЛІНІЙЦІ
    ============================================================= */
@@ -318,7 +314,10 @@ html.theme-transition * {
 /* =============================================================
    STRUCTURE FOR EACH COLUMN
    ============================================================= */
-.sidebar, .main, .right-sidebar, .water-sidebar {
+.sidebar,
+.main,
+.right-sidebar,
+.water-sidebar {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -1979,6 +1978,164 @@ html[data-theme=dark] .theme-toggle .icon-moon {
 .profile-actions__btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 25px rgba(111, 207, 186, 0.4);
+}
+
+/* =============================================================
+   GLOBAL CONTENT CONTAINER
+   ============================================================= */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+/* =============================================================
+   RECIPE PAGE STYLES (MINTO STYLE)
+   ============================================================= */
+.recipe-page {
+  padding: 40px 0;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+.recipe-page__intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .recipe-page__intro {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+.recipe-page__title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+.recipe-page__search-input {
+  padding: 12px 20px;
+  width: 300px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  transition: all 0.3s ease;
+}
+.recipe-page__search-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+}
+
+.recipe-filters {
+  margin-bottom: 40px;
+}
+.recipe-filters__list {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.recipe-filters__item {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.recipe-filters__item:hover {
+  border-color: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.recipe-filters__item--active {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+.recipe-grid {
+  display: grid;
+  /* 🪄 Магія: створює стільки колонок шириною 300px, скільки влізе в екран */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px; /* Відстань між картками */
+  padding: 20px 0;
+  width: 100%;
+}
+
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-surface);
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.recipe-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+.recipe-card__image-box {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+.recipe-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.recipe-card:hover .recipe-card__img {
+  transform: scale(1.05);
+}
+.recipe-card__stats {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #2e5d6c;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+.recipe-card__content {
+  padding: 24px;
+}
+.recipe-card__name {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--color-text-primary);
+}
+.recipe-card__macros {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 20px;
+  letter-spacing: 0.3px;
+}
+.recipe-card__btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  background: #f0f9f7;
+  color: #2c4e47;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.recipe-card__btn:hover {
+  background: var(--color-accent);
+  color: #fff;
 }
 
 /* =====================================================

@@ -36,6 +36,7 @@ let globalShoppingList = JSON.parse(localStorage.getItem('minto_shopping_list'))
 let globalRecipes = JSON.parse(localStorage.getItem('minto_recipes')) || [];
 let recipeIndexToDelete = null;
 let currentViewingIndex = null;
+let editingRecipeIndex = null;
 
 // Твоя важлива логіка ваг
 const unitGrades = {
@@ -139,124 +140,127 @@ const displayRecipes = () => {
 };
 
 // =============================================================
-// 5. ЛОГІКА ПЕРЕГЛЯДУ ТА РЕДАГУВАННЯ РЕЦЕПТА
+// 5. ЛОГІКА ПЕРЕГЛЯДУ ТА РЕДАГУВАННЯ (РЕАНІМАЦІЯ)
 // =============================================================
 
-// Додай цю змінну на самому початку файлу (якщо її ще немає)
-let editingRecipeId = null;
-
-window.openRecipeView = (index) => {
+window.openRecipeView = function (index) {
   const recipe = globalRecipes[index];
-  if (!recipe || !viewModal) return;
+  if (!recipe) {
+    console.error('Рецепт не знайдено за індексом:', index);
+    return;
+  }
 
   currentViewingIndex = index;
 
-  const setField = (id, value) => {
+  // Спрощена функція для заповнення тексту
+  const setT = (id, val) => {
     const el = document.getElementById(id);
-    if (el) el.textContent = value || '0';
+    if (el) el.textContent = val || '0';
   };
 
-  // Заповнюємо дані в модалці перегляду
-  setField('view-title', recipe.name);
-  setField('view-calories', recipe.kcal || recipe.calories); // Перевірка на обидва варіанти назви поля
-  setField('view-category', recipe.category);
-  setField('view-proteins', recipe.proteins);
-  setField('view-carbs', recipe.carbs);
-  setField('view-fats', recipe.fats);
+  setT('view-title', recipe.name);
+  setT('view-calories', recipe.kcal || recipe.calories);
+  setT('view-category', recipe.category);
+  setT('view-proteins', recipe.proteins);
+  setT('view-carbs', recipe.carbs);
+  setT('view-fats', recipe.fats);
 
-  updateStarsUI(recipe.rating || 0);
-
-  const notesField = document.getElementById('view-notes');
-  if (notesField) notesField.value = recipe.notes || '';
-
-  // Кроки приготування (чистимо і малюємо заново)
-  const stepsContainer = document.getElementById('view-steps');
-  if (stepsContainer) {
-    stepsContainer.innerHTML = '';
-    const steps = (recipe.steps || 'Кроки не вказані').split('\n');
-    steps.forEach((step, i) => {
-      const trimmedStep = step.trim();
-      if (trimmedStep) {
-        const stepDiv = document.createElement('div');
-        stepDiv.className = 'step-item';
-        stepDiv.innerHTML = `<span class="step-num">${i + 1}</span> <p>${trimmedStep}</p>`;
-        stepsContainer.appendChild(stepDiv);
-      }
-    });
+  // Оновлення рейтингу
+  if (typeof updateStarsUI === 'function') {
+    updateStarsUI(recipe.rating || 0);
   }
 
-  // Інгредієнти (З рознесенням по боках)
+  // --- ІНГРЕДІЄНТИ ---
   const list = document.getElementById('view-ingredients-list');
   if (list) {
     list.innerHTML = '';
-    const lines = (recipe.ingredients || '').split('\n');
+    const ingLines = (recipe.ingredients || '').split('\n').filter((l) => l.trim().length > 0);
 
-    lines.forEach((line) => {
-      const trimmedLine = line.trim();
-      if (!trimmedLine) return;
-
+    ingLines.forEach((line) => {
       const li = document.createElement('li');
-      li.className = 'ingredient-item-row'; // Додаємо клас для CSS
+      li.className = 'ingredient-item-row';
 
-      // Покращений пошук: шукаємо цифри + популярні одиниці (г, мл, шт, ст л, ч л)
-      const unitMatch = trimmedLine.match(
-        /(.*?)(\d+[\s.,x]*([г|мл|шт|ст\.?\s?л|ч\.?\s?л|кг|гр]+)?)$/i,
-      );
-
-      if (unitMatch) {
-        const name = unitMatch[1].replace(/[, ]+$/, '').trim();
-        const count = unitMatch[2].trim();
-        li.innerHTML = `<span>• ${name}</span> <span class="ing-count">${count}</span>`;
+      // Логіка розділення назви та кількості
+      const match = line
+        .trim()
+        .match(/^(.*?)\s+(\d+[\s.,x]*([г|мл|шт|ст\.?\s?л|ч\.?\s?л|кг|гр]+)?)$/i);
+      if (match) {
+        li.innerHTML = `<span>• ${match[1].trim()}</span> <span class="ing-count">${match[2].trim()}</span>`;
       } else {
-        li.innerHTML = `<span>• ${trimmedLine}</span>`;
+        li.innerHTML = `<span>• ${line.trim()}</span>`;
       }
       list.appendChild(li);
     });
   }
 
-  // КНОПКА РЕДАГУВАННЯ
+  // --- СПОСІБ ПРИГОТУВАННЯ (ФІКС ЦИФР І ПУСТОТИ) ---
+  const stepsContainer = document.getElementById('view-steps');
+  if (stepsContainer) {
+    stepsContainer.innerHTML = '';
+
+    // Фільтруємо: тільки рядки, де є хоча б одна буква/цифра
+    const stepLines = (recipe.steps || '')
+      .split('\n')
+      .map((s) => s.trim())
+      .filter((s) => /[a-zA-Zа-яА-ЯіїєґІЇЄҐ0-9]/.test(s));
+
+    stepLines.forEach((text, i) => {
+      // Прибираємо старі цифри на початку
+      const cleanText = text.replace(/^\d+[\s.)-]*\s*/, '');
+
+      const stepDiv = document.createElement('div');
+      stepDiv.className = 'step-item';
+      stepDiv.style.display = 'flex';
+      stepDiv.style.gap = '15px';
+      stepDiv.style.marginBottom = '15px';
+
+      stepDiv.innerHTML = `
+                <span class="step-num" style="flex-shrink:0;">${i + 1}</span>
+                <p style="margin:0; line-height:1.5;">${cleanText}</p>
+            `;
+      stepsContainer.appendChild(stepDiv);
+    });
+  }
+
+  // --- КНОПКА РЕДАГУВАННЯ ---
   const editBtn = document.getElementById('edit-recipe-btn');
   if (editBtn) {
-    editBtn.onclick = () => {
-      editingRecipeId = recipe.id;
+    editBtn.onclick = function () {
+      editingRecipeIndex = index;
+      if (viewModal) viewModal.classList.remove('is-active');
 
-      // 1. Закриваємо перегляд
-      viewModal.classList.remove('is-active');
+      if (modal) {
+        modal.classList.add('is-active');
+        // Показуємо форму редагування
+        const options = document.getElementById('initial-options-view');
+        const form = document.getElementById('recipe-preview-form');
+        if (options) options.style.display = 'none';
+        if (form) form.style.display = 'block';
 
-      // 2. Знаходимо головну модалку додавання
-      const addModal = document.getElementById('add-recipe-modal');
-      if (addModal) {
-        addModal.classList.add('is-active');
-
-        // ПРИМУСОВО: Ховаємо вибір "Магії" і показуємо Форму
-        const magicBlock = addModal.querySelector('.magic-selection'); // Перевір цей клас у себе
-        const formBlock = addModal.querySelector('.preview-form');
-
-        if (magicBlock) magicBlock.style.display = 'none';
-        if (formBlock) formBlock.style.display = 'block';
-
-        // Змінюємо заголовок
-        const formTitle = addModal.querySelector('h2');
-        if (formTitle) formTitle.innerText = 'Редагування ✍️';
+        // Заповнюємо поля (пробуємо різні ID для надійності)
+        const setVal = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.value = val || '';
+        };
+        setVal('prev-name', recipe.name);
+        setVal('prev-kcal', recipe.kcal || recipe.calories);
+        setVal('prev-calories', recipe.kcal || recipe.calories);
+        setVal('prev-ingredients', recipe.ingredients);
+        setVal('prev-steps', recipe.steps);
+        setVal('prev-category', recipe.category);
+        setVal('prev-proteins', recipe.proteins);
+        setVal('prev-carbs', recipe.carbs);
+        setVal('prev-fats', recipe.fats);
       }
-
-      // 3. Заповнюємо поля
-      const fill = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.value = val || '';
-      };
-      fill('prev-name', recipe.name);
-      fill('prev-kcal', recipe.kcal || recipe.calories);
-      fill('prev-ingredients', recipe.ingredients);
-      fill('prev-steps', recipe.steps);
-      fill('prev-category', recipe.category);
     };
   }
 
-  viewModal.classList.add('is-active');
-  document.body.style.overflow = 'hidden';
+  // Відкриваємо модалку
+  if (viewModal) {
+    viewModal.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+  }
 };
-
 // =============================================================
 // 6. ЛОГІКА ВИДАЛЕННЯ
 // =============================================================
@@ -293,6 +297,8 @@ if (confirmNoBtn) confirmNoBtn.addEventListener('click', closeConfirmModal);
 const closeModal = () => {
   if (modal) {
     modal.classList.remove('is-active');
+    editingRecipeIndex = null; // ВАЖЛИВО: скидаємо індекс редагування
+    if (previewFormElement) previewFormElement.reset(); // Чистимо форму
     document.body.style.overflow = '';
     setTimeout(() => {
       if (previewForm) previewForm.style.display = 'none';
@@ -461,22 +467,38 @@ if (manualBtn) manualBtn.addEventListener('click', () => showForm());
 if (previewFormElement) {
   previewFormElement.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    // Збираємо дані з форми (перевір, щоб ID збігалися з HTML!)
     const recipeData = {
       name: document.getElementById('prev-name').value,
-      calories: document.getElementById('prev-calories').value,
+      // Тут фікс: пробуємо взяти з kcal, якщо ні - з calories
+      calories:
+        document.getElementById('prev-kcal')?.value ||
+        document.getElementById('prev-calories')?.value ||
+        0,
       category: document.getElementById('prev-category').value,
       ingredients: document.getElementById('prev-ingredients').value,
       steps: document.getElementById('prev-steps').value,
       proteins: document.getElementById('prev-proteins')?.value || 0,
       carbs: document.getElementById('prev-carbs')?.value || 0,
       fats: document.getElementById('prev-fats')?.value || 0,
-      notes: '',
-      rating: 0,
+      rating: editingRecipeIndex !== null ? globalRecipes[editingRecipeIndex].rating : 0,
+      notes: editingRecipeIndex !== null ? globalRecipes[editingRecipeIndex].notes : '',
     };
-    globalRecipes.push(recipeData);
+
+    if (editingRecipeIndex !== null) {
+      // РЕДАГУВАННЯ: оновлюємо існуючий
+      globalRecipes[editingRecipeIndex] = recipeData;
+      showToast('Рецепт оновлено!');
+    } else {
+      // СТВОРЕННЯ: додаємо новий
+      globalRecipes.push(recipeData);
+      showToast('Рецепт збережено!');
+      addIngredientsToCart(recipeData.ingredients);
+    }
+
     localStorage.setItem('minto_recipes', JSON.stringify(globalRecipes));
-    addIngredientsToCart(recipeData.ingredients);
-    showToast('Рецепт успішно збережено!', 'success');
+    editingRecipeIndex = null; // Скидаємо стан
     displayRecipes();
     closeModal();
   });

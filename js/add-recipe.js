@@ -293,12 +293,65 @@ if (confirmNoBtn) confirmNoBtn.addEventListener('click', closeConfirmModal);
 // =============================================================
 // 7. ДОДАВАННЯ ТА ФОРМИ
 // =============================================================
+// === НОРМАЛІЗАЦІЯ ІНГРЕДІЄНТІВ ===
+function normalizeIngredients(text) {
+  const rawLines = text
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l.length > 0);
+
+  // Прибираємо "•", тире, зайві пробіли
+  const lines = rawLines.map((l) =>
+    l
+      .replace(/^•\s*/, '') // прибрати "• "
+      .replace(/[–—-]/g, ' ') // тире → пробіл
+      .replace(/\s+/g, ' ') // зайві пробіли
+      .trim(),
+  );
+
+  const result = [];
+
+  const isNumber = (s) => /^\d+([.,]\d+)?$/.test(s);
+  const isUnit = (s) => /^(г|гр|мл|л|шт|ст\.?\s?л|ч\.?\s?л)$/i.test(s);
+
+  for (let i = 0; i < lines.length; i++) {
+    const name = lines[i];
+    const next = lines[i + 1] || '';
+    const next2 = lines[i + 2] || '';
+
+    // Випадок: назва / число / одиниця
+    if (isNumber(next) && isUnit(next2)) {
+      result.push(`${name} ${next} ${next2}`);
+      i += 2;
+      continue;
+    }
+
+    // Випадок: назва / "200 г" в одному рядку
+    if (/^\d+/.test(next)) {
+      result.push(`${name} ${next}`);
+      i += 1;
+      continue;
+    }
+
+    // Якщо нічого не підійшло — просто назва
+    result.push(name);
+  }
+
+  return result.join('\n');
+}
+
+// 1. Спершу оголошуємо допоміжну функцію, щоб вона була доступна всюди нижче
+const autoResizer = (el) => {
+  if (!el) return;
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+};
 
 const closeModal = () => {
   if (modal) {
     modal.classList.remove('is-active');
-    editingRecipeIndex = null; // ВАЖЛИВО: скидаємо індекс редагування
-    if (previewFormElement) previewFormElement.reset(); // Чистимо форму
+    editingRecipeIndex = null;
+    if (previewFormElement) previewFormElement.reset();
     document.body.style.overflow = '';
     setTimeout(() => {
       if (previewForm) previewForm.style.display = 'none';
@@ -319,17 +372,35 @@ const showForm = (data = null) => {
 
   if (data) {
     document.getElementById('prev-name').value = data.name || '';
-    document.getElementById('prev-calories').value = data.calories || '';
+
+    // Перевірка ID калорій
+    const kcalInput =
+      document.getElementById('prev-kcal') || document.getElementById('prev-calories');
+    if (kcalInput) kcalInput.value = data.kcal || data.calories || '';
+
     document.getElementById('prev-ingredients').value = data.ingredients || '';
     document.getElementById('prev-steps').value = data.steps || '';
     document.getElementById('prev-category').value = data.category || 'breakfast';
+
+    // Використовуємо setTimeout, щоб дати браузеру відобразити модалку перед розтягуванням
+    setTimeout(() => {
+      const ingField = document.getElementById('prev-ingredients');
+      const stepField = document.getElementById('prev-steps');
+      autoResizer(ingField);
+      autoResizer(stepField);
+    }, 50);
   } else if (previewFormElement) {
-    previewFormElement.reset(); // ✅ тепер це справжній form
+    previewFormElement.reset();
+    // При новому додаванні скидаємо висоту до стандартної
+    const ingField = document.getElementById('prev-ingredients');
+    const stepField = document.getElementById('prev-steps');
+    if (ingField) ingField.style.height = 'auto';
+    if (stepField) stepField.style.height = 'auto';
   }
 };
 
 function addIngredientsToCart(ingredientsString) {
-  const lines = ingredientsString.split('\n');
+  const lines = (ingredientsString || '').split('\n');
   lines.forEach((line) => {
     const parts = line.split(',').map((p) => p.trim());
     if (parts.length >= 2) {
@@ -477,7 +548,7 @@ if (previewFormElement) {
         document.getElementById('prev-calories')?.value ||
         0,
       category: document.getElementById('prev-category').value,
-      ingredients: document.getElementById('prev-ingredients').value,
+      ingredients: normalizeIngredients(document.getElementById('prev-ingredients').value),
       steps: document.getElementById('prev-steps').value,
       proteins: document.getElementById('prev-proteins')?.value || 0,
       carbs: document.getElementById('prev-carbs')?.value || 0,
@@ -503,3 +574,9 @@ if (previewFormElement) {
     closeModal();
   });
 }
+
+// Застосовуємо до інгредієнтів та кроків
+document.querySelectorAll('textarea').forEach((txt) => {
+  txt.style.overflow = 'hidden'; // Ховаємо скролл
+  txt.addEventListener('input', () => autoResizer(txt));
+});

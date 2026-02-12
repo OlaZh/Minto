@@ -15,7 +15,7 @@
 .recipe-page {
   padding: 40px 0;
   min-height: 100vh;
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-secondary);
 
   &__intro {
     display: flex;
@@ -59,7 +59,7 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background-color: var(--color-surface);
+  background-color: var(--color-bg-secondary);
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border);
   border-radius: 14px;
@@ -70,10 +70,10 @@
   box-shadow: 0 4px 12px rgba(46, 204, 113, 0.1);
 
   &:hover {
-    border-color: var(--color-accent-soft);
+    border-color: var(--color-accent);
     color: var(--color-accent);
-    transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
 
     svg {
       transform: rotate(90deg);
@@ -106,10 +106,10 @@
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: var(--color-accent-soft);
+      border-color: var(--color-accent);
       color: var(--color-accent);
-      transform: translateY(-2px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
     }
 
     &--active {
@@ -141,8 +141,8 @@
     box-shadow 0.3s ease;
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
 
     .recipe-card__img {
       transform: scale(1.05);
@@ -167,13 +167,13 @@
     top: 15px;
     right: 15px;
     padding: 6px 14px;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--color-surface);
     backdrop-filter: blur(10px);
     border-radius: 12px;
     font-size: 12px;
     font-weight: 800;
     color: #2e5d6c;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.1);
   }
 
   &__content {
@@ -199,21 +199,21 @@
     padding: 12px;
     border-radius: 14px;
     border: none;
-    background: #f0f9f7;
+    background: #5a8d83;
     color: #2c4e47;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
 
     &:hover {
-      background: var(--color-accent);
-      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
     }
   }
 }
 
 /* =============================================================
-   MODAL PAGE (MINTO STYLE)
+   MODAL PAGE (MINTO STYLE) - UPDATED & INTEGRATED
    ============================================================= */
 
 .modal-overlay {
@@ -222,10 +222,12 @@
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(8px);
   display: none;
-  justify-content: center;
-  align-items: center;
   z-index: 2000;
   padding: 20px;
+  /* Додаємо гумову логіку сюди */
+  justify-content: center;
+  align-items: flex-start; /* Щоб картка не обрізалася зверху */
+  overflow-y: auto; /* Дозволяємо скролити весь оверлей */
 
   &.is-active {
     display: flex;
@@ -235,11 +237,14 @@
 .modal-card {
   background: var(--color-surface);
   width: 100%;
-  max-width: 550px;
+  max-width: 650px; /* Трохи розширив, щоб тексту було вільніше */
   border-radius: 24px;
   padding: 40px;
   position: relative;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 50px rgba(46, 204, 113, 0.1);
+  /* Робимо картку адаптивною по висоті */
+  margin: 20px auto 40px;
+  height: auto;
 
   &__close {
     position: absolute;
@@ -266,57 +271,378 @@
       color: var(--color-text-secondary);
     }
   }
+
+  /* Універсальний стиль для всіх текстових полів всередині модалки */
+  textarea {
+    width: 100%;
+    min-height: 160px;
+    line-height: 1.6;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid #7a9a9a;
+    font-size: 15px;
+    padding: 18px;
+    box-sizing: border-box;
+    display: block;
+    border-radius: 12px;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.3s;
+
+    &:focus {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
+    }
+  }
 }
+/* =============================================================
+   OPTION CARDS (Метод додавання рецепту)
+   ============================================================= */
 
 .option-card {
   display: flex;
   align-items: center;
   gap: 20px;
   width: 100%;
-  padding: 20px;
+  padding: 24px; /* Трохи збільшив для повітря */
   margin-bottom: 16px;
-  background: var(--color-bg);
-  border: 2px solid transparent;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
   border-radius: 20px;
   cursor: pointer;
   text-align: left;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.1);
 
   &:hover {
     border-color: var(--color-accent);
-    transform: scale(1.02);
-    background: rgba(46, 204, 113, 0.05);
+    background: var(--color-bg-secondary);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
+
+    .option-card__icon {
+      transform: scale(1.1);
+      background: var(--color-accent);
+      color: var(--color-surface);
+    }
   }
 
   &__icon {
     font-size: 32px;
-    background: var(--color-surface);
-    width: 64px;
-    height: 64px;
+    background: var(--color-bg); /* Світло-м'ятний фон */
+    color: #7a9a9a;
+    width: 68px;
+    height: 68px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 16px;
+    border-radius: 18px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
   }
 
   &__info {
     h3 {
       font-size: 18px;
+      font-weight: 700;
       margin-bottom: 4px;
+      color: var(--color-text-primary);
     }
     p {
       font-size: 13px;
       color: var(--color-text-secondary);
-      line-height: 1.4;
+      line-height: 1.5;
+    }
+  }
+}
+/* =============================================================
+   RECIPE VIEW DETAILS (Ingredients & Preparation)
+   ============================================================= */
+
+/* Список інгредієнтів */
+#view-ingredients-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 32px;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* Вирівнюємо по лінії */
+    padding: 12px 8px; /* Додаємо бокові відступи */
+    border-bottom: 1px dashed var(--color-border);
+    gap: 15px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
+      border-radius: 8px;
+    }
+
+    /* Назва інгредієнта */
+    span:first-child {
+      color: var(--color-text-primary);
+      font-weight: 500;
+    }
+
+    /* Кількість (8 ст. л. тощо) */
+    span:last-child {
+      font-weight: 700;
+      color: var(--color-text-primary); /* Твій фірмовий колір */
+      white-space: nowrap;
+      text-align: right;
+      background: var(--color-bg-secondary); /* Робимо "таблетку" для кількості */
+      padding: 2px 10px;
+      border-radius: 8px;
+      font-size: 13px;
     }
   }
 }
 
+/* Секція способу приготування */
+.recipe-view__section {
+  margin-top: 40px;
+  padding: 24px;
+  background: var(--color-bg); /* Виділяємо зону приготування іншим фоном */
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--color-text-primary);
+    font-size: 20px;
+
+    /* Додаємо іконку-декор перед заголовком, якщо захочеш */
+    &::before {
+      content: '👨‍🍳';
+      font-size: 18px;
+    }
+  }
+}
+/* =============================================================
+   ADD RECIPE FORM (MINTO STYLE)
+   ============================================================= */
+
+.preview-form {
+  .form-group {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      font-weight: 700;
+      font-size: 13px;
+      color: #7a9a9a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-left: 4px;
+    }
+
+    input,
+    select {
+      padding: 14px 16px;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      color: var(--color-text-primary);
+      font-family: inherit;
+      outline: none;
+      box-shadow: inset 0 2px 4px rgba(46, 204, 113, 0.1);
+      transition: all 0.3s ease;
+
+      &:focus {
+        border-color: var(--color-accent);
+        background: var(--color-bg-secondary);
+        box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.1);
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* Блок кнопок у футері модалки */
+  .modal-card__actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    align-items: center;
+  }
+}
+
+/* Головна кнопка (Зберегти/Додати) */
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-surface);
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  flex: 2;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(46, 204, 113, 0.2);
+
+  &:hover {
+    filter: brightness(1.1);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* Друрядна кнопка (Скасувати) */
+.btn-secondary {
+  background: var(--color-bg-secondary);
+  border: 1px solid green;
+  color: #5a8d83;
+  padding: 14px 20px;
+  border-radius: 14px;
+  flex: 1;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-bg);
+    border-color: var(--color-text-primary);
+  }
+}
+/* =============================================================
+   EDIT RECIPE BUTTON (MINTO STYLE)
+   ============================================================= */
+
+#edit-recipe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  margin: 10px 0 24px 0;
+  padding: 10px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 10px rgba(46, 204, 113, 0.1);
+
+  /* Додамо іконку олівця через псевдоелемент, якщо її немає в HTML */
+  &::before {
+    content: '✎';
+    font-size: 16px;
+  }
+
+  &:hover {
+    background-color: var(--color-bg-secondary);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+/* =============================================================
+   TOAST NOTIFICATIONS (MINTO GLASS STYLE)
+   ============================================================= */
+
+.toast-notification {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 16px 24px;
+  border-radius: 16px;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10000;
+  font-weight: 600;
+  /* Ефект скла */
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px rgba(46, 204, 113, 0.1);
+
+  animation: slideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
+  &.fade-out {
+    opacity: 0;
+    transform: scale(0.9) translateX(20px);
+    transition: all 0.4s ease;
+  }
+}
+
+/* Успіх (зелений/м'ятний) */
+.toast-success {
+  border-left: 6px solid var(--color-accent);
+  background: var(--color-bg-secondary);
+
+  .toast-icon {
+    color: var(--color-accent);
+  }
+}
+
+/* Інфо або попередження */
+.toast-info {
+  border-left: 6px solid #f39c12;
+  background: var(--color-bg);
+
+  .toast-icon {
+    color: #f39c12;
+  }
+}
+
+.toast-icon {
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.toast-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #2c4e47; /* Темно-м'ятний для читабельності */
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+/* =============================================================
+   RECIPE DELETION (Card Button & Confirm Modal)
+   ============================================================= */
+
+/* Кнопка на самій картці рецепта */
 .btn-delete-recipe {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-bg);
+  backdrop-filter: blur(4px);
   border: none;
   border-radius: 8px;
   width: 32px;
@@ -336,288 +662,84 @@
   }
 }
 
-/* =============================================================
-   ADD RECEPT (MINTO STYLE)
-   ============================================================= */
-
-.preview-form {
-  .form-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    label {
-      font-weight: 600;
-      font-size: 14px;
-      color: var(--color-text-secondary);
-    }
-
-    input,
-    select,
-    textarea {
-      padding: 12px 16px;
-      background: var(--color-bg);
-      border: 1px solid var(--color-border);
-      border-radius: 12px;
-      color: var(--color-text-primary);
-      font-family: inherit;
-      outline: none;
-
-      &:focus {
-        border-color: var(--color-accent);
-      }
-    }
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .modal-card__actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 24px;
-  }
-
-  .btn-secondary {
-    background: transparent;
-    border: 1px solid var(--color-border);
-    color: var(--color-text-primary);
-  }
-}
-
-.btn-primary {
-  background: var(--color-accent);
-  color: white;
-  border: none;
-  padding: 14px;
-  border-radius: 14px;
-  flex: 2;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-/* =============================================================
-   ФІКС ВІКОНЕЧКА ВВОДУ ТА ПЕРЕГЛЯДУ
-   ============================================================= */
-
-/* Поля вводу у формі (робимо їх гумовими та зручними) */
-#prev-ingredients,
-#prev-steps {
-  width: 100% !important;
-  line-height: 1.6;
-  background-color: #f9fcfc !important;
-  border-left: 4px solid #7a9a9a !important;
-  font-size: 15px;
-  padding: 15px !important;
-}
-
-#prev-ingredients {
-  min-height: 250px !important;
-}
-#prev-steps {
-  min-height: 150px !important;
-}
-
-/* --- СПИСОК ІНГРЕДІЄНТІВ У МОДАЛЦІ ПЕРЕГЛЯДУ --- */
-#view-ingredients-list {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 30px; /* Відступ від інгредієнтів до способу приготування */
-}
-
-#view-ingredients-list li {
-  display: flex !important;
-  justify-content: space-between !important; /* Назва — зліва, Кількість — справа */
-  align-items: flex-start !important;
-  padding: 10px 0 !important;
-  border-bottom: 1px dashed #e0eaea !important;
-  gap: 15px;
-}
-
-#view-ingredients-list li span:last-child {
-  font-weight: 700 !important;
-  color: #7a9a9a !important;
-  white-space: nowrap !important; /* Щоб "8 ст л" не переносилося */
-  text-align: right;
-}
-
-/* --- СЕКЦІЯ СПОСОБУ ПРИГОТУВАННЯ --- */
-.recipe-view__section {
-  margin-top: 30px !important; /* Цей рядок прибере "кашу" і відсуне кроки нижче */
-  padding-top: 10px;
-}
-
-.recipe-view__section h3 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px !important;
-  color: var(--color-text-primary);
-}
-
-/* Кнопка редагування */
-#edit-recipe-btn {
-  background-color: #f0f9f7;
-  color: #2c4e47;
-  border: 1px solid #7a9a9a;
-  margin: 15px 0 25px 0;
-  padding: 10px 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-#edit-recipe-btn:hover {
-  background-color: #7a9a9a;
-  color: white;
-}
-/* =============================================================
-   ОНОВЛЕНА ГУМОВА МОДАЛКА ТА ВВОД
-   ============================================================= */
-
-/* 1. Робимо оверлей таким, щоб скролилася вся сторінка, а не вікно */
-.modal-overlay {
-  align-items: flex-start !important; /* Притискаємо до верху */
-  overflow-y: auto !important; /* Дозволяємо скрол фону */
-  padding: 20px !important;
-}
-
-/* 2. Картка рецепта тепер росте вниз стільки, скільки треба */
-.modal-card {
-  height: auto !important;
-  max-height: none !important;
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
-
-/* 3. Фіксимо саме поле вводу інгредієнтів та кроків */
-.preview-form textarea {
-  width: 100% !important;
-  min-height: 150px !important; /* Початкова зручна висота */
-  height: auto; /* Дозволяємо розтягуватися через JS */
-  line-height: 1.6;
-  padding: 15px !important;
-  resize: vertical; /* Можеш і сама потягнути, якщо треба */
-  background: var(--color-bg) !important;
-  border: 1px solid var(--color-border) !important;
-  border-radius: 12px !important;
-}
-/* TOAST NOTIFICATIONS */
-
-.toast-notification {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  padding: 16px 28px;
-  border-radius: 12px;
-  color: #ffffff !important;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  z-index: 10000;
-  font-weight: 500;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-  animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-
-  &.fade-out {
-    opacity: 0;
-    transform: translateX(50px);
-    transition: all 0.5s ease;
-  }
-}
-
-.toast-success,
-.toast-info {
-  background: #426e54 !important;
-  border-left: 6px solid var(--color-accent-soft);
-}
-
-.toast-icon {
-  font-size: 20px;
-}
-.toast-text {
-  font-size: 15px;
-  line-height: 1.4;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(120%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-/* ВИДАЛЕННЯ РЕЦЕПТУ */
-
+/* Вікно підтвердження видалення */
 .confirm-box {
   max-width: 450px;
   text-align: center;
-  padding: 25px;
-  border-radius: 20px;
-}
+  padding: 10px; /* Трохи менше, бо основний padding у modal-card */
 
+  .confirm-btns {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .confirm-btns button {
+    flex: 1; /* обидві кнопки однакової ширини */
+    padding: 14px 0; /* однакові вертикальні відступи */
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 12px;
+    text-align: center;
+  }
+}
 .confirm-btns {
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
-  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+  width: 100%;
 }
 
 .btn-confirm {
-  padding: 10px 20px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
+  flex: 1;
+  padding: 14px 20px;
+  border-radius: 14px;
   font-weight: 600;
-  transition: 0.2s;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+}
+.btn-secondary {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  padding: 14px 20px;
+  border-radius: 14px;
+  flex: 1;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: var(--color-bg);
+    border-color: var(--color-text-primary);
+  }
 }
 
 .btn-danger {
-  background: #d59c95c3;
-  color: white;
+  background: #fcede8;
+  color: #c0392b;
+  border: 1px solid #e6b5a8;
+
   &:hover {
-    background: #966161;
+    background: #f8d7cf;
+    color: #a83224;
+    border-color: #d99f90;
   }
 }
 
-.btn-secondary {
-  background: #a2d26caa;
-  color: #333;
-  &:hover {
-    background: #e0e0e0;
-  }
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-
-  &.is-active {
-    display: flex;
-  }
-}
-
+/* Текст кроків або опис у вікні */
 .steps-text {
   line-height: 1.6;
   white-space: pre-wrap;
+  color: var(--color-text-secondary);
+  font-size: 15px;
 }
 
 /* =============================================================
-   RECEPT VIEW (DETAILED) - НОВІ ЕЛЕМЕНТИ ПІД РЕФЕРЕНС
+   RECIPE VIEW (DETAILED) - VOLUME EDITION
    ============================================================= */
 
 /* Блок КБЖУ (Macro nutrients) */
@@ -625,78 +747,105 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #f8fcfb;
-  padding: 20px;
-  border-radius: 18px;
-  margin: 20px 0;
-  border: 1px solid #eef5f4;
+  background: var(--color-bg); /* Трохи темніша м'ятна підкладка */
+  padding: 24px 15px;
+  border-radius: 20px;
+  margin: 25px 0;
+  border: 1px solid var(--color-border);
+  box-shadow: inset 0 2px 10px rgba(46, 204, 113, 0.1); /* Внутрішня тінь для глибини */
 }
 
 .nutrition-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  background: var(--color-bg); /* Білі "картки" для кожної цифри */
+  padding: 12px;
+  border-radius: 14px;
+  min-width: 70px;
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.1); /* Тінь виштовхує їх вперед */
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
 }
 
 .nutrition-val {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 800;
-  color: #2e5d6c;
+  color: #2c4e47; /* Темний Minto */
 }
 
 .nutrition-label {
-  font-size: 10px;
+  font-size: 9px;
   color: #7a9a9a;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-weight: 700;
 }
 
+/* Прибираємо старий розділювач, бо тепер у нас картки */
 .nutrition-divider {
-  width: 1px;
-  height: 35px;
-  background: #d1e5e5;
+  display: none;
 }
 
 /* Нумеровані кроки приготування */
 .step-item {
   display: flex;
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   align-items: flex-start;
+  padding: 15px;
+  background: var(--color-bg);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(46, 204, 113, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
+    border-color: var(--color-accent);
+  }
 }
 
 .step-num {
   background: var(--color-accent);
-  color: white;
-  min-width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  color: var(--color-text-secondary);
+  min-width: 32px;
+  height: 32px;
+  border-radius: 10px; /* Робимо "м'який квадрат" замість кола */
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
   flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
 }
 
 .step-item p {
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--color-text-primary);
+  font-size: 15px;
 }
 
 /* Секція нотаток */
 .recipe-section--notes {
-  margin-top: 25px;
-  padding-top: 20px;
-  border-top: 2px solid var(--color-bg);
+  margin-top: 30px;
+  padding: 20px;
+  background: var(--color-bg); /* Легкий теплий відтінок паперу */
+  border-radius: 18px;
+  border: 1px dashed var(--color-border);
 
   textarea {
     width: 100%;
     min-height: 100px;
     padding: 15px;
-    border-radius: 14px;
+    border-radius: 12px;
     border: 1px solid var(--color-border);
     background: var(--color-bg);
     font-family: inherit;
@@ -704,96 +853,201 @@
     resize: vertical;
     margin-top: 10px;
     outline: none;
-    transition: border-color 0.3s;
+    transition: all 0.3s;
 
     &:focus {
+      background: var(--color-bg-secondary);
       border-color: var(--color-accent);
+      box-shadow: 0 4px 12px rgba(46, 204, 113, 0.1);
     }
   }
 }
 
 .btn-save-notes {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background: #f0f9f7;
-  color: #2c4e47;
-  border: none;
+  margin-top: 12px;
+  padding: 10px 24px;
+  background: var(--color-bg); /* Робимо білою, щоб вона виділялася на кремових нотатках */
+  color: #5a8d83;
+  border: 1px solid var(--color-border); /* В колір рамки нотаток */
   border-radius: 10px;
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(46, 204, 113, 0.1);
 
   &:hover {
     background: var(--color-accent);
-    color: white;
+    color: var(--color-surface);
+    border-color: var(--color-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
+/* =============================================================
+   RATING & BADGES (MINTO SHINE)
+   ============================================================= */
 
-/*зірочки страви*/
+/* Зірочки всередині рецепта */
 .recipe-rating {
   display: flex;
   align-items: center;
-  gap: 5px;
-  margin: 10px 0 20px 0;
+  gap: 8px;
+  margin: 15px 0 25px 0;
+  padding: 10px 15px;
+  background: var(--color-bg); /* Легка підкладка */
+  border-radius: 14px;
+  width: fit-content;
 
   .star {
-    font-size: 24px;
+    font-size: 26px;
     cursor: pointer;
-    color: #ccc; // Порожня зірка
-    transition:
-      color 0.2s ease,
-      transform 0.1s ease;
+    color: var(--color-text-secondary); /* М'який сіро-м'ятний для порожніх */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.05));
 
     &.filled {
-      color: #f1c40f; // Заповнена зірка (жовта)
+      color: #f1c40f;
+      filter: drop-shadow(0 0 5px rgba(241, 196, 15, 0.3)); /* Сяйво для заповнених */
     }
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.2) rotate(5deg);
+      color: #f39c12;
     }
   }
 
   .rating-value {
-    margin-left: 10px;
-    font-weight: 700;
-    color: #7a9a9a;
+    margin-left: 8px;
+    font-weight: 800;
+    color: #5a8d83;
     font-size: 16px;
+    background: #ffffff;
+    padding: 2px 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(46, 204, 113, 0.1);
   }
 }
-.recipe-card__image-box {
-  position: relative; // Переконайся, що це є
-}
 
+/* Бейдж рейтингу на картці (над зображенням) */
 .recipe-card__rating-badge {
   position: absolute;
   top: 15px;
-  left: 15px; // З іншого боку від калорій
-  padding: 4px 10px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
+  left: 15px;
+  padding: 6px 12px;
+  background: var(--color-bg);
+  backdrop-filter: blur(8px);
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
-  color: #f1c40f; // Золотистий колір
+  color: #d4ac0d; /* Більш глибокий золотий */
   display: flex;
   align-items: center;
-  gap: 4px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  gap: 5px;
+  box-shadow: 0 8px 15px rgba(46, 204, 113, 0.1);
+  border: 1px solid var(--color-border);
+  z-index: 5;
 }
 
-/* Дозволяємо модальному вікну прокручуватися */
-#view-recipe-modal .modal-card,
-#view-recipe-modal .modal-content {
-  max-height: 90vh; /* Висота не більше 90% екрана */
-  overflow-y: auto; /* Додаємо вертикальний скрол */
+/* Кнопка скасування прев'ю */
+#cancel-preview {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: #5a8d83;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(46, 204, 113, 0.1);
+
+  &:hover {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-border);
+    color: #2c4e47;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(46, 204, 113, 0.1);
+  }
 }
 
-/* Робимо скролбар гарним (для Chrome, Safari, Edge) */
-#view-recipe-modal .modal-content::-webkit-scrollbar {
-  width: 8px;
+/* Контейнер для кнопок, щоб вони стояли гарно */
+.preview-form__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+  align-items: center;
+  width: 100%;
+
+  /* Це змусить кнопки адекватно ділити простір */
+  & > button,
+  & > .btn-primary,
+  & > .btn-secondary {
+    flex: 1;
+  }
 }
-#view-recipe-modal .modal-content::-webkit-scrollbar-thumb {
-  background-color: #7a9a9a;
-  border-radius: 10px;
+/* =============================================================
+   TEXTAREA AUTO-GROW ✨ (SMOOTH & VOLUME)
+   ============================================================= */
+
+/* Базова магія росту — без скролбарів */
+.modal-card textarea,
+.preview-form textarea,
+.recipe-section--notes textarea {
+  overflow: hidden; /* Ховаємо скрол, щоб JS міг керувати висотою */
+  resize: none; /* Тепер користувачу не треба тягнути за куток вручну */
+  transition:
+    height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    padding 0.3s ease;
+}
+
+/* Ефект "активного поля" */
+.modal-card textarea:focus,
+.preview-form textarea:focus,
+.recipe-section--notes textarea:focus {
+  background: #ffffff;
+  box-shadow:
+    0 8px 25px rgba(46, 204, 113, 0.12),
+    inset 0 2px 4px rgba(0, 0, 0, 0.01);
+  /* Трішки "виштовхуємо" поле вперед при фокусі */
+  transform: translateY(-1px);
+}
+
+/* Динамічні падінги: поле стає просторішим, коли там з'являється текст */
+.modal-card textarea:not(:placeholder-shown),
+.preview-form textarea:not(:placeholder-shown),
+.recipe-section--notes textarea:not(:placeholder-shown) {
+  padding-top: 18px;
+  padding-bottom: 18px;
+  background-color: var(--color-bg-secondary);
+}
+
+/* Плавність для твоїх основних полів вводу */
+#prev-ingredients,
+#prev-steps {
+  transition:
+    min-height 0.3s ease,
+    height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease;
+  /* Додатковий акцент на лівій лінії при заповненні */
+  &:not(:placeholder-shown) {
+    border-left-width: 6px;
+    border-left-color: var(--color-accent);
+  }
+}
+.modal-card .preview-form textarea#prev-ingredients,
+.modal-card .preview-form textarea#prev-steps {
+  min-height: 300px; /* або 260, або 350 — як хочеш */
+  font-size: 16px;
+  padding: 20px 18px;
+  line-height: 1.7;
+  resize: none;
+  overflow: hidden;
 }
